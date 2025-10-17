@@ -73,19 +73,19 @@ export default function AddEventScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Title</Text>
-      <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="Please write title" />
+      <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="Enter title" />
 
       <Text style={styles.label}>Note</Text>
       <TextInput
         style={[styles.input, { height: 80 }]}
         value={note}
         onChangeText={setNote}
-        placeholder="Please write note"
+        placeholder="Enter note"
         multiline
       />
 
       <Text style={styles.label}>Location</Text>
-      <TextInput style={styles.input} value={location} onChangeText={setLocation} placeholder="Please write location" />
+      <TextInput style={styles.input} value={location} onChangeText={setLocation} placeholder="Enter location" />
 
       <Text style={styles.label}>Start Date Time</Text>
       <DateTimePicker
