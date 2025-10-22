@@ -1,7 +1,7 @@
 // app/(tabs)/calendar.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { Link, useFocusEffect } from 'expo-router';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
@@ -19,19 +19,21 @@ export default function CalendarScreen() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventItem[]>([]);
 
-  useEffect(() => {
-    const loadEvents = async () => {
-      try {
-        const stored = await AsyncStorage.getItem('events');
-        const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
-        setEvents(parsed);
-      } catch (e) {
-        console.error('Failed to load event', e);
-      }
-    };
-    loadEvents();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const loadEvents = async () => {
+        try {
+          const stored = await AsyncStorage.getItem('events');
+          const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
+          setEvents(parsed);
+        } catch (e) {
+          console.error('Failed to load events', e);
+        }
+      };
 
+      loadEvents();
+    }, [])
+  );
   useEffect(() => {
     const filtered = events
         .filter((event) => event.date.slice(0, 10) === selectedDate)
@@ -70,7 +72,7 @@ export default function CalendarScreen() {
               <TouchableOpacity style={styles.card}>
                 <Text style={styles.eventTitle}>{item.title}</Text>
                 <Text style={styles.eventTime}>
-                  {formatTime(item.date)} ~ {item.endDate ? formatTime(item.endDate) : ''}
+                  {formatTime(item.date)} - {item.endDate ? formatTime(item.endDate) : ''}
                 </Text>
               </TouchableOpacity>
             </Link>
