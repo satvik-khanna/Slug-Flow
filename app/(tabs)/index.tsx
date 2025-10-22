@@ -94,13 +94,12 @@ export default function HomeScreen() {
               <TouchableOpacity style={styles.card}>
                 <Text style={styles.eventTitle}>{item.title}</Text>
                 <Text style={styles.eventTime}>
-                  {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  ~ {new Date(item.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(item.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </Text>
               </TouchableOpacity>
             </Link>
           )}
-          ListEmptyComponent={<Text style={styles.empty}>None Schedule Yet</Text>}
+          ListEmptyComponent={<Text style={styles.empty}>No Events Scheduled Yet</Text>}
         />
       </View>
 
