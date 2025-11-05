@@ -7,6 +7,7 @@ import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import SwipeableEventCard from '@/components/SwipeableEventCard';
+import * as Progress from 'react-native-progress';
 
 type EventItem = {
   id: string;
@@ -67,6 +68,45 @@ export default function HomeScreen() {
     }, [])
   );
 
+  const [weeklyStats, setWeeklyStats] = useState({ total: 0, completed: 0 });
+
+  useEffect(() => {
+    const loadWeeklyStats = async () => {
+      try {
+        const stored = await AsyncStorage.getItem('events');
+        const allEvents: EventItem[] = stored ? JSON.parse(stored) : [];
+
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ...
+      
+        // Get this week's Sunday (start) and next Sunday (end)
+        const sundayStart = new Date(now);
+        sundayStart.setDate(now.getDate() - dayOfWeek);
+        sundayStart.setHours(0, 0, 0, 0);
+
+        const sundayEnd = new Date(sundayStart);
+        sundayEnd.setDate(sundayStart.getDate() + 7);
+        sundayEnd.setHours(23, 59, 59, 999);
+
+        // Filter events that fall within this week (Sunday to Sunday)
+        const weeklyEvents = allEvents.filter((event) => {
+          const eventDate = new Date(event.date);
+          return eventDate >= sundayStart && eventDate < sundayEnd;
+        });
+
+        const total = weeklyEvents.length;
+        const completed = weeklyEvents.filter((e) => e.completed).length;
+
+        setWeeklyStats({ total, completed });
+      } catch (e) {
+        console.error('Failed to load weekly stats', e);
+      }
+    };
+
+    loadWeeklyStats();
+  }, [events]);
+
+
   const handleToggleComplete = async (eventId: string) => {
     try {
       // Load all events
@@ -102,6 +142,29 @@ export default function HomeScreen() {
           {today}
         </Text>
         <Text style={styles.title}>📅 Today's Schedule</Text>
+
+        {/* Weekly progress bar */}
+        <View style={{ marginBottom: 20, alignItems: 'center' }}>
+          <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
+            📊 Weekly Progress
+          </Text>
+
+          {weeklyStats.total > 0 ? (
+            <>
+              <Progress.Bar
+                progress={weeklyStats.completed / weeklyStats.total}
+                width={300}
+                color="#4CAF50"
+                borderRadius={10}
+              />
+              <Text style={{ marginTop: 6, color: '#555' }}>
+                {weeklyStats.completed} / {weeklyStats.total} events completed
+              </Text>
+            </>
+          ) : (
+            <Text style={{ color: '#888' }}>No events created this week</Text>
+          )}
+        </View>
 
         <View style={styles.listContainer}>
           <FlatList
