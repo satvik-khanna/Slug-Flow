@@ -3,11 +3,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import SwipeableEventCard from '@/components/SwipeableEventCard';
+import UCSCEventCard from '@/components/UCSCEventCard';
+import { getUCSCEvents, UCSCEvent, EVENT_TYPE_COLORS } from '@/constants/UCSCEvents';
 
 type EventItem = {
   id: string;
@@ -24,6 +26,9 @@ export default function CalendarScreen() {
   const [selectedDate, setSelectedDate] = useState(getToday());
   const [events, setEvents] = useState<EventItem[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventItem[]>([]);
+  const [ucscEvents, setUcscEvents] = useState<UCSCEvent[]>([]);
+  const [filteredUcscEvents, setFilteredUcscEvents] = useState<UCSCEvent[]>([]);
+  const [showUCSCEvents, setShowUCSCEvents] = useState(true);
 
   // Define loadEvents as a separate function
   const loadEvents = async () => {
@@ -36,10 +41,21 @@ export default function CalendarScreen() {
     }
   };
 
+  // Load UCSC events
+  const loadUCSCEvents = async () => {
+    try {
+      const ucscEventsData = await getUCSCEvents();
+      setUcscEvents(ucscEventsData);
+    } catch (e) {
+      console.error('Failed to load UCSC events', e);
+    }
+  };
+
   // Load events whenever screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
       loadEvents();
+      loadUCSCEvents();
     }, [])
   );
 
@@ -48,8 +64,13 @@ export default function CalendarScreen() {
       .filter((event) => event.date.slice(0, 10) === selectedDate)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+    const filteredUCSC = ucscEvents
+      .filter((event) => event.date.slice(0, 10) === selectedDate)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
     setFilteredEvents(filtered);
-  }, [selectedDate, events]);
+    setFilteredUcscEvents(filteredUCSC);
+  }, [selectedDate, events, ucscEvents]);
 
   const handleToggleComplete = async (eventId: string) => {
     try {
@@ -80,42 +101,85 @@ export default function CalendarScreen() {
         <View style={styles.calendar}>
           <Calendar
             onDayPress={(day) => setSelectedDate(day.dateString)}
-            markedDates={generateMarkedDates(events, selectedDate)}
+            markedDates={generateMarkedDates(events, ucscEvents, selectedDate)}
           />
         </View>
 
-        <Text style={styles.dateTitle}>📅 {selectedDate} events:</Text>
+        <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+          {/* Toggle Button */}
+          <TouchableOpacity
+            style={styles.toggleButton}
+            onPress={() => setShowUCSCEvents(!showUCSCEvents)}
+          >
+            <Text style={styles.toggleButtonText}>
+              {showUCSCEvents ? '🏛️ Hide UCSC Events' : '🏛️ Show UCSC Events'}
+            </Text>
+          </TouchableOpacity>
 
-        {filteredEvents.length === 0 ? (
-          <Text style={styles.empty}>No plans for this day</Text>
-        ) : (
-          <FlatList
-            data={filteredEvents}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+          {/* UCSC Events Section */}
+          {showUCSCEvents && (
+            <>
+              <Text style={styles.sectionTitle}>🏛️ UCSC Events - {selectedDate}</Text>
+              {filteredUcscEvents.length === 0 ? (
+                <Text style={styles.emptySection}>No UCSC events for this day</Text>
+              ) : (
+                filteredUcscEvents.map((event) => (
+                  <UCSCEventCard key={event.id} event={event} />
+                ))
+              )}
+            </>
+          )}
+
+          {/* Personal Events Section */}
+          <Text style={styles.sectionTitle}>📅 My Events - {selectedDate}</Text>
+          {filteredEvents.length === 0 ? (
+            <Text style={styles.emptySection}>No personal events for this day</Text>
+          ) : (
+            filteredEvents.map((event) => (
               <SwipeableEventCard
-                event={item}
+                key={event.id}
+                event={event}
                 onToggleComplete={handleToggleComplete}
               />
-            )}
-            contentContainerStyle={{ paddingBottom: 120 }}
-          />
-        )}
+            ))
+          )}
+        </ScrollView>
       </View>
     </GestureHandlerRootView>
   );
 }
 
-function generateMarkedDates(events: EventItem[], selectedDate: string) {
+function generateMarkedDates(events: EventItem[], ucscEvents: UCSCEvent[], selectedDate: string) {
   const marked: { [date: string]: any } = {};
 
+  // Mark personal events
   for (const event of events) {
     const datekey = event.date.slice(0, 10);
-
     if (!marked[datekey]) {
-      marked[datekey] = { marked: true, dotColor: 'orange' };
+      marked[datekey] = { dots: [] };
+    }
+    if (!marked[datekey].dots.some((dot: any) => dot.color === 'orange')) {
+      marked[datekey].dots.push({ color: 'orange' });
     }
   }
+
+  // Mark UCSC events
+  for (const event of ucscEvents) {
+    const datekey = event.date.slice(0, 10);
+    if (!marked[datekey]) {
+      marked[datekey] = { dots: [] };
+    }
+    if (!marked[datekey].dots.some((dot: any) => dot.color === EVENT_TYPE_COLORS[event.type])) {
+      marked[datekey].dots.push({ color: EVENT_TYPE_COLORS[event.type] });
+    }
+  }
+
+  // Apply multi-dot marking
+  Object.keys(marked).forEach(date => {
+    if (marked[date].dots && marked[date].dots.length > 0) {
+      marked[date].markingType = 'multi-dot';
+    }
+  });
 
   // Highlight selected date
   if (marked[selectedDate]) {
@@ -145,6 +209,36 @@ const styles = StyleSheet.create({
   },
   calendar: {
     paddingTop: 90,
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingTop: 10,
+  },
+  toggleButton: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  toggleButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 12,
+    color: '#333',
+  },
+  emptySection: {
+    textAlign: 'center',
+    color: '#999',
+    marginTop: 10,
+    marginBottom: 20,
+    fontStyle: 'italic',
   },
   dateTitle: {
     fontSize: 18,
