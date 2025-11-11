@@ -1,11 +1,12 @@
 // app/add-event.tsx
-// app/add-event.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+
+import type { EventItem } from '@/components/SwipeableEventCard';
 
 export default function AddEventScreen() {
   const [title, setTitle] = useState('');
@@ -48,22 +49,24 @@ export default function AddEventScreen() {
     }
 
 
-     const newEvent = {
-      id: Date.now().toString(), // 生成唯一 ID
+     const newEvent: EventItem = {
+      id: Date.now().toString(),
       title,
       note,
       location,
-      date: date.toISOString(), // 用字符串存储
+      date: date.toISOString(),
       endDate: endDate.toISOString(),
       notificationId,
+      type: 'event',
+      completed: false,
     };
 
     try {
       const stored = await AsyncStorage.getItem('events');
-      const eventList = stored ? JSON.parse(stored) : [];
+      const eventList: EventItem[] = stored ? JSON.parse(stored) : [];
       eventList.push(newEvent);
       await AsyncStorage.setItem('events', JSON.stringify(eventList));
-      router.back(); // 成功后返回首页
+      router.back();
     } catch (e) {
       alert('❌ Storage failed, please try again');
       console.error(e);
@@ -77,7 +80,7 @@ export default function AddEventScreen() {
 
       <Text style={styles.label}>Note</Text>
       <TextInput
-        style={[styles.input, { height: 80 }]}
+        style={[styles.input, styles.multilineInput]}
         value={note}
         onChangeText={setNote}
         placeholder="Enter note"
@@ -107,7 +110,7 @@ export default function AddEventScreen() {
           }}
         />
 
-      <View style={{ marginTop: 30 }}>
+      <View style={styles.buttonContainer}>
         <Button title="Save" onPress={handleAdd} />
       </View>
     </View>
@@ -116,13 +119,28 @@ export default function AddEventScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, padding: 20, backgroundColor: '#fff',
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
   },
   label: {
-    fontSize: 16, fontWeight: 'bold', marginTop: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   input: {
-    borderWidth: 1, borderColor: '#ccc', padding: 10, borderRadius: 8, marginTop: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 5,
+  },
+  multilineInput: {
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  buttonContainer: {
+    marginTop: 30,
   },
 });
 
