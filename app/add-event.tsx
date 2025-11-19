@@ -1,4 +1,3 @@
-// app/add-event.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
@@ -14,15 +13,15 @@ export default function AddEventScreen() {
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(new Date());
   const [endDate, setendDate] = useState(() => {
-    const d = new Date();      // 当前时间
-    d.setHours(d.getHours() + 1); // 加一小时
+    const d = new Date();
+    d.setHours(d.getHours() + 1);
     return d;
   });
 
   const handleAdd = async () => {
     const now = new Date();
     if (date < now) {
-      alert('❌ You can not add the time that passed');
+      alert('You cannot add a time that has already passed');
       return;
     }
     if (endDate <= date) {
@@ -30,22 +29,20 @@ export default function AddEventScreen() {
       return;
     }
 
-    // 计算提醒时间（事件开始前10分钟）
     const triggerDate = new Date(date);
 
-    // 调度通知
     let notificationId: string | undefined;
     try {
       notificationId = await Notifications.scheduleNotificationAsync({
         content: {
           title: `📌 ${title}`,
-          body: `Your event start on ${new Date(date).toLocaleTimeString()}`,
+          body: `Your event starts at ${new Date(date).toLocaleTimeString()}`,
           sound: true,
         },
         trigger: triggerDate as any
       });
     } catch (e) {
-      console.warn('⚠️ Unable to schedule notification:', e);
+      console.warn('Unable to schedule notification:', e);
     }
 
 
@@ -68,7 +65,7 @@ export default function AddEventScreen() {
       await AsyncStorage.setItem('events', JSON.stringify(eventList));
       router.back();
     } catch (e) {
-      alert('❌ Storage failed, please try again');
+      alert('Storage failed, please try again');
       console.error(e);
     }
   };
@@ -143,4 +140,3 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
-

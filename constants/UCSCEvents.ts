@@ -1,6 +1,5 @@
-// constants/UCSCEvents.ts
 import { Asset } from "expo-asset";
-import * as FileSystem from "expo-file-system/legacy"; // ← IMPORTANT FIX
+import * as FileSystem from "expo-file-system/legacy";
 
 export type UCSCEventType =
   | "career_fair"
@@ -25,28 +24,18 @@ export type UCSCEvent = {
   isUCSCEvent: true;
 };
 
-/* --------------------------------------------------
-   Load ICS File (Expo SDK 54 working)
--------------------------------------------------- */
 async function loadICSFile(): Promise<string> {
   try {
     const asset = Asset.fromModule(require("../assets/ucscevents.ics"));
-
     await asset.downloadAsync();
-
-    // Now safe using legacy FS
     const text = await FileSystem.readAsStringAsync(asset.localUri!);
-
     return text;
   } catch (err) {
-    console.error("❌ Failed to load ICS file:", err);
+    console.error("Failed to load ICS file:", err);
     return "";
   }
 }
 
-/* --------------------------------------------------
-   Convert ICS → List of events
--------------------------------------------------- */
 export async function getUCSCEvents(): Promise<UCSCEvent[]> {
   const raw = await loadICSFile();
   if (!raw) return [];
@@ -72,13 +61,10 @@ export async function getUCSCEvents(): Promise<UCSCEvent[]> {
     }
   }
 
-  console.log("📘 Parsed UCSC events:", result.length);
+  console.log("Parsed UCSC events:", result.length);
   return result;
 }
 
-/* --------------------------------------------------
-   Parse VEVENT block
--------------------------------------------------- */
 function parseEvent(block: string[]): UCSCEvent | null {
   let summary = "";
   let description = "";
@@ -117,16 +103,12 @@ function parseEvent(block: string[]): UCSCEvent | null {
   };
 }
 
-/* --------------------------------------------------
-   Helpers
--------------------------------------------------- */
-
 function value(line: string) {
   return line.substring(line.indexOf(":") + 1).trim();
 }
 
 function parseICSDate(line: string): string {
-  const raw = value(line); // e.g. 20251112T110000
+  const raw = value(line);
 
   const y = raw.slice(0, 4);
   const m = raw.slice(4, 6);
