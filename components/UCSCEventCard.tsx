@@ -1,40 +1,52 @@
-// components/UCSCEventCard.tsx
+import { EVENT_TYPE_COLORS, UCSCEvent } from '@/constants/UCSCEvents';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { UCSCEvent, EVENT_TYPE_COLORS } from '@/constants/UCSCEvents';
 
-type Props = {
+type UCSCEventCardProps = {
   event: UCSCEvent;
 };
 
-export default function UCSCEventCard({ event }: Props) {
-  const formatTime = (dateStr: string) => {
-    return new Date(dateStr).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  };
+// Clean escaped ICS strings like "Santa Cruz\, CA"
+function cleanICSString(str: string): string {
+  if (!str) return "";
+  return str
+    .replace(/\\,/g, ",")
+    .replace(/\\;/g, ";")
+    .replace(/\\\\/g, "\\")
+    .trim();
+}
+
+export default function UCSCEventCard({ event }: UCSCEventCardProps) {
+  const start = new Date(event.date);
+  const end = new Date(event.endDate);
+
+  const startTime = start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const endTime = end.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+  // Clean location string from ICS
+  const location = cleanICSString(event.location);
 
   return (
     <View style={styles.card}>
-      {/* Event type indicator */}
-      <View 
+      <View
         style={[
-          styles.typeIndicator, 
+          styles.typeIndicator,
           { backgroundColor: EVENT_TYPE_COLORS[event.type] }
-        ]} 
+        ]}
       />
-      
-      <View style={styles.cardContent}>
-        <Text style={styles.eventTitle}>{event.title}</Text>
-        
-        <Text style={styles.eventTime}>
-          🕒 {formatTime(event.date)} - {formatTime(event.endDate)}
+
+      <View style={styles.content}>
+        <Text style={styles.title}>{event.title}</Text>
+
+        {/* TIME */}
+        <Text style={styles.time}>
+          {startTime} – {endTime}
         </Text>
-        
-        <Text style={styles.eventLocation}>
-          📍 {event.location}
-        </Text>
+
+        {/* LOCATION */}
+        {location ? (
+          <Text style={styles.location}>{location}</Text>
+        ) : null}
       </View>
     </View>
   );
@@ -42,36 +54,38 @@ export default function UCSCEventCard({ event }: Props) {
 
 const styles = StyleSheet.create({
   card: {
+    flexDirection: 'row',
     backgroundColor: '#fff',
-    marginBottom: 15,
     borderRadius: 12,
-    overflow: 'hidden',
-    elevation: 3,
+    padding: 12,
+    marginBottom: 12,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
   typeIndicator: {
-    height: 4,
-    width: '100%',
+    width: 6,
+    borderRadius: 4,
+    marginRight: 10,
   },
-  cardContent: {
-    padding: 16,
+  content: {
+    flex: 1,
   },
-  eventTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
+  title: {
+    fontWeight: '700',
+    fontSize: 16,
+    marginBottom: 4,
+    color: '#111',
   },
-  eventTime: {
+  time: {
     fontSize: 14,
-    color: '#666',
+    color: '#555',
     marginBottom: 4,
   },
-  eventLocation: {
+  location: {
     fontSize: 14,
-    color: '#666',
+    color: '#777',
   },
 });

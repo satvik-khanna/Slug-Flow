@@ -1,13 +1,16 @@
 // constants/UCSCEvents.ts
-export type UCSCEventType = 
-  | 'career_fair' 
-  | 'club_fair' 
-  | 'academic' 
-  | 'social' 
-  | 'workshop' 
-  | 'lecture' 
-  | 'orientation'
-  | 'deadline';
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system/legacy"; // ← IMPORTANT FIX
+
+export type UCSCEventType =
+  | "career_fair"
+  | "club_fair"
+  | "academic"
+  | "social"
+  | "workshop"
+  | "lecture"
+  | "orientation"
+  | "deadline";
 
 export type UCSCEvent = {
   id: string;
@@ -19,132 +22,142 @@ export type UCSCEvent = {
   type: UCSCEventType;
   organizer: string;
   registrationUrl?: string;
-  isUCSCEvent: true; // Flag to distinguish from personal events
+  isUCSCEvent: true;
 };
 
-// Simulated UCSC events data - in a real app this would come from an API
-export const MOCK_UCSC_EVENTS: UCSCEvent[] = [
-  {
-    id: 'ucsc_1',
-    title: 'Fall Career Fair',
-    description: 'Meet with top employers from tech, biotech, and finance industries.',
-    location: 'East Remote Parking Lot',
-    date: '2024-11-15T10:00:00.000Z',
-    endDate: '2024-11-15T16:00:00.000Z',
-    type: 'career_fair',
-    organizer: 'Career Center',
-    registrationUrl: 'https://careers.ucsc.edu',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_2',
-    title: 'Involvement Fair',
-    description: 'Discover student clubs and organizations on campus.',
-    location: 'Quarry Plaza',
-    date: '2024-11-12T11:00:00.000Z',
-    endDate: '2024-11-12T15:00:00.000Z',
-    type: 'club_fair',
-    organizer: 'Student Life',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_3',
-    title: 'Graduate School Application Workshop',
-    description: 'Tips and strategies for applying to graduate programs.',
-    location: 'Classroom Unit 2, Room 206',
-    date: '2024-11-18T14:00:00.000Z',
-    endDate: '2024-11-18T16:00:00.000Z',
-    type: 'workshop',
-    organizer: 'Academic Resource Center',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_4',
-    title: 'Final Exam Period Begins',
-    description: 'Fall quarter final examinations begin.',
-    location: 'Various Locations',
-    date: '2024-12-09T08:00:00.000Z',
-    endDate: '2024-12-09T23:59:59.000Z',
-    type: 'academic',
-    organizer: 'Registrar',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_5',
-    title: 'Tech Talk: AI in Healthcare',
-    description: 'Industry professionals discuss AI applications in healthcare.',
-    location: 'Baskin Engineering, Auditorium',
-    date: '2024-11-20T18:00:00.000Z',
-    endDate: '2024-11-20T19:30:00.000Z',
-    type: 'lecture',
-    organizer: 'School of Engineering',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_6',
-    title: 'Winter Quarter Registration Deadline',
-    description: 'Last day to register for Winter 2025 courses.',
-    location: 'Online',
-    date: '2024-11-22T23:59:59.000Z',
-    endDate: '2024-11-22T23:59:59.000Z',
-    type: 'deadline',
-    organizer: 'Registrar',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_7',
-    title: 'International Night',
-    description: 'Celebrate cultural diversity with food, music, and performances.',
-    location: 'Stevenson Event Center',
-    date: '2024-11-16T19:00:00.000Z',
-    endDate: '2024-11-16T22:00:00.000Z',
-    type: 'social',
-    organizer: 'International Student Services',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_8',
-    title: 'CSE115A Function',
-    description: 'Software Engineering class function and project presentations.',
-    location: 'Baskin Engineering, Room 156',
-    date: '2025-11-15T14:00:00.000Z',
-    endDate: '2025-11-15T17:00:00.000Z',
-    type: 'academic',
-    organizer: 'Computer Science Department',
-    isUCSCEvent: true
-  },
-  {
-    id: 'ucsc_9',
-    title: 'Architas Function',
-    description: 'Special academic function hosted by Professor Archita.',
-    location: 'Engineering 2, Auditorium',
-    date: '2025-12-05T15:00:00.000Z',
-    endDate: '2025-12-05T18:00:00.000Z',
-    type: 'academic',
-    organizer: 'Computer Science Department',
-    registrationUrl: 'https://cse.ucsc.edu/architas-function',
-    isUCSCEvent: true
+/* --------------------------------------------------
+   Load ICS File (Expo SDK 54 working)
+-------------------------------------------------- */
+async function loadICSFile(): Promise<string> {
+  try {
+    const asset = Asset.fromModule(require("../assets/ucscevents.ics"));
+
+    await asset.downloadAsync();
+
+    // Now safe using legacy FS
+    const text = await FileSystem.readAsStringAsync(asset.localUri!);
+
+    return text;
+  } catch (err) {
+    console.error("❌ Failed to load ICS file:", err);
+    return "";
   }
-];
+}
 
-// Function to get UCSC events (simulates API call)
-export const getUCSCEvents = (): Promise<UCSCEvent[]> => {
-  return new Promise((resolve) => {
-    // Simulate network delay
-    setTimeout(() => {
-      resolve(MOCK_UCSC_EVENTS);
-    }, 500);
-  });
-};
+/* --------------------------------------------------
+   Convert ICS → List of events
+-------------------------------------------------- */
+export async function getUCSCEvents(): Promise<UCSCEvent[]> {
+  const raw = await loadICSFile();
+  if (!raw) return [];
 
-// Color mapping for different event types
+  const lines = raw.split(/\r?\n/);
+
+  const result: UCSCEvent[] = [];
+  let block: string[] = [];
+  let inside = false;
+
+  for (const line of lines) {
+    if (line.startsWith("BEGIN:VEVENT")) {
+      inside = true;
+      block = [];
+    }
+
+    if (inside) block.push(line);
+
+    if (line.startsWith("END:VEVENT")) {
+      inside = false;
+      const evt = parseEvent(block);
+      if (evt) result.push(evt);
+    }
+  }
+
+  console.log("📘 Parsed UCSC events:", result.length);
+  return result;
+}
+
+/* --------------------------------------------------
+   Parse VEVENT block
+-------------------------------------------------- */
+function parseEvent(block: string[]): UCSCEvent | null {
+  let summary = "";
+  let description = "";
+  let location = "";
+  let start = "";
+  let end = "";
+  let uid = "";
+  let url = "";
+  let category = "";
+
+  for (const line of block) {
+    if (line.startsWith("SUMMARY:")) summary = value(line);
+    if (line.startsWith("DESCRIPTION:")) description = value(line);
+    if (line.startsWith("LOCATION:")) location = value(line);
+    if (line.startsWith("UID:")) uid = value(line);
+    if (line.startsWith("URL:")) url = value(line);
+    if (line.startsWith("CATEGORIES:")) category = value(line);
+
+    if (line.startsWith("DTSTART")) start = parseICSDate(line);
+    if (line.startsWith("DTEND")) end = parseICSDate(line);
+  }
+
+  if (!summary) return null;
+
+  return {
+    id: uid || summary + start,
+    title: summary,
+    description,
+    location,
+    date: start,
+    endDate: end,
+    type: mapType(category),
+    organizer: "UCSC",
+    registrationUrl: url,
+    isUCSCEvent: true,
+  };
+}
+
+/* --------------------------------------------------
+   Helpers
+-------------------------------------------------- */
+
+function value(line: string) {
+  return line.substring(line.indexOf(":") + 1).trim();
+}
+
+function parseICSDate(line: string): string {
+  const raw = value(line); // e.g. 20251112T110000
+
+  const y = raw.slice(0, 4);
+  const m = raw.slice(4, 6);
+  const d = raw.slice(6, 8);
+  const hr = raw.slice(9, 11) || "00";
+  const min = raw.slice(11, 13) || "00";
+
+  return `${y}-${m}-${d}T${hr}:${min}:00`;
+}
+
+function mapType(cat: string): UCSCEventType {
+  const c = cat.toLowerCase();
+
+  if (c.includes("career")) return "career_fair";
+  if (c.includes("club")) return "club_fair";
+  if (c.includes("social")) return "social";
+  if (c.includes("workshop")) return "workshop";
+  if (c.includes("lecture") || c.includes("colloquium")) return "lecture";
+  if (c.includes("orientation")) return "orientation";
+  if (c.includes("deadline")) return "deadline";
+
+  return "academic";
+}
+
 export const EVENT_TYPE_COLORS: Record<UCSCEventType, string> = {
-  career_fair: '#2196F3',
-  club_fair: '#FF9800',
-  academic: '#9C27B0',
-  social: '#4CAF50',
-  workshop: '#FF5722',
-  lecture: '#795548',
-  orientation: '#607D8B',
-  deadline: '#F44336'
+  career_fair: "#2196F3",
+  club_fair: "#FF9800",
+  academic: "#9C27B0",
+  social: "#4CAF50",
+  workshop: "#FF5722",
+  lecture: "#795548",
+  orientation: "#607D8B",
+  deadline: "#F44336",
 };

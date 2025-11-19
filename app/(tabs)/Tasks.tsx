@@ -12,10 +12,12 @@ import {
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 import SwipeableEventCard, { EventItem } from '../../components/SwipeableEventCard';
 
-type TaskItem = EventItem & {
+export type TaskItem = EventItem & {
   type: 'task';
+  dueDate: string; // NEW FIELD
 };
 
 export default function Tasks() {
@@ -33,8 +35,14 @@ export default function Tasks() {
         .map((item: any) => ({
           ...item,
           completed: !!item.completed,
-          type: 'task' as const,
+          type: 'task',
         }));
+
+      // Sort tasks by due date
+      filtered.sort(
+        (a, b) =>
+          new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+      );
 
       setTasks(filtered);
     } catch (err) {
@@ -42,41 +50,38 @@ export default function Tasks() {
     }
   };
 
-  // Refresh whenever user focuses Tasks tab
+  // Refresh on focus
   useFocusEffect(
     useCallback(() => {
       loadTasks();
     }, [])
   );
 
-// 🔁 Toggle completion (used by right-swipe)
-const handleToggleComplete = async (taskId: string) => {
-  // 1. Optimistic UI update – flip completed in local state
-  setTasks((prev) =>
-    prev.map((t) =>
-      t.id === taskId ? { ...t, completed: !t.completed } : t
-    )
-  );
-
-  // 2. Sync to AsyncStorage
-  try {
-    const stored = await AsyncStorage.getItem('events');
-    const allItems = stored ? JSON.parse(stored) : [];
-
-    const updated = allItems.map((item: any) =>
-      item.id === taskId && item.type === 'task'
-        ? { ...item, completed: !item.completed }
-        : item
+  // Toggle completion
+  const handleToggleComplete = async (taskId: string) => {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === taskId ? { ...t, completed: !t.completed } : t
+      )
     );
 
-    await AsyncStorage.setItem('events', JSON.stringify(updated));
-  } catch (err) {
-    console.log('Error toggling task:', err);
-  }
-};
+    try {
+      const stored = await AsyncStorage.getItem('events');
+      const allItems = stored ? JSON.parse(stored) : [];
 
+      const updated = allItems.map((item: any) =>
+        item.id === taskId && item.type === 'task'
+          ? { ...item, completed: !item.completed }
+          : item
+      );
 
-  // Delete task completely (used by left-swipe)
+      await AsyncStorage.setItem('events', JSON.stringify(updated));
+    } catch (err) {
+      console.log('Error toggling task:', err);
+    }
+  };
+
+  // Delete task
   const handleDeleteTask = async (taskId: string) => {
     try {
       const stored = await AsyncStorage.getItem('events');
@@ -91,13 +96,24 @@ const handleToggleComplete = async (taskId: string) => {
     }
   };
 
-  // Lists
+  // Task categories
   const incompleteTasks = tasks.filter((t) => !t.completed);
   const completedTasks = tasks.filter((t) => t.completed);
-  const displayedTasks =
-    filter === 'incomplete' ? incompleteTasks : completedTasks;
 
-  // Task progress bar
+  const displayedTasks =
+    filter === 'incomplete'
+      ? [...incompleteTasks].sort(
+          (a, b) =>
+            new Date(a.dueDate).getTime() -
+            new Date(b.dueDate).getTime()
+        )
+      : [...completedTasks].sort(
+          (a, b) =>
+            new Date(a.dueDate).getTime() -
+            new Date(b.dueDate).getTime()
+        );
+
+  // Progress bar
   const totalTasks = tasks.length;
   const completedCount = completedTasks.length;
   const progress = totalTasks === 0 ? 0 : completedCount / totalTasks;
@@ -108,7 +124,7 @@ const handleToggleComplete = async (taskId: string) => {
         <View style={styles.container}>
           <Text style={styles.title}>📝 My Tasks</Text>
 
-          {/* Task Progress */}
+          {/* Progress */}
           <View style={{ marginBottom: 20, alignItems: 'center' }}>
             <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
               📊 Task Progress
@@ -131,7 +147,7 @@ const handleToggleComplete = async (taskId: string) => {
             )}
           </View>
 
-          {/* Filter buttons instead of dropdown */}
+          {/* Filter buttons */}
           <View style={styles.toggleRow}>
             <TouchableOpacity
               style={[
@@ -178,13 +194,13 @@ const handleToggleComplete = async (taskId: string) => {
                 }.`}
           </Text>
 
-          {/* Task list under the selected button */}
+          {/* Task list */}
           <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
             {displayedTasks.length === 0 ? (
               <Text style={styles.empty}>
                 {filter === 'incomplete'
-                  ? 'No incomplete tasks. You are all caught up!'
-                  : 'No completed tasks yet. Finish a task to see it here.'}
+                  ? 'No incomplete tasks.'
+                  : 'No completed tasks yet.'}
               </Text>
             ) : (
               displayedTasks.map((task) => (
@@ -204,22 +220,9 @@ const handleToggleComplete = async (taskId: string) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 12,
-  },
+  container: { flex: 1, paddingHorizontal: 20, paddingTop: 12, backgroundColor: '#fff' },
+  title: { fontSize: 26, fontWeight: 'bold', marginBottom: 4 },
+  subtitle: { fontSize: 14, color: '#555', marginBottom: 12 },
   toggleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -233,266 +236,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   toggleButtonActive: {
     backgroundColor: '#4caf50',
     borderColor: '#4caf50',
   },
-  toggleText: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
-  },
-  toggleTextActive: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  empty: {
-    marginTop: 40,
-    fontSize: 16,
-    color: '#777',
-    textAlign: 'center',
-  },
+  toggleText: { fontSize: 14, color: '#333', fontWeight: '500' },
+  toggleTextActive: { color: '#fff', fontWeight: '700' },
+  empty: { marginTop: 40, fontSize: 16, color: '#777', textAlign: 'center' },
 });
-
-//working version of the app before adding the delete swipe feature and segregating the incomplete and ocmpleted tasks. 
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { useFocusEffect } from 'expo-router';
-// import React, { useCallback, useState } from 'react';
-// import {
-//   ScrollView,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from 'react-native';
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
-// import * as Progress from 'react-native-progress';
-// import { SafeAreaView } from 'react-native-safe-area-context';
-// import SwipeableEventCard from '../../components/SwipeableEventCard';
-
-// type TaskItem = {
-//   id: string;
-//   title: string;
-//   note?: string;
-//   date: string;
-//   completed?: boolean;
-//   type: 'task';
-// };
-
-// export default function Tasks() {
-//   const [tasks, setTasks] = useState<TaskItem[]>([]);
-//   const [filter, setFilter] = useState<'incomplete' | 'completed'>('incomplete');
-//   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-//   // 🔄 Load tasks (runs whenever screen is focused)
-//   const loadTasks = async () => {
-//     try {
-//       const stored = await AsyncStorage.getItem('events');
-//       const parsed = stored ? JSON.parse(stored) : [];
-
-//       const filtered: TaskItem[] = parsed
-//         .filter((item: any) => item.type === 'task')
-//         .map((item: any) => ({
-//           ...item,
-//           completed: !!item.completed,
-//         }));
-
-//       setTasks(filtered);
-//     } catch (err) {
-//       console.log('Error loading tasks:', err);
-//     }
-//   };
-
-//   // 🔄 Refresh tasks every time user enters Tasks tab
-//   useFocusEffect(
-//     useCallback(() => {
-//       loadTasks();
-//     }, [])
-//   );
-
-//   // 🔁 Toggle completion for tasks
-//   const handleToggleComplete = async (taskId: string) => {
-//     try {
-//       const stored = await AsyncStorage.getItem('events');
-//       const allItems = stored ? JSON.parse(stored) : [];
-
-//       const updated = allItems.map((item: any) =>
-//         item.id === taskId && item.type === 'task'
-//           ? { ...item, completed: !item.completed }
-//           : item
-//       );
-
-//       // Save back
-//       await AsyncStorage.setItem('events', JSON.stringify(updated));
-
-//       // Reload tasks
-//       loadTasks();
-//     } catch (err) {
-//       console.log('Error toggling task:', err);
-//     }
-//   };
-
-//   // ─── FILTERED TASK LIST ─────────────────────────────────────────────
-//   const incompleteTasks = tasks.filter((t) => !t.completed);
-//   const completedTasks = tasks.filter((t) => t.completed);
-//   const displayedTasks =
-//     filter === 'incomplete' ? incompleteTasks : completedTasks;
-
-//   // ─── TASK PROGRESS BAR (ONLY TASKS) ─────────────────────────────────
-//   const totalTasks = tasks.length;
-//   const completedCount = tasks.filter((t) => t.completed).length;
-//   const progress =
-//     totalTasks === 0 ? 0 : completedCount / totalTasks;
-
-//   return (
-//     <GestureHandlerRootView style={{ flex: 1 }}>
-//       <SafeAreaView style={{ flex: 1 }}>
-//         <View style={styles.container}>
-//           <Text style={styles.title}>📝 My Tasks</Text>
-
-//           {/* Task Progress */}
-//           <View style={{ marginBottom: 20, alignItems: 'center' }}>
-//             <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
-//               📊 Task Progress
-//             </Text>
-
-//             {totalTasks > 0 ? (
-//               <>
-//                 <Progress.Bar
-//                   progress={progress}
-//                   width={300}
-//                   color="#4CAF50"
-//                   borderRadius={10}
-//                 />
-//                 <Text style={{ marginTop: 6, color: '#555' }}>
-//                   {completedCount} / {totalTasks} tasks completed
-//                 </Text>
-//               </>
-//             ) : (
-//               <Text style={{ color: '#888' }}>No tasks added yet</Text>
-//             )}
-//           </View>
-
-//           <Text style={styles.subtitle}>
-//             {filter === 'incomplete'
-//               ? 'These are the tasks you still need to do.'
-//               : 'These are the tasks you have completed.'}
-//           </Text>
-
-//           {/* Filter dropdown */}
-//           <View style={styles.filterContainer}>
-//             <TouchableOpacity
-//               style={styles.dropdown}
-//               onPress={() => setIsDropdownOpen((prev) => !prev)}
-//             >
-//               <Text style={styles.dropdownText}>
-//                 {filter === 'incomplete' ? 'Incomplete tasks' : 'Completed tasks'}
-//               </Text>
-//             </TouchableOpacity>
-
-//             {isDropdownOpen && (
-//               <View style={styles.dropdownOptions}>
-//                 <TouchableOpacity
-//                   style={styles.dropdownOption}
-//                   onPress={() => {
-//                     setFilter('incomplete');
-//                     setIsDropdownOpen(false);
-//                   }}
-//                 >
-//                   <Text style={styles.dropdownOptionText}>Incomplete tasks</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity
-//                   style={styles.dropdownOption}
-//                   onPress={() => {
-//                     setFilter('completed');
-//                     setIsDropdownOpen(false);
-//                   }}
-//                 >
-//                   <Text style={styles.dropdownOptionText}>Completed tasks</Text>
-//                 </TouchableOpacity>
-//               </View>
-//             )}
-//           </View>
-
-//           {/* Task list */}
-//           <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-//             {displayedTasks.length === 0 ? (
-//               <Text style={styles.empty}>
-//                 {filter === 'incomplete'
-//                   ? 'No incomplete tasks. You are all caught up!'
-//                   : 'No completed tasks yet. Finish a task to see it here.'}
-//               </Text>
-//             ) : (
-//               displayedTasks.map((task) => (
-//                 <SwipeableEventCard
-//                   key={task.id}
-//                   event={task}
-//                   onToggleComplete={handleToggleComplete}
-//                 />
-//               ))
-//             )}
-//           </ScrollView>
-//         </View>
-//       </SafeAreaView>
-//     </GestureHandlerRootView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingHorizontal: 20,
-//     paddingTop: 12,
-//     backgroundColor: '#fff',
-//   },
-//   title: {
-//     fontSize: 26,
-//     fontWeight: 'bold',
-//     marginBottom: 4,
-//   },
-//   subtitle: {
-//     fontSize: 14,
-//     color: '#555',
-//     marginBottom: 12,
-//   },
-//   filterContainer: {
-//     marginBottom: 12,
-//   },
-//   dropdown: {
-//     borderWidth: 1,
-//     borderColor: '#ccc',
-//     borderRadius: 8,
-//     paddingVertical: 8,
-//     paddingHorizontal: 12,
-//     justifyContent: 'center',
-//   },
-//   dropdownText: {
-//     fontSize: 14,
-//     color: '#333',
-//   },
-//   dropdownOptions: {
-//     marginTop: 6,
-//     borderWidth: 1,
-//     borderColor: '#ccc',
-//     borderRadius: 8,
-//     backgroundColor: '#f9f9f9',
-//     overflow: 'hidden',
-//   },
-//   dropdownOption: {
-//     paddingVertical: 8,
-//     paddingHorizontal: 12,
-//   },
-//   dropdownOptionText: {
-//     fontSize: 14,
-//     color: '#333',
-//   },
-//   empty: {
-//     marginTop: 40,
-//     fontSize: 16,
-//     color: '#777',
-//     textAlign: 'center',
-//   },
-// });

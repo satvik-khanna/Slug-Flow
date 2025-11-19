@@ -25,21 +25,25 @@ export default function HomeScreen() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [weeklyStats, setWeeklyStats] = useState({ total: 0, completed: 0 });
 
-  // Notification permission
+  /* -----------------------------------------------------
+     NOTIFICATIONS PERMISSION
+  ----------------------------------------------------- */
   useEffect(() => {
-    const registerForPushNotifications = async () => {
+    const register = async () => {
       const { status } = await Notifications.getPermissionsAsync();
       if (status !== 'granted') {
         const { status: newStatus } = await Notifications.requestPermissionsAsync();
         if (newStatus !== 'granted') {
-          alert('⛔ Notification permission not granted. Reminders will not work.');
+          alert('⛔ Notification permission not granted.');
         }
       }
     };
-    registerForPushNotifications();
+    register();
   }, []);
 
-  // Load today’s events/tasks
+  /* -----------------------------------------------------
+     LOAD TODAY'S EVENTS ONLY (NOT TASKS)
+  ----------------------------------------------------- */
   useFocusEffect(
     React.useCallback(() => {
       const loadEvents = async () => {
@@ -48,7 +52,9 @@ export default function HomeScreen() {
           const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
           const today = getTodayISO();
 
+          // ⭐ ONLY EVENTS (not tasks)
           const filtered = parsed
+            .filter((item) => item.type === 'event')
             .filter((item) => item.date.slice(0, 10) === today)
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -61,7 +67,9 @@ export default function HomeScreen() {
     }, [])
   );
 
-  // Weekly progress bar (events + tasks)
+  /* -----------------------------------------------------
+     WEEKLY PROGRESS (still counts tasks unless you say otherwise)
+  ----------------------------------------------------- */
   useEffect(() => {
     const loadWeeklyStats = async () => {
       try {
@@ -69,7 +77,8 @@ export default function HomeScreen() {
         const allItems: EventItem[] = stored ? JSON.parse(stored) : [];
 
         const now = new Date();
-        const dayOfWeek = now.getDay(); // 0 = Sunday
+        const dayOfWeek = now.getDay();
+
         const sundayStart = new Date(now);
         sundayStart.setDate(now.getDate() - dayOfWeek);
         sundayStart.setHours(0, 0, 0, 0);
@@ -85,41 +94,18 @@ export default function HomeScreen() {
 
         const total = weeklyItems.length;
         const completed = weeklyItems.filter((e) => e.completed).length;
+
         setWeeklyStats({ total, completed });
       } catch (e) {
         console.error('Failed to load weekly stats:', e);
       }
     };
-
     loadWeeklyStats();
   }, [events]);
 
-  // Toggle complete for tasks (on Home)
-  const handleToggleComplete = async (eventId: string) => {
-    try {
-      const stored = await AsyncStorage.getItem('events');
-      const allItems: EventItem[] = stored ? JSON.parse(stored) : [];
-
-      const updated = allItems.map((item) =>
-        item.id === eventId && item.type === 'task'
-          ? { ...item, completed: !item.completed }
-          : item
-      );
-
-      await AsyncStorage.setItem('events', JSON.stringify(updated));
-
-      const today = getTodayISO();
-      const filtered = updated
-        .filter((item) => item.date.slice(0, 10) === today)
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-      setEvents(filtered);
-    } catch (e) {
-      console.error('Failed to toggle completion:', e);
-    }
-  };
-
-  // NEW: Delete for events + tasks (on Home)
+  /* -----------------------------------------------------
+     DELETE EVENT
+  ----------------------------------------------------- */
   const handleDeleteItem = async (eventId: string) => {
     try {
       const stored = await AsyncStorage.getItem('events');
@@ -127,20 +113,21 @@ export default function HomeScreen() {
 
       const target = allItems.find((e) => e.id === eventId);
 
-      // Cancel notification if there is one
       if (target?.notificationId) {
         try {
           await Notifications.cancelScheduledNotificationAsync(target.notificationId);
-        } catch (e) {
-          console.warn('Failed to cancel notification:', e);
+        } catch {
+          console.warn('Failed to cancel notification.');
         }
       }
 
       const updated = allItems.filter((e) => e.id !== eventId);
       await AsyncStorage.setItem('events', JSON.stringify(updated));
 
+      // Refresh today's events (events only)
       const today = getTodayISO();
       const filtered = updated
+        .filter((item) => item.type === 'event')
         .filter((item) => item.date.slice(0, 10) === today)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -150,13 +137,16 @@ export default function HomeScreen() {
     }
   };
 
+  /* -----------------------------------------------------
+     UI
+  ----------------------------------------------------- */
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={{ fontSize: 20, marginTop: 35, marginBottom: 5 }}>{todayLabel}</Text>
-        <Text style={styles.title}>📅 Today's Schedule</Text>
+        <Text style={styles.title}>📅 Today's Events</Text>
 
-        {/* Weekly progress */}
+        {/* Weekly progress (events + tasks unless you want events-only) */}
         <View style={{ marginBottom: 20, alignItems: 'center' }}>
           <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
             📊 Weekly Progress
@@ -171,15 +161,15 @@ export default function HomeScreen() {
                 borderRadius={10}
               />
               <Text style={{ marginTop: 6, color: '#555' }}>
-                {weeklyStats.completed} / {weeklyStats.total} tasks/events completed
+                {weeklyStats.completed} / {weeklyStats.total} done this week
               </Text>
             </>
           ) : (
-            <Text style={{ color: '#888' }}>No events or tasks this week</Text>
+            <Text style={{ color: '#888' }}>No items this week</Text>
           )}
         </View>
 
-        {/* List of events + tasks */}
+        {/* EVENTS for TODAY */}
         <View style={styles.listContainer}>
           <FlatList
             data={events}
@@ -187,15 +177,16 @@ export default function HomeScreen() {
             renderItem={({ item }) => (
               <SwipeableEventCard
                 event={item}
-                onToggleComplete={item.type === 'task' ? handleToggleComplete : undefined}
                 onDelete={handleDeleteItem}
+                // no toggleComplete — because events shouldn’t be checked off
               />
             )}
-            ListEmptyComponent={<Text style={styles.empty}>No Schedule Yet</Text>}
+            ListEmptyComponent={
+              <Text style={styles.empty}>No events today</Text>
+            }
           />
         </View>
 
-        {/* Add buttons */}
         <View style={styles.buttonContainer}>
           <Button title="➕ Add Event" onPress={() => router.push('/add-event')} />
           <View style={{ height: 10 }} />
@@ -206,21 +197,17 @@ export default function HomeScreen() {
   );
 }
 
+/* -----------------------------------------------------
+   Styles
+----------------------------------------------------- */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  listContainer: {
-    flex: 1,
-    paddingBottom: 150,
-  },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  listContainer: { flex: 1, paddingBottom: 150 },
   buttonContainer: {
     position: 'absolute',
     bottom: 100,
@@ -234,8 +221,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
 });
-
-
 
 
 

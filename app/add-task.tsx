@@ -1,13 +1,25 @@
 // app/add-task.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export default function AddTaskScreen() {
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [location, setLocation] = useState('');
+
+  const [dueDate, setDueDate] = useState<Date>(new Date());
+  const [showPicker, setShowPicker] = useState(false);
 
   const handleAdd = async () => {
     if (!title.trim()) {
@@ -20,19 +32,21 @@ export default function AddTaskScreen() {
       title,
       note,
       location,
-      date: new Date().toISOString(), // store when task was created
-      completed: false,               // tasks start incomplete
-      type: 'task',                   // distinguish from events
+      date: new Date().toISOString(), // when task was created
+      dueDate: dueDate.toISOString(), // NEW FIELD
+      completed: false,
+      type: 'task',
     };
 
     try {
       const stored = await AsyncStorage.getItem('events');
       const taskList = stored ? JSON.parse(stored) : [];
+
       taskList.push(newTask);
       await AsyncStorage.setItem('events', JSON.stringify(taskList));
-      router.back(); // go back to Home
+      router.back();
     } catch (e) {
-      alert('❌ Failed to save task. Please try again.');
+      alert('❌ Failed to save task.');
       console.error('Error saving task:', e);
     }
   };
@@ -64,6 +78,28 @@ export default function AddTaskScreen() {
         placeholder="Enter location (optional)"
       />
 
+      {/* Due Date Picker */}
+      <Text style={styles.label}>Due Date</Text>
+
+      <TouchableOpacity
+        style={styles.input}
+        onPress={() => setShowPicker(true)}
+      >
+        <Text>{dueDate.toDateString()}</Text>
+      </TouchableOpacity>
+
+      {showPicker && (
+        <DateTimePicker
+          value={dueDate}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={(event, selectedDate) => {
+            setShowPicker(false);
+            if (selectedDate) setDueDate(selectedDate);
+          }}
+        />
+      )}
+
       <View style={{ marginTop: 30 }}>
         <Button title="💾 Save Task" onPress={handleAdd} />
       </View>
@@ -85,7 +121,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 10,
+    padding: 12,
     borderRadius: 8,
     marginTop: 5,
   },

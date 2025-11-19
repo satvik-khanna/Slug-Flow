@@ -4,15 +4,23 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 type EventItem = {
   id: string;
   title: string;
   note?: string;
   location?: string;
-  date: string;
-  endDate?: string;
+  date: string;          // event start OR task created
+  endDate?: string;      // events only
+  dueDate?: string;      // tasks only
   completed?: boolean;
   notificationId?: any;
   type?: 'event' | 'task';
@@ -21,59 +29,61 @@ type EventItem = {
 export default function EditEventScreen() {
   const { id } = useLocalSearchParams();
 
+  // Shared fields
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [location, setLocation] = useState('');
-  const [date, setDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const [completed, setCompleted] = useState(false);
   const [type, setType] = useState<'event' | 'task'>('event');
+  const isTask = type === 'task';
+
+  // Event date fields
+  const [date, setDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  // Task-specific field
+  const [dueDate, setDueDate] = useState(new Date());
 
   const [loading, setLoading] = useState(true);
 
-  const isTask = type === 'task';
-
-  // Load event / task data
+  /** Load this event/task from storage */
   useEffect(() => {
-    const loadEvent = async () => {
+    const loadItem = async () => {
       try {
         const stored = await AsyncStorage.getItem('events');
         const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
 
-        const target = parsed.find((e) => e.id === id);
-        if (!target) {
-          Alert.alert('Item not found', 'It may have been deleted.');
+        const item = parsed.find((e) => e.id === id);
+        if (!item) {
+          Alert.alert('Not Found', 'This item may have been deleted.');
           router.back();
           return;
         }
 
-        setTitle(target.title ?? '');
-        setNote(target.note ?? '');
-        setLocation(target.location ?? '');
-        setType(target.type === 'task' ? 'task' : 'event');
+        setTitle(item.title || '');
+        setNote(item.note || '');
+        setLocation(item.location || '');
+        setCompleted(!!item.completed);
 
-        // Always use valid Date objects (avoid Invalid Date crashes)
-        const baseDate = target.date ? new Date(target.date) : new Date();
-        setDate(baseDate);
-
-        if (target.endDate) {
-          setEndDate(new Date(target.endDate));
+        if (item.type === 'task') {
+          setType('task');
+          setDueDate(item.dueDate ? new Date(item.dueDate) : new Date());
         } else {
-          // Tasks may not have an endDate – default to same as start
-          setEndDate(baseDate);
+          setType('event');
+          setDate(item.date ? new Date(item.date) : new Date());
+          setEndDate(item.endDate ? new Date(item.endDate) : new Date());
         }
 
-        setCompleted(!!target.completed);
         setLoading(false);
-      } catch (e) {
-        console.error('Loading failed:', e);
+      } catch (err) {
+        console.error('Failed to load item:', err);
       }
     };
 
-    loadEvent();
+    loadItem();
   }, [id]);
 
-  // Toggle completion status
+  /** Toggle complete status */
   const handleToggleComplete = async () => {
     try {
       const stored = await AsyncStorage.getItem('events');
@@ -85,22 +95,25 @@ export default function EditEventScreen() {
 
       await AsyncStorage.setItem('events', JSON.stringify(updated));
       setCompleted((prev) => !prev);
-    } catch (e) {
-      alert('Failed to update completion status');
-      console.error(e);
+    } catch (err) {
+      console.error('Toggle failed:', err);
     }
   };
 
-  // Save event / task
+  /** Save changes */
   const handleSave = async () => {
-    // For events, keep the strict time validation
-    if (!isTask) {
+    if (!title.trim()) {
+      alert('Please enter a title.');
+      return;
+    }
+
+    if (type === 'event') {
       if (date < new Date()) {
-        alert('❌ Cannot set a start time in the past.');
+        alert('Event start time cannot be in the past.');
         return;
       }
       if (endDate <= date) {
-        alert('The end time must be later than the start time.');
+        alert('End time must be after the start.');
         return;
       }
     }
@@ -112,39 +125,44 @@ export default function EditEventScreen() {
       const updated = parsed.map((item) => {
         if (item.id !== id) return item;
 
-        const base: EventItem = {
+        if (type === 'task') {
+          return {
+            ...item,
+            title,
+            note,
+            location,
+            dueDate: dueDate.toISOString(),
+            completed,
+            type: 'task',
+          };
+        }
+
+        // event
+        return {
           ...item,
           title,
           note,
           location,
           date: date.toISOString(),
+          endDate: endDate.toISOString(),
           completed,
-          type, // keep original type (event or task)
+          type: 'event',
         };
-
-        // Only events care about endDate
-        if (!isTask) {
-          base.endDate = endDate.toISOString();
-        }
-
-        return base;
       });
 
       await AsyncStorage.setItem('events', JSON.stringify(updated));
       router.back();
-    } catch (e) {
-      alert('Save failed');
-      console.error(e);
+    } catch (err) {
+      console.error('Save failed:', err);
+      alert('Save failed.');
     }
   };
 
-  // Delete event / task
+  /** Delete */
   const handleDelete = async () => {
     Alert.alert(
       'Delete',
-      isTask
-        ? 'Are you sure you want to delete this task?'
-        : 'Are you sure you want to delete this event?',
+      `Are you sure you want to delete this ${isTask ? 'task' : 'event'}?`,
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -156,7 +174,6 @@ export default function EditEventScreen() {
               const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
               const target = parsed.find((e) => e.id === id);
 
-              // Only events typically have notifications
               if (target?.notificationId) {
                 await Notifications.cancelScheduledNotificationAsync(
                   target.notificationId
@@ -166,9 +183,9 @@ export default function EditEventScreen() {
               const filtered = parsed.filter((e) => e.id !== id);
               await AsyncStorage.setItem('events', JSON.stringify(filtered));
               router.back();
-            } catch (e) {
-              alert('Delete failed');
-              console.error(e);
+            } catch (err) {
+              console.error('Delete failed:', err);
+              alert('Delete failed.');
             }
           },
         },
@@ -176,16 +193,14 @@ export default function EditEventScreen() {
     );
   };
 
-  if (loading) {
-    return <Text style={{ padding: 20 }}>Loading item...</Text>;
-  }
+  if (loading) return <Text style={{ padding: 20 }}>Loading…</Text>;
 
   return (
     <View style={styles.container}>
       {completed && (
         <View style={styles.completedBanner}>
           <Text style={styles.completedBannerText}>
-            ✓ This {isTask ? 'task' : 'event'} is marked as completed
+            ✓ This {isTask ? 'task' : 'event'} is completed
           </Text>
         </View>
       )}
@@ -195,7 +210,7 @@ export default function EditEventScreen() {
         style={styles.input}
         value={title}
         onChangeText={setTitle}
-        placeholder={isTask ? 'Enter task title' : 'Enter event title'}
+        placeholder="Enter title"
       />
 
       <Text style={styles.label}>Note</Text>
@@ -203,7 +218,7 @@ export default function EditEventScreen() {
         style={[styles.input, { height: 80 }]}
         value={note}
         onChangeText={setNote}
-        placeholder="Add notes (optional)"
+        placeholder="Details (optional)"
         multiline
       />
 
@@ -212,42 +227,49 @@ export default function EditEventScreen() {
         style={styles.input}
         value={location}
         onChangeText={setLocation}
-        placeholder="Enter location (optional)"
+        placeholder="Location (optional)"
       />
 
-      <Text style={styles.label}>
-        {isTask ? 'Task Date / Time' : 'Start Date Time'}
-      </Text>
-      <DateTimePicker
-        value={date}
-        mode="datetime"
-        display="default"
-        onChange={(_, selected) => {
-          if (selected) setDate(selected);
-        }}
-      />
-
-      {!isTask && (
+      {/* ───────── TASK DATE ───────── */}
+      {isTask && (
         <>
-          <Text style={styles.label}>End Date Time</Text>
+          <Text style={styles.label}>Due Date</Text>
           <DateTimePicker
-            value={endDate}
+            value={dueDate}
             mode="datetime"
             display="default"
-            onChange={(_, selected) => {
-              if (selected) setEndDate(selected);
-            }}
+            onChange={(_, selected) => selected && setDueDate(selected)}
           />
         </>
       )}
 
+      {/* ───────── EVENT DATE/TIME ───────── */}
+      {!isTask && (
+        <>
+          <Text style={styles.label}>Start Date / Time</Text>
+          <DateTimePicker
+            value={date}
+            mode="datetime"
+            display="default"
+            onChange={(_, selected) => selected && setDate(selected)}
+          />
+
+          <Text style={styles.label}>End Date / Time</Text>
+          <DateTimePicker
+            value={endDate}
+            mode="datetime"
+            display="default"
+            onChange={(_, selected) => selected && setEndDate(selected)}
+          />
+        </>
+      )}
+
+      {/* Buttons */}
       <View style={{ marginTop: 20 }}>
         <Button
-          title={
-            completed ? '↩️ Mark as Incomplete' : '✓ Mark as Complete'
-          }
+          title={completed ? '↩️ Mark Incomplete' : '✓ Mark Complete'}
           onPress={handleToggleComplete}
-          color={completed ? '#ff9800' : '#4caf50'}
+          color={completed ? '#FF9800' : '#4CAF50'}
         />
       </View>
 
@@ -267,28 +289,8 @@ export default function EditEventScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  completedBanner: {
-    backgroundColor: '#4caf50',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  completedBannerText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  label: { fontSize: 16, fontWeight: 'bold', marginTop: 10 },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
@@ -296,9 +298,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 5,
   },
+  completedBanner: {
+    backgroundColor: '#4CAF50',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 15,
+  },
+  completedBannerText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
-
-
 
 
 

@@ -1,0 +1,501 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Events - ECPv6.15.10//NONSGML v1.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Events
+X-ORIGINAL-URL:https://events.ucsc.edu
+X-WR-CALDESC:Events for Events
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-Robots-Tag:noindex
+X-PUBLISHED-TTL:PT1H
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:20240310T100000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:20241103T090000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:20250309T100000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:20251102T090000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:20260308T100000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:20261101T090000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251103T080000
+DTEND;TZID=America/Los_Angeles:20251214T170000
+DTSTAMP:20251112T112705
+CREATED:20251030T214038Z
+LAST-MODIFIED:20251104T002854Z
+UID:10005015-1762156800-1765731600@events.ucsc.edu
+SUMMARY:Snow Wonder
+DESCRIPTION:The Faculty & Staff Health and Well-being Program presents Snow Wonder\, a UC systemwide wellness challenge!  \nRegistration opens November 3 – November 24\nChallenge runs Monday\, November 17 – Sunday\, December 14 \nJoin this 2025 UC Snow Wonder Challenge! Picture yourself having a healthier\, happier holiday season. Form teams with your colleagues and motivate each other and celebrate your healthy habit accomplishments to end the year on a healthy high note and head into 2026 feeling your best! \nVisit the UCSC Snow Wonder webpage to learn more. Register to create a new account and choose UC Santa Cruz as your location. Please note that space for this challenge is limited\, so sign up early.
+URL:https://events.ucsc.edu/event/snow-wonder/
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Snow-Wonder.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T110000
+DTEND;TZID=America/Los_Angeles:20251112T121500
+DTSTAMP:20251112T112705
+CREATED:20251106T173342Z
+LAST-MODIFIED:20251106T185851Z
+UID:10005103-1762945200-1762949700@events.ucsc.edu
+SUMMARY:CSE Colloquium - Neurosymbolic AI: from research to industry
+DESCRIPTION:Presenter: Luis Lamb\, Catholic Institute of Technology\n\nAbstract:\nNeurosymbolic AI brings together the statistical nature of machine learning with the formal reasoning capabilities of symbolic AI. It seeks to offer a balanced approach to contemporary AI technologies\, by combining the ability to learn from data\, with the capacity to reason upon knowledge acquired from an environment. The main criticism of neural machine learning lies in its lack of explainability and semantics\, which are key requirements in safety-critical applications\, yet inherent strengths of logic-based methods. Recently\, several corporations have publicly announced products and technologies grounded in neurosymbolic AI methodologies. This talk provided a concise review of the foundations\, frameworks and tools underlying neurosymbolic AI\, along with illustrative applications. It concludes by highlighting current trends and research directions in the field.\n\nBio:\nLuis Lamb is Professor of Computer Science and Vice President of Research at the Catholic Institute of Technology. His research interests include: Artificial Intelligence\, Neurosymbolic AI\, Innovation Strategies\, and Applied Logics. Lamb has co-authored two research monographs\, including Neural-Symbolic Cognitive Reasoning\, with d’Avila Garcez and Gabbay (Springer 2009). He organized two Dagstuhl Seminars on Neursymbolic AI\, published widely in AI\, and has worked in the area for over 20 years.  Lamb also has extensive experience leading research planning\, strategy\, and university wide research & infrastructure grant applications\, and strategic academic-industry partnerships. He has been a Professor in Brazil and has experience in industry as a former Senior Manager of AI and Machine Learning at Boeing. He holds a PhD in Computer Science from Imperial College London and an MBA from MIT.\n\nHosted by: Professor Mohsen Lesani\n\nLocation: Engineering 2\, E2-180\n\n*Refreshments such as coffee and pastries will be provided.\n\nZoom: https://ucsc.zoom.us/j/93445911992?pwd=YkJ2TQtF79h0PcNXbEcpZLbpK0coiY.1&jst=3
+URL:https://events.ucsc.edu/event/cse-colloquium-neurosymbolic-ai-from-research-to-industry/
+LOCATION:Engineering 2\, Engineering 2 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/webp:https://events.ucsc.edu/wp-content/uploads/2025/11/Image_20250815_165250_742.webp
+GEO:37.0009723;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Engineering 2 Engineering 2 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Engineering 2 1156 High Street:geo:-122.0632371,37.0009723
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T110000
+DTEND;TZID=America/Los_Angeles:20251112T150000
+DTSTAMP:20251112T112705
+CREATED:20251003T174431Z
+LAST-MODIFIED:20251021T192618Z
+UID:10003126-1762945200-1762959600@events.ucsc.edu
+SUMMARY:Produce Pop-Up
+DESCRIPTION:Affordable produce from the campus farm and local farmers market for students and the community! \nFall 2025 Schedule\nWednesdays: 11am–3pm at Quarry Plaza\nFridays: 11am–3pm outside the Science & Engineering Library
+URL:https://events.ucsc.edu/event/produce-pop-up/2025-11-12/
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/54526112043_7b3b8631a9_k-3-e1761074767622.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T120000
+DTEND;TZID=America/Los_Angeles:20251112T120000
+DTSTAMP:20251112T112705
+CREATED:20250924T213106Z
+LAST-MODIFIED:20251107T232015Z
+UID:10000148-1762948800-1762948800@events.ucsc.edu
+SUMMARY:Research Lunch & Learn: Research Development Explained\, or How to Get Grants Funded
+DESCRIPTION:Join members of the UCSC Research Development (RD) team as they discuss how they work in advance and alongside their colleagues in the Office of Sponsored Projects to ensure PIs submit the most compelling and competitive proposals. \nEngage early with RD to develop long-term fundraising strategies\, build interdisciplinary teams\, interact with sponsors\, and project manage large grant submissions. As sponsor deadlines approach\, RD can help with templates fo \nr proposal components\, sharing successful proposals\, aligning proposal content with solicitations\, and reviewing drafts. We will review our services\, timelines\, and how best to work with the RD team. \nPresenters: Molly McCarthy (RD Director); Mark Snyder\, Eva Hrabeta-Robinson\, Nick Sizemore (RD Specialists); and Cindy Ziker (Education Grants & Evaluation Specialist) \n \nJoin Zoom Meeting: \nhttps://ucsc.zoom.us/j/96141024228?pwd=fQBahVYKaad3a3FbXk1zLzXXm3k8ab.1 \nMeeting ID: 961 4102 4228\nPasscode: 960402\n—\nOne tap mobile\n+16694449171\,\,96141024228#\,\,\,\,*960402# US\n+16699006833\,\,96141024228#\,\,\,\,*960402# US (San Jose)
+URL:https://events.ucsc.edu/event/research-lunch-learn-research-development-explained-or-how-to-get-grants-funded/
+CATEGORIES:Training
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T120000
+DTEND;TZID=America/Los_Angeles:20251112T130000
+DTSTAMP:20251112T112705
+CREATED:20250923T070000Z
+LAST-MODIFIED:20251001T224502Z
+UID:10000270-1762948800-1762952400@events.ucsc.edu
+SUMMARY:Engineering Teaching Community (Faculty)
+DESCRIPTION:During the chaos of a quarter\, is it hard to find time to reflect and improve as an instructor? Would you like to be a part of an inclusive\, supportive group of engineering instructors who do this in community? ETC is for sharing teaching experiences\, classroom ideas\, research on learning\, and methods that support instructors and students. All are welcome\, and lunch is provided. Please reach out to Jenny Quynn with questions.
+URL:https://events.ucsc.edu/event/engineering-teaching-community-faculty/2025-11-12/
+LOCATION:Jack Baskin Engineering\, Baskin Engineering 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Meetings & Conferences,Training
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/b19cd317e2122064e85e5d3d896b4e3426736249.jpg
+GEO:37.000369;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Jack Baskin Engineering Baskin Engineering 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Baskin Engineering 1156 High Street:geo:-122.0632371,37.000369
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T120000
+DTEND;TZID=America/Los_Angeles:20251112T130000
+DTSTAMP:20251112T112705
+CREATED:20251003T195534Z
+LAST-MODIFIED:20251023T172339Z
+UID:10003170-1762948800-1762952400@events.ucsc.edu
+SUMMARY:Work for California - Your State Career
+DESCRIPTION:The Work for California — Your State Career presentation will give you an opportunity to learn about the benefits of California state service\, the range of career opportunities with the State of California\, and the process for searching and applying for state jobs. We will provide resources and be here to answer your questions. Join this session to learn why you should work for California’s largest employer and make an impact. The session will be led by Anthony Bonilla\, a Recruitment Analyst from the CA State Parks. \n  \nHosted by UC Alumni Career Network\, and open to UC alumni at all career stages.
+URL:https://events.ucsc.edu/event/work-for-california-your-state-career/
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/State-Career-Square.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T120000
+DTEND;TZID=America/Los_Angeles:20251112T130000
+DTSTAMP:20251112T112705
+CREATED:20251105T185931Z
+LAST-MODIFIED:20251105T185931Z
+UID:10005097-1762948800-1762952400@events.ucsc.edu
+SUMMARY:Neolithic by Sea: the social ecology of the spread of farming in the Adriatic - a view from Dalmatia
+DESCRIPTION:Prof. Sarah B. McClure (UC Santa Barbara) will present Neolithic by Sea: the social ecology of the spread of farming in the Adriatic – a view from Dalmatia at the Archaeology and Biological Anthropology (Arch/BioAnth) Lunch Talk on Wednesday\, November 12th at noon in 261\, Social Sciences 1. \nPresentation Abstract: The last 20 years of research have provided new insights on Mesolithic foragers and early Neolithic farmers in the Adriatic. Excavations\, material analyses\, and the application of new methodologies have characterized a diversity of late Mesolithic and early Neolithic lifeways and the role of trans-Adriatic interactions for the spread of farming. Discoveries of underwater sites have also highlighted some of the taphonomic challenges for Mesolithic and Neolithic sites presented by post-glacial environmental change. This presentation highlights our current understanding of the Mesolithic to Neolithic transition in the Adriatic and the roles played by foraging populations\, social interactions\, and environment for the spread of farming beginning 8\,000 years ago. Our research on the Dalmatian coast of Croatia seeks to characterize Neolithic farming societies and ultimately explore the processes underlying the eventual dominance of domestic plant and animal-based subsistence in the region. \nAbout the Presenter: Sarah B. McClure is a Professor of Anthropology\, Director of the Mediterranean Prehistory and Paleoecology Laboratory\, and Associate Dean in the Division of Undergraduate Education at UC Santa Barbara. She is also a National Geographic Explorer and Public Voices Fellow of the OpEd Project and UCSB.
+URL:https://events.ucsc.edu/event/neolithic-by-sea-the-social-ecology-of-the-spread-of-farming-in-the-adriatic-a-view-from-dalmatia/
+LOCATION:Social Sciences 1\, Social Sciences 1\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/11/sheepgoatsostravica.jpg
+GEO:37.0023717;-122.0580874
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Social Sciences 1 Social Sciences 1 Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Social Sciences 1:geo:-122.0580874,37.0023717
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T120000
+DTEND;TZID=America/Los_Angeles:20251112T170000
+DTSTAMP:20251112T112705
+CREATED:20251003T174320Z
+LAST-MODIFIED:20251003T192055Z
+UID:10000753-1762948800-1762966800@events.ucsc.edu
+SUMMARY:Road Trip! Light in the American West\, from Baja to the Yukon
+DESCRIPTION:The photographs in this exhibition\, made between 2004 and 2025\, span across the American West from the Baja California Peninsula in Mexico to The Yukon territory in Canada. Paul Schoellhamer’s (Cowell ‘69) color photographs invite us to travel with him and reflect on our relationship to land\, the light that shapes it\, and the freedom – contested but essential – to move across it. \nThe exhibition draws on voices across time and perspective that frame the American landscape as more than a stage for beauty and awe. For Chief Satanta of the Kiowa Nation\, to roam the land freely was life itself. For N. Scott Momaday\, land must be “believed to be seen.” For Eliot Porter\, light and reflection imparted magic to Glen Canyon’s waters. For Wallace Stegner\, saving natural places meant saving fragments of our collective sanity. For Brook M. Thompson\, the Klamath River is recognized with personhood. Alongside these perspectives\, Paul’s images press us to see public land not as scenery to extract or aestheticize\, but as sustenance and history. Land is alive and contested. To see closely is not to linger on a romanticized vision of the American landscape\, but to reckon with responsibility: how we safeguard access\, how we imagine “wildness\,” and how we hold space for futures beyond our own. For Paul\, this exhibition is a call for students to encounter land and light firsthand and let those encounters be their teachers. \nOpening Reception\nOctober 4\, 2025\n1-4pm \n—– \nJoin us every Friday for Art Fridays.\nNo experience necessary. Supplies and snacks provided. \n\nSep 26 Snail Mail/Postcards\nOct 3 Souvenir Keychains\nOct 10 Stamp Magnets\nOct 17 Cyanotype Totebags/Pouches/Pencil cases\nOct 24 Candy Around The World Linocuts\nOct 31 Abstract Felt Collages\nNov 7 Phone Photos/Buttons\nNov 14 Travel Related Patches With Upcycled Materials\nNov 21 Thanksgiving Break! No Art Friday\nNov 28 Unexpected Landscape Surrealist Collage\n\nPlease note that the date and the project is subject to change.
+URL:https://events.ucsc.edu/event/road-trip-light-in-the-american-west-from-baja-to-the-yukon/2025-11-12/
+LOCATION:Eloise Pickard Smith Gallery\, 11 Cowell Service Rd\, Santa Cruz\, CA\, 95064
+CATEGORIES:Exhibits
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/IMG_4150sm.png
+GEO:36.996399;-122.0527221
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Eloise Pickard Smith Gallery 11 Cowell Service Rd Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=11 Cowell Service Rd:geo:-122.0527221,36.996399
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T121500
+DTEND;TZID=America/Los_Angeles:20251112T131500
+DTSTAMP:20251112T112705
+CREATED:20251104T214537Z
+LAST-MODIFIED:20251104T214537Z
+UID:10005094-1762949700-1762953300@events.ucsc.edu
+SUMMARY:Words That Impress: Creating a Great Résumé & Cover Letter
+DESCRIPTION:Crafting a fantastic Resume and Cover Letter are the key to getting an interview and landing a job!  Join us for this informative workshop that will cover best practices for resume and cover letter development.  You’ll gain understanding about the perfect format\, navigating AI filters\, and how to write captivating resume bullet points and engaging cover letter paragraphs.  The presentation will be 30 minutes\, followed by 30 minutes of optional worktime here in our office with coaches to give you brief input. \nWe will provide captions for the presentation. If you have disability-related needs\, please contact the Career Success office at csuccess@ucsc.edu or (831) 459-4420 as soon as possible. \nYOU BELONG HERE\nPrograms and services are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. To learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.
+URL:https://events.ucsc.edu/event/words-that-impress-creating-a-great-resume-cover-letter/
+LOCATION:Career Success Student Lounge (125 Hahn)\, 1156 High Street\, Santa Cruz\, CA\, 95064\, United States
+CATEGORIES:Workshop
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/Career-Success-Banner-with-Photos.png
+GEO:36.9834948;-122.0564004
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Career Success Student Lounge (125 Hahn) 1156 High Street Santa Cruz CA 95064 United States;X-APPLE-RADIUS=500;X-TITLE=1156 High Street:geo:-122.0564004,36.9834948
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T150000
+DTEND;TZID=America/Los_Angeles:20251112T163000
+DTSTAMP:20251112T112705
+CREATED:20251016T200620Z
+LAST-MODIFIED:20251107T203638Z
+UID:10005001-1762959600-1762965000@events.ucsc.edu
+SUMMARY:Visiting Theater Artists 2-Day Residency with Torange Yeghiazarian and Evren Odcikin from MENA
+DESCRIPTION:Visiting theater artists from MENA Theater Makers Alliance—Torange Yeghiazarian and Evren Odcikin—and the Department of Performance\, Play & Design’s IRIS LAB invite attendees to participate in the 2-day residency\, including a conversation with the artists and a workshop. MENA’s mission is to amplify the voices of Middle Eastern and North African theater makers and expand how stories from and about these communities are told on U.S. stages. \nWed. Nov. 12\, 3:00 p.m.–4:30 p.m.\nDARC 108 (Digital Arts Research Center at UC Santa Cruz)\n“MENA Theater Makers Modeling Possibility and Resistance”\n– An Intergenerational conversation with Playwright\, Director\, Arts Leader Torange Yeghiazarian and Director\, Playwright\, and Arts Leader Evren Odcikin\n– Moderated by Lisa Marie Rollins\, Assistant Professor of Playwriting & Black Drama\, Department of Performance Play and Design and Artistic Director of The Iris Lab\n– This event will be live streamed for those who would prefer to attend online. \nThur. Nov 13\,  1:30–3:30 p.m.\nDARC 108 (Digital Arts Research Center at UC Santa Cruz)\n“Master Class: Theatrical Play\, Staging Language and Poetry Creative workshop”\n– for theater makers and interdisciplinary performance researchers with Torange Yeghiazarian and Evren Odcikin . \nADMISSION\n– FREE and open to the public\n– Donations to the IRIS LAB are welcomed and appreciated\n– Registration required (link to be announced) \nPARKING\n– Parking by permit or ParkMobile\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/torange-yeghiazarian-and-evren-odcikin-visiting-artist-residency/2025-11-12/
+LOCATION:Digital Arts Research Center\, 407 McHenry Rd\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/PPD-artists-in-residency-e1761588571865.png
+GEO:36.9939758;-122.0603902
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Digital Arts Research Center 407 McHenry Rd Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=407 McHenry Rd:geo:-122.0603902,36.9939758
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T160000
+DTEND;TZID=America/Los_Angeles:20251112T173000
+DTSTAMP:20251112T112705
+CREATED:20250913T070000Z
+LAST-MODIFIED:20251004T015128Z
+UID:10000166-1762963200-1762968600@events.ucsc.edu
+SUMMARY:Book Talk with Winnie Wong—VMCC Series
+DESCRIPTION:In this public talk\, Winnie Wong presents and discusses her most recent book\, The Many Names of Anonymity: Portraitists of the Canton Trade. She explores two countervailing urgencies in contemporary cultural politics: the drive to recognize all individuals as artists so that they may be granted the rights and privileges of authorship; and\, at the same time\, the inadequacy of the modern figure of “the artist” to contain the ingenuity\, imagination\, and originality of anonymous workers. It does so by focusing on a long marginalized but ubiquitous genre of painting: portraits produced by Chinese artisans in the port of Guangzhou for European merchants at the height of the Qing dynasty. In this relationship\, makers are anonymized\, while merchants’ lives are preserved in vivid detail\, but portraiture occasions the empirical scene of their encounter. This book charts a framework for understanding visual production and trade across overlapping imperial spaces\, and demonstrates how contemporary art historical inquiry can yet decouple authorial names from authorial works\, a step necessary to looking anew at anonymity\, multiplicity\, and the ingenuity of nameless artisans. \nWinnie Wong is a professor of rhetoric at the University of California\, Berkeley. She is an art historian with a special interest in fakes\, forgeries and counterfeits. \nThis event is presented as part of the Visual & Media Cultures Colloquium (VMCC) series.\n—\nADMISSION\n– Open seating/admission (no ticket or registration required)\n– FREE and open to the public.\n– Located at Porter College D245\n—\nFULL SCHEDULE OF EVENTS\n– Wed.\, Nov 12: Book Talk with Winnie Wong\n– Additional dates to be announced\n—\nPARKING\n– Lot 124 & 125 are the closest parking lots to the event\n– Parking by permit or ParkMobile\n– TAPS provides additional parking information\n—\nABOUT THE SERIES\nThis event is presented as part of the Visual & Media Cultures Colloquium (VMCC)\, an annual lecture series that brings cutting-edge scholars to speak on a broad range of subjects related to visual and media culture. The series is co-sponsored with the graduate programs in the History of Art & Visual Culture (HAVC) and the Film & Digital Media departments. Each year\, the students and a faculty coordinator are responsible for selecting\, inviting and hosting speakers from a list of suggested names submitted by their peers and HAVC faculty. Together they share the unique challenge and opportunity of creating a program that brings to campus an array of cutting-edge scholars to speak on a broad spectrum of subjects.\n—\nImage Credit: Peabody Essex Museum\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/vmcc-winnie-wong/
+LOCATION:Porter College\, D-Building\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/337b884f972e3527e9c86e5e29c226701c418fa7.jpg
+GEO:36.9923139;-122.0581762
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Porter College D-Building Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=D-Building:geo:-122.0581762,36.9923139
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251112T160000
+DTEND;TZID=America/Los_Angeles:20251112T180000
+DTSTAMP:20251112T112705
+CREATED:20251107T174906Z
+LAST-MODIFIED:20251107T174906Z
+UID:10005114-1762963200-1762970400@events.ucsc.edu
+SUMMARY:Women In Academia
+DESCRIPTION:Join the UCSC Women’s Center for Women in Academia featuring Dr. Cindy Wong (Global & Community Health\, Merrill College). This event highlights Dr. Wong’s journey as a woman of color into academia\, her path to becoming a lecturer\, and her ongoing research in planetary health\, sustainability\, and community-based public health. Through her story\, students will gain insight into nontraditional academic pathways and the impact of women scholars shaping inclusive and applied research. \nRSVP By: November 10th \nPlease email: srostami@ucsc.edu for accommodations and questions.
+URL:https://events.ucsc.edu/event/women-in-academia/
+LOCATION:Rachel Carson College Red Room
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/Women-in-academia-Cindy-Wong-invitation.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T100000
+DTEND;TZID=America/Los_Angeles:20251113T120000
+DTSTAMP:20251112T112705
+CREATED:20251110T222658Z
+LAST-MODIFIED:20251110T222748Z
+UID:10005131-1763028000-1763035200@events.ucsc.edu
+SUMMARY:Petety\, A. (CSE) -  New Algorithmic Methods for Uncertain Inputs
+DESCRIPTION:This dissertation focuses on designing and proving performance guarantees on algorithms when there is uncertainty in the input. The uncertainty could be from the user being unsure or future inputs that have not arrived yet. We look at different methods in which algorithms can be designed to be competitive against the optimal. One of the assumptions that helps in this is to assume that the input arrival order is completely random. We study the online load/graph balancing problem when the input arrival order is uniformly random. We show lower bounds for the greedy algorithm and the general case. In the next part\, we study the online scheduling problem under the assumption that the online algorithm has an additional ϵ speed compared to the machines in offline optimal. We show a meta algorithm generalizing Shortest Remaining Processing Time that gives a scalable algorithm for minimizing total weighted flow time. We show that it achieves scalability for minimizing total weighted flow time when the residual optimum exhibits supermodularity. In the final part we look at the online caching problem when the algorithm has access to ML-augmented predictions. We propose an algorithm that achieves a O(logb k) competitive ratio even when using just b predictions per cache miss. We also prove its robustness and consistency. \nEvent Host: Aditya Petety\, Ph.D. Student\, Computer Science and Engineering \nAdvisor: Sungjin Im \n 
+URL:https://events.ucsc.edu/event/petety-a-cse-new-algorithmic-methods-for-uncertain-inputs/
+LOCATION:E2-399
+CATEGORIES:Ph.D. Presentations
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/option-3.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T120000
+DTEND;TZID=America/Los_Angeles:20251113T131500
+DTSTAMP:20251112T112705
+CREATED:20251003T195528Z
+LAST-MODIFIED:20251009T002523Z
+UID:10003152-1763035200-1763039700@events.ucsc.edu
+SUMMARY:Haunting Interruptions: Race\, Infrastructural Violence\, and Spatial Memory in Ferguson\, Missouri
+DESCRIPTION:On Thursday\, November 13th from 12:00-1:15pm\, join the Sociology Department together with the Center for Critical Urban & Environmental Studies (CUES)\, The Black Geographies Lab\, Critical Race and Ethnic Studies\, and History in the Rachel Carson College Red Room\, to welcome speaker Rashad Timmons (UC PPFP) for a discussion on Race\, Infrastructural Violence\, and Spatial Memory in Ferguson\, Missouri moderated by Camilla Hawthorne (UC Santa Cruz). \nThis presentation engages the racial politics of infrastructural violence and spatial memory in Ferguson\, Missouri—the historically-white suburb of St. Louis and site of the tragic police killing of Black\, 18-year-old Michael Brown\, Jr. in August 2014. It critically examines the use of blockades\, space-based protests\, and other forms of infrastructural disruption by Black subjects in Ferguson before and after Michael Brown Jr.’s execution\, paying specific attention to the mnemonic work these practices perform. It argues that Black subjects in Ferguson deploy these tactics of spatial intervention not only to claim space in Ferguson’s suburban landscape but to haunt its collective memory. These disruptive practices—what I call “haunting interruptions”—disturb or interfere with the normative function of infrastructures such as roads and highways to reveal\, indict\, and account for the historical racist logics underlying (sub)urban life. The presentation grounds haunting interruptions in an examination of historical and contemporary protests in the notorious apartment complex where Michael Brown Jr. perished and finds that Black subjects use protest and blockage as spatial tactics not simply to force state\, institutional\, or corporate entities to act but to surface the memory of persistent racial suffering that exceeds reparation and is acutely sedimented in the suburban geography. \nRashad Arman Timmons (he/him) is a community builder\, musician\, writer\, scholar\, and educator from Detroit\, Michigan\, the ancestral and present homelands of the Anishinaabeg. The proud son of factory workers\, he teaches and writes broadly about race\, urban infrastructure\, mobility\, and power in the midwestern United States\, es Black people’s longstanding use of the built environment to imagine a freer and more just world. Rashad earned his Ph.D. in African American and African Diaspora Studies from the University of California\, Berkeley\, where he researched the violent and racist history of infrastructural development (e.g.\, railways\, roads\, telecommunications) and policing in Ferguson\, Missouri. Rashad is currently a University of California President’s Postdoctoral Fellow in Black Studies at UC Santa Barbara\, where he is writing a book about the plunder and persistence of Black geographies in Ferguson. \nAlongside his scholarly work\, Rashad serves and organizes with the Michael Brown Sr. Chosen for Change Organization to uplift the life and legacy of Michael “Mike Mike” Brown Jr. In this role\, Rashad leads public history and community engagement projects dedicated to uncovering and preserving Black history in Ferguson and St. Louis. He also writes grants to support the Brown family’s healing and racial justice efforts throughout the St.  Louis metropolitan area. As lead grant writer\, Rashad has secured more than a half a million dollars of direct funding to the family’s non-profit organization. \nRashad currently lives in Oakland\, California—the unceded lands of the Lisjan Ohlone—where he delivers political education to Bay Area youth and supports organizations working to end police terrorism in the U.S. and abroad. \nThis event is co-sponsored by the Center for Critical Urban & Environmental Studies (CUES) together with The Black Geographies Lab\, the Sociology Department\, Critical Race and Ethic Studies\, and History.
+URL:https://events.ucsc.edu/event/haunting-interruptions-race-infrastructural-violence-and-spatial-memory-in-ferguson-missouri/
+LOCATION:Rachel Carson College\, 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+GEO:36.9834948;-122.0564004
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Rachel Carson College 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=1156 High Street:geo:-122.0564004,36.9834948
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T123000
+DTEND;TZID=America/Los_Angeles:20251113T133000
+DTSTAMP:20251112T112705
+CREATED:20250918T070000Z
+LAST-MODIFIED:20251110T172444Z
+UID:10000196-1763037000-1763040600@events.ucsc.edu
+SUMMARY:Campus to Career: Job Talk with Kim Angulo\, Assistant Public Defender
+DESCRIPTION:Interested in an impact-driven career in law\, public policy\, or politics? Come hear from UCSC Humanities alum Kim Angulo\, an Assistant Public Defender with experience in both law and public policy work. You’ll gain insights into how to enter these fields\, considerations for knowing whether they’re a good fit for you\, and ideas for how to put your humanistic training to work for public service. \nThis is a hybrid event and will be hosted both in-person in Humanities 1\, Room 210 and on Zoom. All attendees will enter a raffle for a Humanities tumbler\, and pizza will be provided for those joining in person! \nRegister on Handshake here \nLearn more about Kim: \nKim Angulo (she/her) graduated from UCSC in 2013 with her BA in Feminist Studies. She worked in the California State Capitol on public policy and politics for three years\, focusing on courts\, criminal justice\, and human services. Kim attended UC Davis Law School from 2016 to 2019\, gaining experience in Public Defense\, Workers’ Rights\, and Civil Rights. Kim has been an Assistant Public Defender representing people who cannot afford to hire an attorney for six years. She has represented hundreds of clients facing criminal charges and conducted misdemeanor and felony jury trials. She currently works in Mental Health Diversion.
+URL:https://events.ucsc.edu/event/campus-to-career-job-talk-with-kim-angulo-assistant-public-defender/
+LOCATION:Humanities 1 Building\, 420 Hagar Drive\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/66ea2e19cac82de185fe872f9836fa0686fa9497.jpg
+GEO:36.9979834;-122.0555164
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Humanities 1 Building 420 Hagar Drive Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=420 Hagar Drive:geo:-122.0555164,36.9979834
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T134000
+DTEND;TZID=America/Los_Angeles:20251113T150000
+DTSTAMP:20251112T112705
+CREATED:20251105T211520Z
+LAST-MODIFIED:20251105T212136Z
+UID:10005100-1763041200-1763046000@events.ucsc.edu
+SUMMARY:Applied Microeconomics and Trade Seminar Series presents: Giovanni Peri
+DESCRIPTION:Applied Microeconomics and Trade Seminar\nDate: Thursday\, November 13\, 2025\nTime: 1:40-3:00 p.m.\nLocation: E2-499\n\n \n\nSpeaker: Giovanni Peri\nTitle: C. Bryan Cameron Distinguished Professor in International Economics \nAffiliation: UC Davis\nHost: Gueyon Kim\n \nSeminar title: How the1942 Japanese Exclusion Impacted U.S. Agriculture\n \nABSTRACT:  In the early 1940s\, Japanese American farmers and farm workers represented an important part of agriculture-specific human capital in the United States. In 1942 all those living in the “exclusion zone” along the WestCoastwereforcefully relocated to internment camps and most of them never returned to farming. Using county-level panel data from historical agricultural censuses and a triple-difference (DDD) estimation approach we find that\, by 1960\, counties in the exclusion zone experienced 12% lower cumulative growth in farm value for each percentage point loss of their 1940 share of Japanese farm workers\, relative to counties outside the exclusion zone. Farm revenues\, farm productivity\, adoption of high-value crops\, mechanization\, and farm wages were also correspondingly lower. Taken together\, these findings are consistent with Japanese farmers representing hard-to-replace human capital\, rather than replaceable labor\, in US agriculture.
+URL:https://events.ucsc.edu/event/applied-microeconomics-and-trade-seminar-series-presents-giovanni-peri/
+LOCATION:Engineering 2\, Engineering 2 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Seminars
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/11/PeriGiovanni-1.jpg
+GEO:37.0009723;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Engineering 2 Engineering 2 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Engineering 2 1156 High Street:geo:-122.0632371,37.0009723
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T140000
+DTEND;TZID=America/Los_Angeles:20251113T150000
+DTSTAMP:20251112T112705
+CREATED:20251009T215018Z
+LAST-MODIFIED:20251009T215307Z
+UID:10004471-1763042400-1763046000@events.ucsc.edu
+SUMMARY:Successful Slug Workshop:  Reading & Notetaking Strategies (on Zoom!)
+DESCRIPTION:Reading & Notetaking Strategies\nThursday\, November 13\, 2:05 p.m.– 2:50 p.m.\nLocation: Zoom \nLearn reading and note-taking methods and why they work to help you learn. \nSuccessful Slug Workshop Series\nJoin Learning Support Services (LSS) for Successful Slug Workshops on Mondays at 11:40 a.m. and Wednesdays at 2:05 p.m. \nThese 45-minute workshops are open to all UCSC students and offer tools and strategies to support your academic success. Each session highlights best practices for effective\, long-lasting learning and is led by LSS professional staff. \nTo get first priority\, sign up on TutorHub or simply drop in. You can also sign up on TutorHub to receive email reminders. \nLearn more and sign up: learningsupport.ucsc.edu/programs/workshops/ \n  \nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.
+URL:https://events.ucsc.edu/event/successful-slug-workshop-reading-notetaking-strategies-on-zoom/
+CATEGORIES:Workshop
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/Fall-SSW.png
+LOCATION:
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T163000
+DTEND;TZID=America/Los_Angeles:20251113T190000
+DTSTAMP:20251112T112705
+CREATED:20251017T180809Z
+LAST-MODIFIED:20251017T180809Z
+UID:10004908-1763051400-1763060400@events.ucsc.edu
+SUMMARY:Leveraging UC Resources To Launch Your Biotech Company
+DESCRIPTION:Are you a UCSC faculty member\, postdoc\, or graduate student with an entrepreneurial mindset? \nJoin us for an insightful panel discussion on how to turn your biotech research into a successful startup. Learn how to tap into the University of California’s robust innovation ecosystem—from research commercialization and funding opportunities to mentorship and startup incubation. \nHear firsthand from UC-affiliated founders\, investors\, and innovation experts who have successfully navigated the path from lab discovery to market launch. Stay afterward for a networking reception to connect with peers\, panelists\, and campus innovation partners. \nOpen to: UCSC faculty\, postdocs\, and graduate studentsLight refreshments provided. \nRegistration requested: https://luma.com/2gmhjlbo
+URL:https://events.ucsc.edu/event/uc-resources-to-launch-your-biotech-company/
+LOCATION:Hay Barn\, 94 Ranch View Road\, Santa Cruz\, CA\, 95064\, United States
+CATEGORIES:Meetings & Conferences
+ATTACH;FMTTYPE=image/avif:https://events.ucsc.edu/wp-content/uploads/2025/10/62ed8ba9-33b9-404a-9a18-593d49553502.avif
+GEO:36.9817736;-122.0569624
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Hay Barn 94 Ranch View Road Santa Cruz CA 95064 United States;X-APPLE-RADIUS=500;X-TITLE=94 Ranch View Road:geo:-122.0569624,36.9817736
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T170000
+DTEND;TZID=America/Los_Angeles:20251113T190000
+DTSTAMP:20251112T112705
+CREATED:20251103T191553Z
+LAST-MODIFIED:20251103T192254Z
+UID:10005022-1763053200-1763060400@events.ucsc.edu
+SUMMARY:College Night: Cozy Cabin with KC
+DESCRIPTION:Kresge College\, in collaboration with UCSC Dining\, present Cozy Cabin with KC. Join us Thursday\, November 13\, from 5–7 p.m. at the Porter/Kresge Dining Hall for a night of activities\, fun\, community\, and a special themed menu. Standard dining hall entry pricing applies\, and all students\, faculty\, and staff are invited. \nPlease note: The dining hall will be closed from 2–5 p.m. for event preparation. \nLearn more about College Nights at dining.ucsc.edu/events. \n__________________________________________________________________________________________________ \nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.How to Use the Statement Across Communication Channels
+URL:https://events.ucsc.edu/event/college-night-cozy-cabin-with-kc/
+LOCATION:Porter/Kresge Dining Hall\, 411 Porter-Kresge Rd\, Santa Cruz\, CA\, 95064
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/College-Nights-6-Events-Calendar.png
+GEO:36.9942863;-122.0658527
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Porter/Kresge Dining Hall 411 Porter-Kresge Rd Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=411 Porter-Kresge Rd:geo:-122.0658527,36.9942863
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251113T173000
+DTEND;TZID=America/Los_Angeles:20251113T190000
+DTSTAMP:20251112T112705
+CREATED:20251009T190544Z
+LAST-MODIFIED:20251106T234323Z
+UID:10004405-1763055000-1763060400@events.ucsc.edu
+SUMMARY:Slugs at Sundown -- Humanity at the Helm: Thriving in an AI-Driven World
+DESCRIPTION:Artificial intelligence is transforming the way we work\, live\, and connect — but it doesn’t define the future. What matters most are the skills and strengths that only humans bring: creativity\, empathy\, adaptability\, and big-picture thinking. Join fellow UC Santa Cruz alumni for an evening of conversation and connection as we explore how to stay relevant\, resilient\, and future-ready in an AI-driven world. \n 
+URL:https://events.ucsc.edu/event/slugs-at-sundown-humanity-at-the-helm-thriving-in-an-ai-driven-world/
+LOCATION:Silicon Valley Campus\, 3175 Bowers Avenue\, Santa Clara\, CA\, 95054\, United States
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Slugs-at-Sundown.jpg
+GEO:37.3796975;-121.9765484
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Silicon Valley Campus 3175 Bowers Avenue Santa Clara CA 95054 United States;X-APPLE-RADIUS=500;X-TITLE=3175 Bowers Avenue:geo:-121.9765484,37.3796975
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T120000
+DTEND;TZID=America/Los_Angeles:20251114T130000
+DTSTAMP:20251112T112705
+CREATED:20251106T233219Z
+LAST-MODIFIED:20251106T233219Z
+UID:10005107-1763121600-1763125200@events.ucsc.edu
+SUMMARY:Info Session: UCEAP Summer at University College London
+DESCRIPTION:Thinking about studying abroad this summer? \nDiscover what it’s like to spend your summer at University College London (UCL)—one of the world’s leading universities\, located in the heart of London. \nJoin us for a special info session on the UCEAP Summer at University College London program! Hear from Charlotte Murphy\, Senior Student Recruitment and Partnerships Officer at UCL. \nFriday\, November 14 \n12:00 – 1:00 PM \nClassroom Unit Building\, 101 (Global Engagement Conference Room) \nSign Up to Attend \nWhy attend? \n\nGet the inside scoop from a UCL Summer School representative\nLearn about the different course options\nFind out how to apply and make it happen\nConnect with Global Learning advisors and start planning your summer abroad\n\nWhether you’re just curious or ready to go\, this is your chance to get inspired and take the next step toward studying abroad at University College London! \nQuestions? Contact us at globallearning@ucsc.edu.
+URL:https://events.ucsc.edu/event/info-session-uceap-summer-at-university-college-london/
+CATEGORIES:Meetings & Conferences
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/background_photo.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T144500
+DTEND;TZID=America/Los_Angeles:20251114T144500
+DTSTAMP:20251112T112705
+CREATED:20251003T195530Z
+LAST-MODIFIED:20251003T195530Z
+UID:10003158-1763131500-1763131500@events.ucsc.edu
+SUMMARY:BIPOC Outdoors: Arboretum Tour
+DESCRIPTION:The People of Color Sustainability Collective presents: BIPOC Outdoor series\, Arboretum Tour. This event will take place on November 14th\, 2025 from 2:45pm-4:45pm at the UCSC Arboretum. Students will get an opportunity to learn about the space and build relationships with land and one another. PoCSC’s mission for BIPOC Outdoors is to hold educational\, inviting\, and reflective activities in the outdoors in order to build community\, facilitate cultural exchange\, and encourage a sense of belonging and care for nature.
+URL:https://events.ucsc.edu/event/bipoc-outdoors-arboretum-tour/
+LOCATION:Arboretum\, 122 Arboretum Road\, Santa Cruz\, CA\, 95064
+GEO:36.9838652;-122.0609079
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Arboretum 122 Arboretum Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=122 Arboretum Road:geo:-122.0609079,36.9838652
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T170000
+DTEND;TZID=America/Los_Angeles:20251114T190000
+DTSTAMP:20251112T112705
+CREATED:20250908T070000Z
+LAST-MODIFIED:20251107T204129Z
+UID:10000151-1763139600-1763146800@events.ucsc.edu
+SUMMARY:Korean Experimental Music Festival—Featuring the National Gugak Center and Del Sol Quartet
+DESCRIPTION:The National Gugak Center—Korea’s foremost institution for traditional music—joins forces with the Bay Area’s acclaimed Del Sol String Quartet to offer California audiences a rare and resonant experience. The festival blends traditional Korean musical practices\, Western classical instrumentation\, and cutting edge music technology in the world premiere of a over 20 newly commissioned works by faculty and graduate student composers from UC Santa Cruz\, UC Berkeley\, and Stanford University. \nTwo concerts on Fri.\, Nov. 14 feature a first-of-its-kind ensemble pairing two gayageums—Korea’s zither-like string instrument—with a Western string quartet. In two additional performances on Sat.\, Nov. 15\, traditional Korean wind instruments—the piri\, saenghwang\, and daegeum—are transformed through real-time computer sound processing into a striking electroacoustic experience. \nThe festival culminates a two-year collaboration among the National Gugak Center\, the UC Santa Cruz Music Department\, UC Berkeley’s Center for New Music and Audio Technologies (CNMAT)\, and Stanford’s Department of Music and Center for Computer Research in Music and Acoustics (CCRMA). We hope you enjoy these concerts of new works shaped by deep intercultural dialogue and inspired by the enduring legacy of traditional Korean music. \n—\nADMISSION\n– Open admission/first-come\, first-served seating (no ticket required)\n– Free and open to the public\n– Doors are scheduled to open 30 minutes prior to event start time\n—\nFULL SCHEDULE OF EVENTS \nKorean Experimental Music Festival includes two-days of events at UC Santa Cruz\, each with two back-to-back concerts\, including: \nKEMF: Traditional Korean Gayageum with String Quartet Part I\nFri. Nov. 14\, 5:00 p.m.\, UCSC Music Center Recital Hall \nNew works for Korean gayageums—traditional zither-like stringed instruments—and Western string quartet\, by Maisha Lani\, Ben Dorfan\, Michael J. Fleming\, Nina Barzegar\, Siamak Barghi\, Chris Everingham\, and Jinwei Sun. Featuring musicians from the National Gugak Center in Seoul\, and San Francisco’s Del Sol Quartet.\n— \nKEMF: Traditional Korean Gayageum with String Quartet Part II\nFri. Nov. 14\, 8:00 p.m.\, UCSC Music Center Recital Hall \nNew works for gayageums—traditional zither-like stringed instruments—and Western string quartet\, by UC Santa Cruz Professor Ben Leeds Carson\, and by UC Berkeley faculty Cindy Cox\, Edmund Campion\, and Jean Ahn. Featuring musicians from the National Gugak Center in Seoul\, and San Francisco’s Del Sol Quartet.\n— \nKEMF: Korean Winds and Electronics Part I\nSat. Nov. 15\, 5:00 p.m.\, UCSC Music Center Recital Hall \nMusic for traditional Korean wind Instruments\, including piri (a traditional Korean double-reed instrument similar to a shawm or oboe)\, saenghwang (a traditional Korean free-reed mouth organ\, like a large\, complex harmonica)\, and daegeum (a large\, traditional transverse bamboo flute)—all of which are combined with experimental electronics. New works by UC Santa Cruz Professor Emeritus David Evan Jones\, and by composers Michael J. Fleming\, Mat Muntz\, and Dion Nataraja. Featuring musicians from the National Gugak Center in Seoul.\n— \nKEMF: Korean Winds and Electronics Part II\nSat. Nov. 15\, 8:00 p.m.\, UCSC Music Center Recital Hall \nMusic for traditional Korean wind Instruments\, including piri (a traditional Korean double-reed instrument similar to a shawm or oboe)\, saenghwang (a traditional Korean free-reed mouth organ\, like a large\, complex harmonica)\, and daegeum (a large\, traditional transverse bamboo flute)—all of which are combined with experimental electronics. New works by UC Santa Cruz Professors Matt Schumaker and David Evan Jones; UC Berkeley Professors Ken Ueno and Edmund Campion; and Stanford Professor Jarosław Kapuściński. Featuring musicians from the National Gugak Center in Seoul.\n— \nAdditional events at Stanford and at UC Berkeley Nov. 7–12 \n—\nVISITOR PARKING AT UCSC\n– Parking by permit\, ParkMobile\, or $5 cash/credit via the on-site parking attendant\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nABOUT THE FESTIVAL \nThe festival is the culmination of a two-year collaboration between the National Gugak Center\, the UC Santa Cruz Music Department\, UC Berkeley’s Center for New Music and Audio Technologies (CNMAT) and the Department of Music at UC Berkeley\, and Stanford’s Center for Computer Research in Music and Acoustics (CCRMA). \nThe Korean Experimental Music Festival is supported by: The National Gugak Center; the UC Santa Cruz Music Department; The Hellman Fellows Program; The Arts Research Institute\, UC Santa Cruz; Porter College\, UC Santa Cruz; the Center for New Music and Audio Technologies\, UC Berkeley; the UC Berkeley Music Department; CCRMA at Stanford University\, and others. \nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/kemf-2025/2025-11-14/1/
+LOCATION:Music Center Recital Hall\, 400 McHenry Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/442911c348c6e0d101741f0bef1a84211dbdb2bb.jpg
+GEO:36.9924036;-122.0619475
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Music Center Recital Hall 400 McHenry Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=400 McHenry Road:geo:-122.0619475,36.9924036
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T180000
+DTEND;TZID=America/Los_Angeles:20251114T200000
+DTSTAMP:20251112T112705
+CREATED:20251016T181012Z
+LAST-MODIFIED:20251016T182438Z
+UID:10004888-1763143200-1763150400@events.ucsc.edu
+SUMMARY:Welcome to the City: San Diego
+DESCRIPTION:Join us for Welcome to the City in Santa Diego\, hosted in partnership with the Jacob and Cushman San Diego Food Bank. The project will be held Friday\, November 14 from 6 p.m. – 8 p.m. at the Food Bank (9850 Distribution Avenue\, San Diego\, CA 92121). Please register in advance to help us and our non-profit partner plan accordingly. \nProject Description: \nVolunteers primarily work at the Food Bank’s warehouse\, completing a variety of essential tasks\, most of which involve inspecting\, sorting\, and packing food for distribution. \nWelcome to the City is an annual series of regional events which help graduates connect with their local UCSC community. While the program is designed with recent grads in mind\, all are welcome to participate. \nPlease contact alumni@ucsc.edu with questions.
+URL:https://events.ucsc.edu/event/welcome-to-the-city-san-diego/
+LOCATION:Jacob and Cushman San Diego Food Bank\, 9850 Distribution Ave\, San Diego\, CA\, 92121\, United States
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Copy-of-WTTC-2025-email-banner-1005-x-634-px.jpg
+GEO:32.8870436;-117.1642499
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Jacob and Cushman San Diego Food Bank 9850 Distribution Ave San Diego CA 92121 United States;X-APPLE-RADIUS=500;X-TITLE=9850 Distribution Ave:geo:-117.1642499,32.8870436
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T193000
+DTEND;TZID=America/Los_Angeles:20251114T213000
+DTSTAMP:20251112T112705
+CREATED:20250905T070000Z
+LAST-MODIFIED:20251107T204338Z
+UID:10003968-1763148600-1763155800@events.ucsc.edu
+SUMMARY:The SpongeBob Musical
+DESCRIPTION:The SpongeBob Musical is a Broadway production based on the popular animated series\, SpongeBob SquarePants. It premiered in Chicago in 2016 and then debuted on Broadway in 2017\, receiving 12 Tony Award nominations. The musical tells the story of SpongeBob and his friends in Bikini Bottom as they face the potential destruction of their town by a volcano\, with songs written by David Bowie\, Cyndi Lauper\, The Flaming Lips\, and more. \nDirected by Rebecca Wear\, assistant professor\nMusical Direction by Luke Shepherd\, lecturer\nChoreography by Cid Pearlman\, lecturer \nRead more about this production on Lookout Santa Cruz. \n—\nAUDIENCE ADVISORIES\n– Ticket holders not seated at least 5 minutes before the advertised start time may forfeit their ticket/seat and no refund will be issued.\n—\nADMISSION\n– Free for UCSC undergrads (ticket required).\n– General admission “Pay What You Like” tickets $5–25\n– Tickets issued online through Eventbrite only.\n– Follow the Dept. of Performance\, Play & Design on Eventbrite for notifications and updates.\n– Doors are scheduled to open 30 minutes prior to event start time.\n—\nFULL SCHEDULE OF EVENTS\nThis is a two-week production with nine performances\, including :\nFri. Nov. 14: 7:30 p.m.\nSat. Nov. 15: 2:00 p.m. & 7:30 p.m.\nSun. Nov. 16: 2:00 p.m.\nThu. Nov. 20: 7:30 p.m.\nFri. Nov. 21: 7:30 p.m.\nSat. Nov. 22: 2:00 p.m. & 7:30 p.m.\nSun. Nov. 23: 2:00 p.m.\n—\nPARKING\n– Parking by permit\, ParkMobile\, or $5 cash/credit via the on-site parking attendant\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nDONATIONS welcome!\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/spongebob-musical/2025-11-14/
+LOCATION:Theater Arts Mainstage\, 411 Kerr Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/SPONGEBOB_poster-cropped-to-16-9-ratio-scaled-e1760116084380.jpg
+GEO:36.9947903;-122.0623717
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Theater Arts Mainstage 411 Kerr Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=411 Kerr Road:geo:-122.0623717,36.9947903
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251114T193000
+DTEND;TZID=America/Los_Angeles:20251114T213000
+DTSTAMP:20251112T112705
+CREATED:20250917T070000Z
+LAST-MODIFIED:20251107T204029Z
+UID:10004997-1763148600-1763155800@events.ucsc.edu
+SUMMARY:Barnstorm Presents—1972: The Future of Sex
+DESCRIPTION:It is 1972: an era of possibility and polyester and pubic hair. While Ziggy Stardust is on Top of the Pops\, Penny is writing an essay on Lady Chatterley’s Lover\, Christine is watching Deep Throat and Brian is confused. Devised by The Wardrobe Ensemble\, 1972: The Future of Sex incorporates the company’s trademark theatricality\, irreverent humour and ensemble ingenuity to tell the story of three couples having sex for the first time—and a country on the brink of a sexual awakening. Commissioned by Shoreditch Town Hall\, the play was first seen there in 2014\, before a UK tour in 2015\, including performances at Bristol Old Vic and the Edinburgh Festival Fringe. It was revived at the Bristol Old Vic in 2019.\n—\nADMISSION\n– General admission “Pay What You Like” options $5–20\n– Free for UCSC undergraduate students (ticket required).\n– Tickets issued through Eventbrite; Follow the Dept. of Performance\, Play & Design on Eventbrite for notifications and updates.\n– Doors are scheduled to open 30 minutes prior to event start time.\n– Ticket holders not seated at least 10 minutes before the advertised start time may forfeit their ticket/seat and no refund will be issued.\n– A limited number of tickets/seats may be available at the door\, even after online ticket sales end or reach full capacity.\n—\nFULL SCHEDULE OF EVENTS\nThis production runs for two weekends and includes six performances:\nFri. Nov. 14: 7:30 p.m.\nSat. Nov. 15: 7:30 p.m.\nSun. Nov. 16: 3:00 p.m.\nThu. Nov. 20: 7:30 p.m.\nFri. Nov. 21: 7:30 p.m.\nSat. Nov. 22: 7:30 p.m.\nSun. Nov. 23: 3:00 p.m.\n—\nPARKING\n– Parking by permit or ParkMobile.\n– Arts Lot #126 is the closest parking lot to the event.\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/barnstorm-presents-the-future-of-sex/2025-11-14/
+LOCATION:Theater Arts Center\, 453 Kerr Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/BarnstormSex-e1761587233841.jpeg
+GEO:36.9948296;-122.062378
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Theater Arts Center 453 Kerr Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=453 Kerr Road:geo:-122.062378,36.9948296
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251115T090000
+DTEND;TZID=America/Los_Angeles:20251115T120000
+DTSTAMP:20251112T112705
+CREATED:20251016T183454Z
+LAST-MODIFIED:20251016T184033Z
+UID:10004893-1763197200-1763208000@events.ucsc.edu
+SUMMARY:Welcome to the City: Los Angeles (Culver City)
+DESCRIPTION:Join us for Welcome to the City in Los Angeles (Culver City)\, hosted in partnership with the California State Parks Foundation at Baldwin Hills Scenic Overlook. The project will be held Saturday\, November 15 from 9 a.m. – 12 p.m. at Baldwin Hills Scenic Overlook (6300 Hetzler Rd\, Culver City\, CA 90232). Please register in advance to help us and our non-profit partner plan accordingly. \nProject description: \nJoin California State Parks Foundation and their partners at Nature Nexus Institute to support ongoing habitat restoration efforts at the park! Volunteers will help remove invasive plants and plant native species. Additional tasks may be completed as needed\, including seed collection\, seed cleaning\, transplanting plants\, and fixing plant basins. Ages 12 and older are welcome (minors must be accompanied by an adult and have waivers signed by their guardian). \nWelcome to the City is an annual series of regional events which help alumni connect with their local UCSC community. While the program is designed with recent grads in mind\, all are welcome to participate. \nPlease contact alumni@ucsc.edu with questions.
+URL:https://events.ucsc.edu/event/welcome-to-the-city-los-angeles-culver-city/
+LOCATION:Baldwin Hills Scenic Overlook\, 6300 Hetzler Rd\, Culver City\, 90232\, United States
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Copy-of-WTTC-2025-email-banner-1005-x-634-px.jpg
+GEO:34.0175712;-118.3840179
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Baldwin Hills Scenic Overlook 6300 Hetzler Rd Culver City 90232 United States;X-APPLE-RADIUS=500;X-TITLE=6300 Hetzler Rd:geo:-118.3840179,34.0175712
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251115T100000
+DTEND;TZID=America/Los_Angeles:20251115T120000
+DTSTAMP:20251112T112705
+CREATED:20251016T180242Z
+LAST-MODIFIED:20251016T182857Z
+UID:10004887-1763200800-1763208000@events.ucsc.edu
+SUMMARY:Welcome to the City: Santa Cruz
+DESCRIPTION:Join us for Welcome to the City in Santa Cruz\, hosted in partnership with the Homeless Garden Project. The project will be held Saturday\, November 15 from 10 a.m. – 12 p.m. at the Homeless Garden Project Natural Bridges Farm (Shaffer Rd\, Santa Cruz\, CA 95060). Please register in advance to help us and our non-profit partner plan accordingly. \nProject description: \nParticipants will receive a tour of the farm and then assist with some farm tasks. \nWelcome to the City is an annual series of regional events which help alumni connect with their local UCSC community. While the program is designed with recent grads in mind\, all are welcome to participate. \nPlease contact alumni@ucsc.edu with questions.
+URL:https://events.ucsc.edu/event/welcome-to-the-city-santa-cruz/
+LOCATION:Homeless Garden Project Farm\, Shaffer Road\, Santa Cruz\, CA\, 95060\, United States
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Copy-of-WTTC-2025-email-banner-1005-x-634-px.jpg
+GEO:36.9579722;-122.0625333
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Homeless Garden Project Farm Shaffer Road Santa Cruz CA 95060 United States;X-APPLE-RADIUS=500;X-TITLE=Shaffer Road:geo:-122.0625333,36.9579722
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251115T160000
+DTEND;TZID=America/Los_Angeles:20251115T180000
+DTSTAMP:20251112T112705
+CREATED:20251009T183017Z
+LAST-MODIFIED:20251009T183017Z
+UID:10004403-1763222400-1763229600@events.ucsc.edu
+SUMMARY:Broadsides No.2: Pairing Artworks with Poetry - Poetry Reading & Artist Talk
+DESCRIPTION:Following the success of its 2023 debut\, Broadsides No. 2 returns this fall to MK Contemporary Art Gallery with a compelling exploration of the dynamic relationship between poetry and visual art. The exhibition pairs nine nationally recognized poets with nine distinguished visual artists\, presenting collaborative works that reveal the unexpected resonances between image and language. \nThe participating artists are celebrated for their ability to capture imagery with clarity and nuance\, each recognized nationally for their contributions to contemporary art. The poets featured in Broadsides No. 2 are equally accomplished literary voices\, with deep connections to the Santa Cruz community and beyond. Many are associated with the Morton Marcus Poetry Reading\, an annual event honoring the legacy of one of Santa Cruz’s most beloved poets. This year’s reading takes place on Thursday\, November 20 at UC Santa Cruz and features writer and poet Ellen Bass. \nThe exhibition is curated by Donna Mekis (poetry) and Rose Sellery (visual art)\, with broadside design by Gary Young\, Director of the Cowell Press at UC Santa Cruz. Broadsides No. 2 is presented with support from The Humanities Institute and Special Collections & Archives at UC Santa Cruz. \n\nExhibition Events\n\nOpening Reception with Poetry Reading & Artist Talk: Saturday\, November 15\, 4:00-6:00\nFirst Friday Receptions: November 7 & December 5\, 6:00-8:00\n\n\nVisual Artists\n\nRandy Beckelheimer\nGlenn Carter\nLinda Christensen\nDavid Fleming\nMelissa Kreisa\nQuinn Peck\nMargaret Rinkovsky\nRose Sellery\nBobby Williams\n\nPoets\n\nKillarney Clary\nNancy Miller Gomez\nLee Herrick\nStephen Kessler\nRobin Magowan\nTom Meschery\nMagdalena Montagne\nAyaz Pirani\nTodd Turnidge\n\nImage credit: Twirl by Quinn Peck
+URL:https://events.ucsc.edu/event/broadsides-no-2-pairing-artworks-with-poetry-poetry-reading-artist-talk/
+LOCATION:m.k. contemporary art\, 703 Front Street\, Santa Cruz\, 95060\, United States
+CATEGORIES:Exhibits
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/Broadsides.png
+GEO:36.9742228;-122.0253478
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=m.k. contemporary art 703 Front Street Santa Cruz 95060 United States;X-APPLE-RADIUS=500;X-TITLE=703 Front Street:geo:-122.0253478,36.9742228
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251117T000000
+DTEND;TZID=America/Los_Angeles:20251117T000000
+DTSTAMP:20251112T112705
+CREATED:20251003T195532Z
+LAST-MODIFIED:20251015T202626Z
+UID:10003163-1763337600-1763337600@events.ucsc.edu
+SUMMARY:International Education Week 2025
+DESCRIPTION:International Education Week (IEW) is an opportunity to celebrate the benefits of international education and exchange worldwide. Each year\, the Division of Global Engagement partners with departments\, colleges\, and offices across campus to provide our community with a wide range of intercultural\, international\, and globally-themed events during IEW. This is an excellent opportunity to broaden your cultural perspective by sharing with and learning from others. \n  \nClick here to see the full IEW schedule. \n  \nIf you are interested in partnering/promoting an international-themed event during IEW\, please contact iprogramming@ucsc.edu.
+URL:https://events.ucsc.edu/event/international-education-week-2025/
+CATEGORIES:Exhibits
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/IEW-2025.png
+END:VEVENT
+END:VCALENDAR
