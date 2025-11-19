@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import { router, useFocusEffect } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 
@@ -155,10 +155,19 @@ export default function HomeScreen() {
             data={events}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <SwipeableEventCard
-                event={item}
-                onDelete={handleDeleteItem}
-              />
+              <Pressable
+                onPress={() => {
+                  router.push({
+                    pathname: "./edit-event/[id]",
+                    params: { id: item.id },
+                  });
+                }}
+              >
+                <SwipeableEventCard
+                  event={item}
+                  onDelete={handleDeleteItem}
+                />
+              </Pressable>
             )}
             ListEmptyComponent={
               <Text style={styles.empty}>No events today</Text>
