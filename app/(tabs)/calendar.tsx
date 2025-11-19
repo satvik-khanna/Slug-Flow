@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -182,12 +182,22 @@ export default function CalendarScreen() {
             <Text style={styles.emptySection}>No items for this day</Text>
           ) : (
             filteredEvents.map((evt) => (
-              <SwipeableEventCard
+              <Pressable
                 key={evt.id}
-                event={evt}
-                onToggleComplete={handleToggleComplete}
-                onDelete={handleDeleteItem}
-              />
+                onPress={() => {
+                  router.push({
+                    pathname: "/edit-event/[id]",
+                    params: { id: evt.id },
+                  });
+                }}
+              >
+                <SwipeableEventCard
+                  
+                  event={evt}
+                  onToggleComplete={handleToggleComplete}
+                  onDelete={handleDeleteItem}
+                />
+              </Pressable>
             ))
           )}
         </ScrollView>
