@@ -1,16 +1,16 @@
 // app/add-task.tsx
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Button,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 export default function AddTaskScreen() {
@@ -22,34 +22,58 @@ export default function AddTaskScreen() {
   const [showPicker, setShowPicker] = useState(false);
 
   const handleAdd = async () => {
-    if (!title.trim()) {
-      alert('⚠️ Please enter a task title');
-      return;
-    }
+  if (!title.trim()) {
+    alert('⚠️ Please enter a task title');
+    return;
+  }
 
-    const newTask = {
-      id: Date.now().toString(),
-      title,
-      note,
-      location,
-      date: new Date().toISOString(), // when task was created
-      dueDate: dueDate.toISOString(), // NEW FIELD
-      completed: false,
-      type: 'task',
-    };
+  const now = new Date();
+  if (dueDate < now) {
+    alert('⚠️ Due date cannot be in the past');
+    return;
+  }
 
-    try {
-      const stored = await AsyncStorage.getItem('events');
-      const taskList = stored ? JSON.parse(stored) : [];
+  // First, schedule a notification based on the task deadline.
+  let notificationId: string | undefined;
+  try {
+    notificationId = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `📝 Task due: ${title}`,
+        body: note ? note : 'Your task is due soon.',
+        sound: true,
+      },
+      trigger: dueDate as any, // Deadline reminder
+    });
+  } catch (e) {
+    console.warn('Unable to schedule task notification:', e);
+  }
 
-      taskList.push(newTask);
-      await AsyncStorage.setItem('events', JSON.stringify(taskList));
-      router.back();
-    } catch (e) {
-      alert('❌ Failed to save task.');
-      console.error('Error saving task:', e);
-    }
+  // Reconstruct the task object to be saved.
+  const newTask = {
+    id: Date.now().toString(),
+    title,
+    note,
+    location,
+    date: new Date().toISOString(),   // Start date
+    dueDate: dueDate.toISOString(),   // Due date
+    completed: false,
+    type: 'task',
+    notificationId,                   // Save the notification ID along with the notification.
   };
+
+  try {
+    const stored = await AsyncStorage.getItem('events');
+    const taskList = stored ? JSON.parse(stored) : [];
+
+    taskList.push(newTask);
+    await AsyncStorage.setItem('events', JSON.stringify(taskList));
+    router.back();
+  } catch (e) {
+    alert('❌ Failed to save task.');
+    console.error('Error saving task:', e);
+  }
+};
+
 
   return (
     <View style={styles.container}>
@@ -91,8 +115,8 @@ export default function AddTaskScreen() {
       {showPicker && (
         <DateTimePicker
           value={dueDate}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          mode="datetime"
+          display='default'
           onChange={(event, selectedDate) => {
             setShowPicker(false);
             if (selectedDate) setDueDate(selectedDate);
