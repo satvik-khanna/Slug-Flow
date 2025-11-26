@@ -8,18 +8,26 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import SwipeableEventCard from '@/components/SwipeableEventCard';
 import UCSCEventCard from '@/components/UCSCEventCard';
-import { EVENT_TYPE_COLORS, getUCSCEvents, UCSCEvent } from '@/constants/UCSCEvents';
+import { EVENT_TYPE_COLORS, UCSCEvent, getUCSCEvents } from '@/constants/UCSCEvents';
 
-function normalizeDate(dateInput: string | Date | undefined): string {
+/* -----------------------------------------------------------
+   Convert ISO → YYYY-MM-DD in LOCAL Pacific Time
+----------------------------------------------------------- */
+function normalizeDateLocal(dateInput: string | Date | undefined): string {
   if (!dateInput) return '';
   const d = new Date(dateInput);
   if (isNaN(d.getTime())) return '';
-  return d.toISOString().slice(0, 10);
+
+  // Convert local → local date string
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
 }
 
-function getToday() {
-  return new Date().toISOString().slice(0, 10);
-}
+/* -----------------------------------------------------------
+   Component
+----------------------------------------------------------- */
 
 type EventItem = {
   id: string;
@@ -35,19 +43,20 @@ type EventItem = {
 };
 
 export default function CalendarScreen() {
-  const [selectedDate, setSelectedDate] = useState(getToday());
+  const [selectedDate, setSelectedDate] = useState(normalizeDateLocal(new Date()));
   const [events, setEvents] = useState<EventItem[]>([]);
   const [ucscEvents, setUcscEvents] = useState<UCSCEvent[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventItem[]>([]);
   const [filteredUcscEvents, setFilteredUcscEvents] = useState<UCSCEvent[]>([]);
   const [showUCSCEvents, setShowUCSCEvents] = useState(true);
 
+  /* ---------------------- Load Data --------------------------------- */
   const loadEvents = async () => {
     try {
-      const stored = await AsyncStorage.getItem('events');
+      const stored = await AsyncStorage.getItem("events");
       setEvents(stored ? JSON.parse(stored) : []);
     } catch (err) {
-      console.error('Failed to load personal events:', err);
+      console.error("Failed loading personal events:", err);
     }
   };
 
@@ -55,9 +64,8 @@ export default function CalendarScreen() {
     try {
       const list = await getUCSCEvents();
       setUcscEvents(list);
-      console.log('Loaded UCSC events:', list.length);
     } catch (err) {
-      console.error('Failed to load UCSC events:', err);
+      console.error("Failed loading UCSC events:", err);
     }
   };
 
@@ -68,74 +76,54 @@ export default function CalendarScreen() {
     }, [])
   );
 
+  /* ---------------------- Filtering --------------------------------- */
   useEffect(() => {
     const filteredPersonal = events.filter((ev) => {
-      if (ev.type === 'task') {
-        if (!ev.dueDate) return false;
-        return normalizeDate(ev.dueDate) === selectedDate;
-      }
-      return normalizeDate(ev.date) === selectedDate;
+      const dateKey =
+        ev.type === "task"
+          ? normalizeDateLocal(ev.dueDate)
+          : normalizeDateLocal(ev.date);
+      return dateKey === selectedDate;
     });
 
-    const sortedPersonal = [...filteredPersonal].sort((a, b) => {
-      const aKey = a.type === 'task' ? normalizeDate(a.dueDate) : normalizeDate(a.date);
-      const bKey = b.type === 'task' ? normalizeDate(b.dueDate) : normalizeDate(b.date);
-      return aKey.localeCompare(bKey);
-    });
+    const sortedPersonal = filteredPersonal.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
 
     const filteredU = ucscEvents.filter(
-      (ev) => normalizeDate(ev.date) === selectedDate
+      (ev) => normalizeDateLocal(ev.date) === selectedDate
     );
 
     setFilteredEvents(sortedPersonal);
     setFilteredUcscEvents(filteredU);
   }, [selectedDate, events, ucscEvents]);
 
-  const handleToggleComplete = async (eventId: string) => {
-    try {
-      const stored = await AsyncStorage.getItem('events');
-      const allEvents: EventItem[] = stored ? JSON.parse(stored) : [];
-
-      const updated = allEvents.map((e) =>
-        e.id === eventId ? { ...e, completed: !e.completed } : e
-      );
-
-      await AsyncStorage.setItem('events', JSON.stringify(updated));
-      setEvents(updated);
-    } catch (err) {
-      console.error('Failed to toggle complete:', err);
-    }
-  };
-
+  /* ---------------------- Delete Event ------------------------------- */
   const handleDeleteItem = async (eventId: string) => {
     try {
-      const stored = await AsyncStorage.getItem('events');
-      const allEvents: EventItem[] = stored ? JSON.parse(stored) : [];
+      const stored = await AsyncStorage.getItem("events");
+      let all: EventItem[] = stored ? JSON.parse(stored) : [];
 
-      const target = allEvents.find((e) => e.id === eventId);
-
+      const target = all.find((e) => e.id === eventId);
       if (target?.notificationId) {
         try {
-          await Notifications.cancelScheduledNotificationAsync(
-            target.notificationId
-          );
-        } catch (err) {
-          console.warn('Failed to cancel notification:', err);
-        }
+          await Notifications.cancelScheduledNotificationAsync(target.notificationId);
+        } catch {}
       }
 
-      const updated = allEvents.filter((e) => e.id !== eventId);
-      await AsyncStorage.setItem('events', JSON.stringify(updated));
-
-      setEvents(updated);
+      all = all.filter((e) => e.id !== eventId);
+      await AsyncStorage.setItem("events", JSON.stringify(all));
+      setEvents(all);
     } catch (err) {
-      console.error('Failed to delete event:', err);
+      console.error("Delete failed:", err);
     }
   };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
+        
+        {/* Calendar */}
         <View style={styles.calendar}>
           <Calendar
             onDayPress={(day) => setSelectedDate(day.dateString)}
@@ -143,58 +131,48 @@ export default function CalendarScreen() {
           />
         </View>
 
-        <ScrollView
-          style={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}
-        >
+        {/* Scroll Content */}
+        <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+          
+          {/* Toggle */}
           <TouchableOpacity
             style={styles.toggleButton}
             onPress={() => setShowUCSCEvents(!showUCSCEvents)}
           >
             <Text style={styles.toggleButtonText}>
-              {showUCSCEvents ? '🏛️ Hide UCSC Events' : '🏛️ Show UCSC Events'}
+              {showUCSCEvents ? "🏛 Hide UCSC Events" : "🏛 Show UCSC Events"}
             </Text>
           </TouchableOpacity>
 
+          {/* UCSC Events */}
           {showUCSCEvents && (
             <>
-              <Text style={styles.sectionTitle}>
-                🏛️ UCSC Events – {selectedDate}
-              </Text>
-
+              <Text style={styles.sectionTitle}>🏛 UCSC Events – {selectedDate}</Text>
               {filteredUcscEvents.length === 0 ? (
-                <Text style={styles.emptySection}>
-                  No UCSC events for this day
-                </Text>
+                <Text style={styles.emptySection}>No UCSC events</Text>
               ) : (
-                filteredUcscEvents.map((evt) => (
-                  <UCSCEventCard key={evt.id} event={evt} />
+                filteredUcscEvents.map((ev) => (
+                  <UCSCEventCard key={ev.id} event={ev} />
                 ))
               )}
             </>
           )}
 
-          <Text style={styles.sectionTitle}>
-            📅 My Events & Tasks – {selectedDate}
-          </Text>
+          {/* Personal events */}
+          <Text style={styles.sectionTitle}>📅 My Events – {selectedDate}</Text>
 
           {filteredEvents.length === 0 ? (
-            <Text style={styles.emptySection}>No items for this day</Text>
+            <Text style={styles.emptySection}>No events today</Text>
           ) : (
-            filteredEvents.map((evt) => (
+            filteredEvents.map((ev) => (
               <Pressable
-                key={evt.id}
-                onPress={() => {
-                  router.push({
-                    pathname: "/edit-event/[id]",
-                    params: { id: evt.id },
-                  });
-                }}
+                key={ev.id}
+                onPress={() =>
+                  router.push({ pathname: "/edit-event/[id]", params: { id: ev.id } })
+                }
               >
                 <SwipeableEventCard
-                  
-                  event={evt}
-                  onToggleComplete={handleToggleComplete}
+                  event={ev}
                   onDelete={handleDeleteItem}
                 />
               </Pressable>
@@ -206,81 +184,91 @@ export default function CalendarScreen() {
   );
 }
 
+/* -----------------------------------------------------------
+   Marked Dates
+----------------------------------------------------------- */
 function generateMarkedDates(
   events: EventItem[],
   ucscEvents: UCSCEvent[],
   selectedDate: string
 ) {
-  const marked: Record<string, any> = {};
+  const marked: any = {};
 
-  events.forEach((ev) => {
-    const dateKey = ev.type === 'task' ? normalizeDate(ev.dueDate) : normalizeDate(ev.date);
+  // personal
+  for (const ev of events) {
+    const dateKey =
+      ev.type === "task"
+        ? normalizeDateLocal(ev.dueDate)
+        : normalizeDateLocal(ev.date);
 
-    if (!dateKey) return;
+    if (!dateKey) continue;
 
     if (!marked[dateKey]) marked[dateKey] = { dots: [] };
-
-    const color = ev.type === 'task' ? '#4CAF50' : 'orange';
+    const color = ev.type === "task" ? "#4CAF50" : "orange";
 
     if (!marked[dateKey].dots.some((d: any) => d.color === color)) {
       marked[dateKey].dots.push({ color });
     }
 
-    marked[dateKey].markingType = 'multi-dot';
-  });
+    marked[dateKey].markingType = "multi-dot";
+  }
 
-  ucscEvents.forEach((ev) => {
-    const dateKey = normalizeDate(ev.date);
-    if (!dateKey) return;
+  // UCSC classes
+  for (const ev of ucscEvents) {
+    const dateKey = normalizeDateLocal(ev.date);
+    if (!dateKey) continue;
 
     if (!marked[dateKey]) marked[dateKey] = { dots: [] };
-
-    const color = EVENT_TYPE_COLORS[ev.type] ?? '#3b82f6';
+    const color = EVENT_TYPE_COLORS[ev.type] ?? "#3b82f6";
 
     if (!marked[dateKey].dots.some((d: any) => d.color === color)) {
       marked[dateKey].dots.push({ color });
     }
 
-    marked[dateKey].markingType = 'multi-dot';
-  });
+    marked[dateKey].markingType = "multi-dot";
+  }
 
+  // selected date highlight
   marked[selectedDate] = {
     ...(marked[selectedDate] || {}),
     selected: true,
-    selectedColor: '#00adf5',
+    selectedColor: "#00adf5",
   };
 
   return marked;
 }
 
+/* -----------------------------------------------------------
+   Styles
+----------------------------------------------------------- */
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 10 },
   calendar: { paddingTop: 90 },
   scrollContainer: { flex: 1, paddingTop: 10 },
 
   toggleButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 16,
   },
 
-  toggleButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  toggleButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
 
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 12,
-    color: '#333',
+    color: "#333",
   },
 
   emptySection: {
-    textAlign: 'center',
-    color: '#999',
+    textAlign: "center",
+    color: "#999",
     marginTop: 10,
     marginBottom: 20,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 });

@@ -179,6 +179,8 @@ export default function HomeScreen() {
           <Button title="➕ Add Event" onPress={() => router.push('/add-event')} />
           <View style={{ height: 10 }} />
           <Button title="📝 Add Task" onPress={() => router.push('/add-task')} />
+            <View style={{ height: 10 }} />
+          <Button title="Add UCSC Classes" onPress={() => router.push('/add-class')} />
         </View>
       </View>
     </GestureHandlerRootView>
