@@ -144,22 +144,8 @@ export default function CalendarScreen() {
             </Text>
           </TouchableOpacity>
 
-          {/* UCSC Events */}
-          {showUCSCEvents && (
-            <>
-              <Text style={styles.sectionTitle}>🏛 UCSC Events – {selectedDate}</Text>
-              {filteredUcscEvents.length === 0 ? (
-                <Text style={styles.emptySection}>No UCSC events</Text>
-              ) : (
-                filteredUcscEvents.map((ev) => (
-                  <UCSCEventCard key={ev.id} event={ev} />
-                ))
-              )}
-            </>
-          )}
-
           {/* Personal events */}
-          <Text style={styles.sectionTitle}>📅 My Events – {selectedDate}</Text>
+          <Text style={styles.sectionTitle}>📅 My Events: {selectedDate}</Text>
 
           {filteredEvents.length === 0 ? (
             <Text style={styles.emptySection}>No events today</Text>
@@ -178,6 +164,21 @@ export default function CalendarScreen() {
               </Pressable>
             ))
           )}
+          
+          {/* UCSC Events */}
+          {showUCSCEvents && (
+            <>
+              <Text style={styles.sectionTitle}>🏛 UCSC Events: {selectedDate}</Text>
+              {filteredUcscEvents.length === 0 ? (
+                <Text style={styles.emptySection}>No UCSC events</Text>
+              ) : (
+                filteredUcscEvents.map((ev) => (
+                  <UCSCEventCard key={ev.id} event={ev} />
+                ))
+              )}
+            </>
+          )}
+
         </ScrollView>
       </View>
     </GestureHandlerRootView>
@@ -192,9 +193,11 @@ function generateMarkedDates(
   ucscEvents: UCSCEvent[],
   selectedDate: string
 ) {
-  const marked: any = {};
+  const marked: Record<string, any> = {};
 
-  // personal
+  /* ---------------------------
+     Add personal events/tasks
+  --------------------------- */
   for (const ev of events) {
     const dateKey =
       ev.type === "task"
@@ -203,40 +206,66 @@ function generateMarkedDates(
 
     if (!dateKey) continue;
 
-    if (!marked[dateKey]) marked[dateKey] = { dots: [] };
+    if (!marked[dateKey]) {
+      marked[dateKey] = {
+        dots: [],
+        marked: true,
+        markingType: "multi-dot",
+      };
+    }
+
     const color = ev.type === "task" ? "#4CAF50" : "orange";
 
     if (!marked[dateKey].dots.some((d: any) => d.color === color)) {
       marked[dateKey].dots.push({ color });
     }
-
-    marked[dateKey].markingType = "multi-dot";
   }
 
-  // UCSC classes
+  /* ---------------------------
+       Add UCSC events/classes
+  --------------------------- */
   for (const ev of ucscEvents) {
     const dateKey = normalizeDateLocal(ev.date);
     if (!dateKey) continue;
 
-    if (!marked[dateKey]) marked[dateKey] = { dots: [] };
+    if (!marked[dateKey]) {
+      marked[dateKey] = {
+        dots: [],
+        marked: true,
+        markingType: "multi-dot",
+      };
+    }
+
     const color = EVENT_TYPE_COLORS[ev.type] ?? "#3b82f6";
 
     if (!marked[dateKey].dots.some((d: any) => d.color === color)) {
       marked[dateKey].dots.push({ color });
     }
-
-    marked[dateKey].markingType = "multi-dot";
   }
 
-  // selected date highlight
-  marked[selectedDate] = {
-    ...(marked[selectedDate] || {}),
-    selected: true,
-    selectedColor: "#00adf5",
-  };
+  /* ---------------------------
+       Selected date logic
+       ✔ Do NOT add dots
+       ✔ Do NOT add marked:true if empty
+  --------------------------- */
+  if (marked[selectedDate]) {
+    // Day already has events — keep dots and just highlight it
+    marked[selectedDate] = {
+      ...marked[selectedDate],
+      selected: true,
+      selectedColor: "#00adf5",
+    };
+  } else {
+    // No events — highlight only, NO dot
+    marked[selectedDate] = {
+      selected: true,
+      selectedColor: "#00adf5",
+    };
+  }
 
   return marked;
 }
+
 
 /* -----------------------------------------------------------
    Styles

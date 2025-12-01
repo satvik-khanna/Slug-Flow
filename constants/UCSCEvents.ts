@@ -61,7 +61,6 @@ export async function getUCSCEvents(): Promise<UCSCEvent[]> {
     }
   }
 
-  console.log("Parsed UCSC events:", result.length);
   return result;
 }
 

@@ -10,21 +10,55 @@ import {
   View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import * as Progress from 'react-native-progress';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import SwipeableEventCard, { EventItem } from '../../components/SwipeableEventCard';
 
+/* -------------------------------------------------------
+   Task Type With Priority
+------------------------------------------------------- */
 export type TaskItem = EventItem & {
-  type: 'task';
-  dueDate: string; // NEW FIELD
+  type: "task";
+  dueDate: string;
+  priority: number; // ✔ NEW FIELD
 };
+
+/* -------------------------------------------------------
+   Pick Recommended Task
+------------------------------------------------------- */
+function getRecommendedTask(tasks: TaskItem[]) {
+  const incomplete = tasks.filter((t) => !t.completed);
+  if (incomplete.length === 0) return null;
+
+  const todayISO = new Date().toISOString().slice(0, 10);
+
+  // Tasks due today → highest priority → earliest time
+  const dueToday = incomplete.filter(
+    (t) => t.dueDate.slice(0, 10) === todayISO
+  );
+
+  if (dueToday.length > 0) {
+    return dueToday.sort((a, b) => {
+      if (b.priority !== a.priority) return b.priority - a.priority;
+      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+    })[0];
+  }
+
+  // GENERAL CASE:
+  // highest priority → earliest due date
+  return incomplete.sort((a, b) => {
+    if (b.priority !== a.priority) return b.priority - a.priority;
+    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+  })[0];
+}
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
   const [filter, setFilter] = useState<'incomplete' | 'completed'>('incomplete');
 
-  // Load tasks from storage
+  /* -------------------------------------------------------
+     Load tasks
+  ------------------------------------------------------- */
   const loadTasks = async () => {
     try {
       const stored = await AsyncStorage.getItem('events');
@@ -35,10 +69,11 @@ export default function Tasks() {
         .map((item: any) => ({
           ...item,
           completed: !!item.completed,
-          type: 'task',
+          priority: item.priority ?? 1, // default if missing
+          type: "task",
         }));
 
-      // Sort tasks by due date
+      // Sort by due date for display
       filtered.sort(
         (a, b) =>
           new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
@@ -50,14 +85,15 @@ export default function Tasks() {
     }
   };
 
-  // Refresh on focus
   useFocusEffect(
     useCallback(() => {
       loadTasks();
     }, [])
   );
 
-  // Toggle completion
+  /* -------------------------------------------------------
+     Toggle completion
+  ------------------------------------------------------- */
   const handleToggleComplete = async (taskId: string) => {
     setTasks((prev) =>
       prev.map((t) =>
@@ -70,7 +106,7 @@ export default function Tasks() {
       const allItems = stored ? JSON.parse(stored) : [];
 
       const updated = allItems.map((item: any) =>
-        item.id === taskId && item.type === 'task'
+        item.id === taskId && item.type === "task"
           ? { ...item, completed: !item.completed }
           : item
       );
@@ -81,7 +117,9 @@ export default function Tasks() {
     }
   };
 
-  // Delete task
+  /* -------------------------------------------------------
+     Delete task
+  ------------------------------------------------------- */
   const handleDeleteTask = async (taskId: string) => {
     try {
       const stored = await AsyncStorage.getItem('events');
@@ -96,27 +134,27 @@ export default function Tasks() {
     }
   };
 
-  // Task categories
+  /* -------------------------------------------------------
+     Task Lists
+  ------------------------------------------------------- */
   const incompleteTasks = tasks.filter((t) => !t.completed);
   const completedTasks = tasks.filter((t) => t.completed);
 
   const displayedTasks =
     filter === 'incomplete'
-      ? [...incompleteTasks].sort(
-          (a, b) =>
-            new Date(a.dueDate).getTime() -
-            new Date(b.dueDate).getTime()
-        )
-      : [...completedTasks].sort(
-          (a, b) =>
-            new Date(a.dueDate).getTime() -
-            new Date(b.dueDate).getTime()
+      ? [...incompleteTasks].sort((a, b) => {
+          if (b.priority !== a.priority) return b.priority - a.priority;
+          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+        })
+      : [...completedTasks].sort((a, b) =>
+          new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
         );
 
-  // Progress bar
-  const totalTasks = tasks.length;
-  const completedCount = completedTasks.length;
-  const progress = totalTasks === 0 ? 0 : completedCount / totalTasks;
+
+  /* -------------------------------------------------------
+     Recommended Task
+  ------------------------------------------------------- */
+  const recommended = getRecommendedTask(tasks);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -124,28 +162,17 @@ export default function Tasks() {
         <View style={styles.container}>
           <Text style={styles.title}>📝 My Tasks</Text>
 
-          {/* Progress */}
-          <View style={{ marginBottom: 20, alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
-              📊 Task Progress
-            </Text>
-
-            {totalTasks > 0 ? (
-              <>
-                <Progress.Bar
-                  progress={progress}
-                  width={300}
-                  color="#4CAF50"
-                  borderRadius={10}
-                />
-                <Text style={{ marginTop: 6, color: '#555' }}>
-                  {completedCount} / {totalTasks} tasks completed
-                </Text>
-              </>
-            ) : (
-              <Text style={{ color: '#888' }}>No tasks added yet</Text>
-            )}
-          </View>
+          {/* Recommended Task */}
+          {recommended && (
+            <View style={styles.recoCard}>
+              <Text style={styles.recoTitle}>Recommended Task</Text>
+              <Text style={styles.recoName}>Finish {recommended.title}</Text>
+              <Text style={styles.recoMeta}>
+                Priority: {recommended.priority} • Due:{" "}
+                {new Date(recommended.dueDate).toLocaleString()}
+              </Text>
+            </View>
+          )}
 
           {/* Filter buttons */}
           <View style={styles.toggleRow}>
@@ -219,14 +246,45 @@ export default function Tasks() {
   );
 }
 
+/* -------------------------------------------------------
+   Styles
+------------------------------------------------------- */
+
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, paddingTop: 12, backgroundColor: '#fff' },
-  title: { fontSize: 26, fontWeight: 'bold', marginBottom: 4 },
+  title: { fontSize: 26, fontWeight: 'bold', marginBottom: 12 },
+
+  /* Recommended Task */
+  recoCard: {
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: "#fffbe6",
+    borderWidth: 1,
+    borderColor: "#f1e2a5",
+    marginBottom: 20,
+  },
+  recoTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 4,
+    color: "#b8860b",
+  },
+  recoName: {
+    fontSize: 17,
+    fontWeight: "600",
+    marginBottom: 2,
+  },
+  recoMeta: {
+    fontSize: 14,
+    color: "#555",
+  },
+
   subtitle: { fontSize: 14, color: '#555', marginBottom: 12 },
+
   toggleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   toggleButton: {
     flex: 1,
@@ -243,5 +301,6 @@ const styles = StyleSheet.create({
   },
   toggleText: { fontSize: 14, color: '#333', fontWeight: '500' },
   toggleTextActive: { color: '#fff', fontWeight: '700' },
+
   empty: { marginTop: 40, fontSize: 16, color: '#777', textAlign: 'center' },
 });
