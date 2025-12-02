@@ -180,10 +180,14 @@ export default function CalendarScreen() {
             </View>
             <View style={styles.dateBadge}>
               <Text style={styles.dateBadgeText}>
-                {new Date(selectedDate).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric'
-                })}
+                {(() => {
+                  const [year, month, day] = selectedDate.split('-').map(Number);
+                  const date = new Date(year, month - 1, day);
+                  return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                  });
+                })()}
               </Text>
             </View>
           </View>
@@ -224,10 +228,14 @@ export default function CalendarScreen() {
                 </View>
                 <View style={styles.dateBadge}>
                   <Text style={styles.dateBadgeText}>
-                    {new Date(selectedDate).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
+                    {(() => {
+                      const [year, month, day] = selectedDate.split('-').map(Number);
+                      const date = new Date(year, month - 1, day);
+                      return date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric'
+                      });
+                    })()}
                   </Text>
                 </View>
               </View>
