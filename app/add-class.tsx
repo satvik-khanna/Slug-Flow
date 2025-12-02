@@ -1,18 +1,16 @@
-// app/add-class.tsx
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
-  Button,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  View,
 } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 import { ALL_UCSC_COURSES, UCSCCourse } from "@/constants/Courses";
 
@@ -169,51 +167,82 @@ export default function AddClassScreen() {
 
   return (
     <>
-      {/* MATCHING BACK HEADER */}
       <Stack.Screen
         options={{
           title: "Add UCSC Class",
           headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
           headerShadowVisible: false,
+          headerTitleStyle: {
+            fontSize: 18,
+            fontWeight: '600',
+          },
           headerLeft: () => (
-            <Pressable
+            <TouchableOpacity
               onPress={() => router.back()}
               style={{ paddingHorizontal: 12 }}
             >
-              <Text style={{ fontSize: 17, fontWeight: "600", color: "#007AFF" }}>
-                Back
-              </Text>
-            </Pressable>
+              <Ionicons name="arrow-back" size={24} color="#00C853" />
+            </TouchableOpacity>
           ),
         }}
       />
 
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>📘 Add UCSC Class</Text>
+        {/* Header Card */}
+        <View style={styles.headerCard}>
+          <View style={styles.iconCircle}>
+            <Ionicons name="school" size={32} color="#fff" />
+          </View>
+          <Text style={styles.headerTitle}>Add UCSC Class</Text>
+          <Text style={styles.headerSubtitle}>Search for your courses</Text>
+        </View>
 
-        <Text style={styles.label}>Division (e.g., CSE, AM, BIO)</Text>
-        <TextInput
-          style={styles.input}
-          value={division}
-          onChangeText={setDivision}
-          placeholder="Enter division"
-          autoCapitalize="characters"
-        />
+        {/* Search Card */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Course Information</Text>
 
-        <Text style={styles.label}>Course Number (e.g., 101, 20, 160)</Text>
-        <TextInput
-          style={styles.input}
-          value={number}
-          onChangeText={setNumber}
-          placeholder="Enter course number"
-          keyboardType="numeric"
-        />
+          <View style={styles.inputContainer}>
+            <Ionicons name="book-outline" size={20} color="#666" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              value={division}
+              onChangeText={setDivision}
+              placeholder="Division (e.g., CSE, AM, BIO)"
+              placeholderTextColor="#999"
+              autoCapitalize="characters"
+            />
+          </View>
 
-        <Button title="Search Classes" onPress={findMatches} />
+          <View style={styles.inputContainer}>
+            <Ionicons name="list-outline" size={20} color="#666" style={styles.inputIcon} />
+            <TextInput
+              style={styles.input}
+              value={number}
+              onChangeText={setNumber}
+              placeholder="Course Number (e.g., 101, 20, 160)"
+              placeholderTextColor="#999"
+              keyboardType="numeric"
+            />
+          </View>
 
+          <TouchableOpacity style={styles.searchButton} onPress={findMatches}>
+            <Ionicons name="search" size={20} color="#fff" />
+            <Text style={styles.searchButtonText}>Search Classes</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Results */}
         {matches.length > 0 && (
-          <>
-            <Text style={styles.sectionHeader}>Matching Sections:</Text>
+          <View style={styles.resultsContainer}>
+            <View style={styles.resultsHeader}>
+              <Ionicons name="checkmark-circle" size={20} color="#00C853" />
+              <Text style={styles.resultsHeaderText}>
+                Found {matches.length} section{matches.length > 1 ? 's' : ''}
+              </Text>
+            </View>
 
             {matches.map((c, index) => (
               <TouchableOpacity
@@ -221,18 +250,38 @@ export default function AddClassScreen() {
                 style={styles.classCard}
                 onPress={() => addCourse(c)}
               >
-                <Text style={styles.classTitle}>
-                  {c.division} {c.number}-{c.section}
-                </Text>
-                <Text>{c.title}</Text>
-                <Text>
-                  {c.days.join("")} {c.start}–{c.end}
-                </Text>
-                <Text>{c.location}</Text>
+                <View style={styles.classHeader}>
+                  <View style={styles.classCodeContainer}>
+                    <Text style={styles.classCode}>
+                      {c.division} {c.number}-{c.section}
+                    </Text>
+                  </View>
+                  <Ionicons name="add-circle" size={24} color="#00C853" />
+                </View>
+
+                <Text style={styles.classTitle}>{c.title}</Text>
+
+                <View style={styles.classDetails}>
+                  <View style={styles.classDetailRow}>
+                    <Ionicons name="time-outline" size={16} color="#666" />
+                    <Text style={styles.classDetailText}>
+                      {c.days.join("")} {c.start} – {c.end}
+                    </Text>
+                  </View>
+
+                  {c.location && (
+                    <View style={styles.classDetailRow}>
+                      <Ionicons name="location-outline" size={16} color="#666" />
+                      <Text style={styles.classDetailText}>{c.location}</Text>
+                    </View>
+                  )}
+                </View>
               </TouchableOpacity>
             ))}
-          </>
+          </View>
         )}
+
+        <View style={{ height: 40 }} />
       </ScrollView>
     </>
   );
@@ -243,40 +292,145 @@ export default function AddClassScreen() {
 --------------------------------------------------------- */
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: "#fff",
     flex: 1,
+    backgroundColor: '#F5F5F5',
   },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginBottom: 20,
+  headerCard: {
+    backgroundColor: '#fff',
+    padding: 24,
+    marginBottom: 16,
+    alignItems: 'center',
   },
-  label: {
-    marginTop: 10,
-    fontWeight: "bold",
+  iconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+  card: {
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    marginBottom: 16,
+    padding: 20,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 16,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9F9F9',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  inputIcon: {
+    marginRight: 12,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 5,
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+    padding: 0,
   },
-  sectionHeader: {
-    marginTop: 20,
-    fontSize: 18,
-    fontWeight: "bold",
+  searchButton: {
+    backgroundColor: '#00C853',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
+    gap: 8,
+    marginTop: 8,
+  },
+  searchButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  resultsContainer: {
+    marginHorizontal: 16,
+  },
+  resultsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+  },
+  resultsHeaderText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
   },
   classCard: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#ccc",
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  classHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  classCodeContainer: {
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     borderRadius: 8,
-    marginTop: 10,
+  },
+  classCode: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#00C853',
   },
   classTitle: {
-    fontWeight: "bold",
-    marginBottom: 3,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  classDetails: {
+    gap: 8,
+  },
+  classDetailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  classDetailText: {
+    fontSize: 14,
+    color: '#666',
   },
 });

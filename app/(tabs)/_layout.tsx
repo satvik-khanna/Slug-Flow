@@ -54,6 +54,17 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Habits tab – flame icon */}
+      <Tabs.Screen
+        name="habits"        // <-- file: app/(tabs)/habits.tsx
+        options={{
+          title: 'Habits',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="flame.fill" color={color} />
+          ),
+        }}
+      />
+
       {/* Calendar tab – calendar icon */}
       <Tabs.Screen
         name="calendar"      // <-- file: app/(tabs)/calendar.tsx

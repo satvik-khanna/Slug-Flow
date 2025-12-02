@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 import SwipeableEventCard from '@/components/SwipeableEventCard';
 import UCSCEventCard from '@/components/UCSCEventCard';
@@ -122,63 +123,134 @@ export default function CalendarScreen() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        
-        {/* Calendar */}
-        <View style={styles.calendar}>
+
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerTop}>
+            <View style={styles.iconCircle}>
+              <Ionicons name="calendar" size={28} color="#fff" />
+            </View>
+            <Text style={styles.headerTitle}>Calendar</Text>
+          </View>
+          <Text style={styles.headerSubtitle}>View your schedule</Text>
+        </View>
+
+        {/* Calendar Card */}
+        <View style={styles.calendarCard}>
           <Calendar
             onDayPress={(day) => setSelectedDate(day.dateString)}
             markedDates={generateMarkedDates(events, ucscEvents, selectedDate)}
+            theme={{
+              todayTextColor: '#00C853',
+              selectedDayBackgroundColor: '#00C853',
+              selectedDayTextColor: '#fff',
+              arrowColor: '#00C853',
+              monthTextColor: '#333',
+              textMonthFontWeight: 'bold',
+              textDayFontWeight: '500',
+              textMonthFontSize: 18,
+              textDayHeaderFontWeight: '600',
+            }}
           />
         </View>
 
         {/* Scroll Content */}
         <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-          
-          {/* Toggle */}
+
+          {/* Toggle Button */}
           <TouchableOpacity
             style={styles.toggleButton}
             onPress={() => setShowUCSCEvents(!showUCSCEvents)}
           >
+            <Ionicons
+              name={showUCSCEvents ? "eye-off" : "eye"}
+              size={20}
+              color="#fff"
+            />
             <Text style={styles.toggleButtonText}>
-              {showUCSCEvents ? "🏛 Hide UCSC Events" : "🏛 Show UCSC Events"}
+              {showUCSCEvents ? "Hide UCSC Events" : "Show UCSC Events"}
             </Text>
           </TouchableOpacity>
 
-          {/* Personal events */}
-          <Text style={styles.sectionTitle}>📅 My Events: {selectedDate}</Text>
+          {/* Personal Events Section */}
+          <View style={styles.sectionHeader}>
+            <View style={styles.sectionHeaderLeft}>
+              <Ionicons name="calendar-outline" size={22} color="#00C853" />
+              <Text style={styles.sectionTitle}>My Events</Text>
+            </View>
+            <View style={styles.dateBadge}>
+              <Text style={styles.dateBadgeText}>
+                {new Date(selectedDate).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })}
+              </Text>
+            </View>
+          </View>
 
           {filteredEvents.length === 0 ? (
-            <Text style={styles.emptySection}>No events today</Text>
+            <View style={styles.emptyCard}>
+              <Ionicons name="calendar-outline" size={48} color="#E0E0E0" />
+              <Text style={styles.emptyCardTitle}>No events scheduled</Text>
+              <Text style={styles.emptyCardSubtitle}>
+                Add events to see them here
+              </Text>
+            </View>
           ) : (
-            filteredEvents.map((ev) => (
-              <Pressable
-                key={ev.id}
-                onPress={() =>
-                  router.push({ pathname: "/edit-event/[id]", params: { id: ev.id } })
-                }
-              >
-                <SwipeableEventCard
-                  event={ev}
-                  onDelete={handleDeleteItem}
-                />
-              </Pressable>
-            ))
+            <View style={styles.eventsContainer}>
+              {filteredEvents.map((ev) => (
+                <Pressable
+                  key={ev.id}
+                  onPress={() =>
+                    router.push({ pathname: "/edit-event/[id]", params: { id: ev.id } })
+                  }
+                >
+                  <SwipeableEventCard
+                    event={ev}
+                    onDelete={handleDeleteItem}
+                  />
+                </Pressable>
+              ))}
+            </View>
           )}
-          
-          {/* UCSC Events */}
+
+          {/* UCSC Events Section */}
           {showUCSCEvents && (
             <>
-              <Text style={styles.sectionTitle}>🏛 UCSC Events: {selectedDate}</Text>
+              <View style={styles.sectionHeader}>
+                <View style={styles.sectionHeaderLeft}>
+                  <Ionicons name="school-outline" size={22} color="#00C853" />
+                  <Text style={styles.sectionTitle}>UCSC Events</Text>
+                </View>
+                <View style={styles.dateBadge}>
+                  <Text style={styles.dateBadgeText}>
+                    {new Date(selectedDate).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </Text>
+                </View>
+              </View>
+
               {filteredUcscEvents.length === 0 ? (
-                <Text style={styles.emptySection}>No UCSC events</Text>
+                <View style={styles.emptyCard}>
+                  <Ionicons name="school-outline" size={48} color="#E0E0E0" />
+                  <Text style={styles.emptyCardTitle}>No UCSC events</Text>
+                  <Text style={styles.emptyCardSubtitle}>
+                    No university events scheduled for this day
+                  </Text>
+                </View>
               ) : (
-                filteredUcscEvents.map((ev) => (
-                  <UCSCEventCard key={ev.id} event={ev} />
-                ))
+                <View style={styles.eventsContainer}>
+                  {filteredUcscEvents.map((ev) => (
+                    <UCSCEventCard key={ev.id} event={ev} />
+                  ))}
+                </View>
               )}
             </>
           )}
 
+          <View style={{ height: 40 }} />
         </ScrollView>
       </View>
     </GestureHandlerRootView>
@@ -253,13 +325,13 @@ function generateMarkedDates(
     marked[selectedDate] = {
       ...marked[selectedDate],
       selected: true,
-      selectedColor: "#00adf5",
+      selectedColor: "#00C853",
     };
   } else {
     // No events — highlight only, NO dot
     marked[selectedDate] = {
       selected: true,
-      selectedColor: "#00adf5",
+      selectedColor: "#00C853",
     };
   }
 
@@ -271,33 +343,156 @@ function generateMarkedDates(
    Styles
 ----------------------------------------------------------- */
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10 },
-  calendar: { paddingTop: 90 },
-  scrollContainer: { flex: 1, paddingTop: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+
+  header: {
+    backgroundColor: '#fff',
+    paddingTop: 60,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  headerTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 8,
+  },
+
+  iconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+
+  headerSubtitle: {
+    fontSize: 14,
+    color: '#666',
+    marginLeft: 60,
+  },
+
+  calendarCard: {
+    backgroundColor: '#fff',
+    marginHorizontal: 16,
+    marginTop: 16,
+    borderRadius: 16,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
 
   toggleButton: {
-    backgroundColor: "#2196F3",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 16,
+    backgroundColor: '#00C853',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    gap: 8,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
 
-  toggleButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  toggleButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    marginTop: 4,
+  },
+
+  sectionHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
 
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginVertical: 12,
-    color: "#333",
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
 
-  emptySection: {
-    textAlign: "center",
-    color: "#999",
-    marginTop: 10,
+  dateBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+
+  dateBadgeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#00C853',
+  },
+
+  emptyCard: {
+    backgroundColor: '#fff',
+    padding: 40,
+    borderRadius: 16,
+    alignItems: 'center',
     marginBottom: 20,
-    fontStyle: "italic",
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+
+  emptyCardTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#999',
+    marginTop: 16,
+    marginBottom: 4,
+  },
+
+  emptyCardSubtitle: {
+    fontSize: 14,
+    color: '#BBB',
+    textAlign: 'center',
+  },
+
+  eventsContainer: {
+    marginBottom: 20,
   },
 });
