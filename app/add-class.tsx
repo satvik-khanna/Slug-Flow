@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
@@ -10,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 
 import { ALL_UCSC_COURSES, UCSCCourse } from "@/constants/Courses";
 
@@ -127,7 +127,7 @@ export default function AddClassScreen() {
     const n = number.trim();
 
     if (!d || !n) {
-      Alert.alert("Missing info", "Enter BOTH division and number");
+      Alert.alert("Missing info!", "Please enter BOTH division and number");
       return;
     }
 
@@ -136,7 +136,7 @@ export default function AddClassScreen() {
     );
 
     if (filtered.length === 0) {
-      Alert.alert("Not found", "No matching UCSC class found.");
+      Alert.alert("Oops! Class not found", "There are no matching UCSC classes found.");
     }
 
     setMatches(filtered);
@@ -157,11 +157,11 @@ export default function AddClassScreen() {
         "events",
         JSON.stringify([...current, ...newEvents])
       );
-      Alert.alert("Success", "Class added to your schedule!");
+      Alert.alert("Success!", "Class added to your schedule!");
       router.back();
     } catch (err) {
       console.error(err);
-      Alert.alert("Error", "Failed to save class.");
+      Alert.alert("Error", "Couldn't save class.");
     }
   };
 
