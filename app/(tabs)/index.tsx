@@ -1,10 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Notifications from 'expo-notifications';
 import { router, useFocusEffect } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  FlatList,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,32 +9,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import * as Progress from 'react-native-progress';
 import { Ionicons } from '@expo/vector-icons';
 
 import type { EventItem } from '@/components/SwipeableEventCard';
 
-/* -------------------------------------------------------
-   LOCAL PST DATE NORMALIZATION
-------------------------------------------------------- */
 function normalizeLocalDate(dateInput: string | Date): string {
   const d = new Date(dateInput);
-  return new Date(
-    d.getFullYear(),
-    d.getMonth(),
-    d.getDate()
-  ).toISOString().slice(0, 10);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+    .toISOString()
+    .slice(0, 10);
 }
 
 function todayLocalISO() {
   const now = new Date();
-  return new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  ).toISOString().slice(0, 10);
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    .toISOString()
+    .slice(0, 10);
 }
 
 export default function HomeScreen() {
@@ -45,87 +32,109 @@ export default function HomeScreen() {
   const [taskStats, setTaskStats] = useState({ total: 0, completed: 0 });
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState(todayLocalISO());
+  const [weekOffset, setWeekOffset] = useState(0); // 0 = current week, -1 = previous, +1 = next
 
-  /* -------------------------------------------------------
-     Notification permissions
-  ------------------------------------------------------- */
-  useEffect(() => {
-    const register = async () => {
-      const { status } = await Notifications.getPermissionsAsync();
-      if (status !== 'granted') {
-        const { status: newStatus } = await Notifications.requestPermissionsAsync();
-        if (newStatus !== 'granted') {
-          alert('Notification permission not granted.');
-        }
-      }
-    };
-    register();
-  }, []);
-
-  /* -------------------------------------------------------
-     Load Today's Events (PST-safe)
-  ------------------------------------------------------- */
+  /* Load upcoming events */
   useFocusEffect(
     React.useCallback(() => {
-      const loadEvents = async () => {
+      const loadData = async () => {
         try {
           const stored = await AsyncStorage.getItem('events');
           const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
 
           const today = todayLocalISO();
+          const todayDate = new Date(today);
 
-          const filtered = parsed
-            .filter((item) => item.type === "event")
-            .filter((item) => normalizeLocalDate(item.date) === today)
+          // Get upcoming events
+          const upcomingEvents = parsed
+            .filter((item) => item.type === 'event')
+            .filter((item) => {
+              const eventDate = new Date(normalizeLocalDate(item.date));
+              return eventDate >= todayDate;
+            })
             .sort(
               (a, b) =>
                 new Date(a.date).getTime() - new Date(b.date).getTime()
-            );
+            )
+            .slice(0, 5);
 
-          setEvents(filtered);
+          setEvents(upcomingEvents);
+
+          // Calculate task stats
+          const tasks = parsed.filter((item) => item.type === 'task');
+          const completed = tasks.filter((t) => t.completed).length;
+          setTaskStats({ total: tasks.length, completed });
         } catch (e) {
-          console.error('Failed to load events:', e);
+          console.error('Failed to load data:', e);
         }
       };
-      loadEvents();
+      loadData();
     }, [])
   );
 
-  /* -------------------------------------------------------
-     Load task progress ONLY (ignore events)
-  ------------------------------------------------------- */
-  useEffect(() => {
-    const loadTaskStats = async () => {
-      try {
-        const stored = await AsyncStorage.getItem('events');
-        const allItems: EventItem[] = stored ? JSON.parse(stored) : [];
+  const filteredEvents = events.filter((event) =>
+    event.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-        const tasks = allItems.filter((i) => i.type === 'task');
+  // Get week view
+  const getWeekDays = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        const total = tasks.length;
-        const completed = tasks.filter((t) => t.completed).length;
+    // Get the current day of week (0 = Sunday, 1 = Monday, etc.)
+    const currentDayOfWeek = today.getDay();
 
-        setTaskStats({ total, completed });
-      } catch (e) {
-        console.error('Failed to load task stats:', e);
-      }
+    // Calculate the Sunday of the target week using milliseconds
+    const sundayTime = today.getTime() - (currentDayOfWeek * 24 * 60 * 60 * 1000) + (weekOffset * 7 * 24 * 60 * 60 * 1000);
+
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const dayTime = sundayTime + (i * 24 * 60 * 60 * 1000);
+      days.push(new Date(dayTime));
+    }
+
+    return days;
+  };
+
+  const weekDays = getWeekDays();
+  const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+  // Get current month/year for display - use the middle of the week (Wednesday) for better month representation
+  const getCurrentMonthYear = () => {
+    const middleDayOfWeek = weekDays[3]; // Wednesday
+    return middleDayOfWeek.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
+  const formatEventDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return {
+      month: date.toLocaleDateString('en-US', { month: 'short' }),
+      day: date.getDate(),
     };
+  };
 
-    loadTaskStats();
-  }, [events]);
+  const formatEventTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
 
-  /* -------------------------------------------------------
-     UI
-  ------------------------------------------------------- */
+  const progressPercent = taskStats.total > 0 ? (taskStats.completed / taskStats.total) * 100 : 0;
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Calendar</Text>
-          <Text style={styles.headerSubtitle}>Manage your schedule</Text>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <Ionicons name="menu" size={28} color="#333" />
+          <Text style={styles.headerTitle}>Home</Text>
         </View>
+      </View>
 
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
         {/* Search Bar */}
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
@@ -144,160 +153,222 @@ export default function HomeScreen() {
             style={styles.addEventButton}
             onPress={() => router.push('/add-event')}
           >
-            <Text style={styles.addEventText}>+ Add Event</Text>
+            <View style={styles.addEventIcon}>
+              <Ionicons name="add" size={24} color="#fff" />
+            </View>
+            <Text style={styles.addEventText}>Add Event</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.addTaskButton}
             onPress={() => router.push('/add-task')}
           >
-            <Ionicons name="checkbox-outline" size={20} color="#333" />
+            <Ionicons name="checkbox-outline" size={24} color="#333" />
             <Text style={styles.addTaskText}>Add Task</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Calendar */}
+        {/* Calendar Widget */}
         <View style={styles.calendarCard}>
-          <Calendar
-            current={selectedDate}
-            onDayPress={(day) => setSelectedDate(day.dateString)}
-            markedDates={{
-              [selectedDate]: {
-                selected: true,
-                selectedColor: '#00C853',
-              },
-            }}
-            theme={{
-              todayTextColor: '#00C853',
-              arrowColor: '#333',
-              monthTextColor: '#333',
-              textMonthFontWeight: 'bold',
-              textDayFontSize: 14,
-              textMonthFontSize: 16,
-            }}
-          />
+          <View style={styles.calendarHeader}>
+            <Text style={styles.calendarTitle}>{getCurrentMonthYear()}</Text>
+            <View style={styles.calendarNav}>
+              <TouchableOpacity
+                style={styles.navButton}
+                onPress={() => setWeekOffset(weekOffset - 1)}
+              >
+                <Ionicons name="chevron-back" size={20} color="#666" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.navButton}
+                onPress={() => setWeekOffset(weekOffset + 1)}
+              >
+                <Ionicons name="chevron-forward" size={20} color="#666" />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.weekView}>
+            {weekDays.map((date, index) => {
+              const dateKey = date.toISOString().split('T')[0];
+              const isToday = dateKey === todayLocalISO();
+              const hasEvents = events.some(
+                (e) => normalizeLocalDate(e.date) === dateKey
+              );
+
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.dayContainer}
+                  onPress={() => setSelectedDate(dateKey)}
+                >
+                  <Text style={styles.dayName}>{dayNames[index]}</Text>
+                  <View
+                    style={[
+                      styles.dayCircle,
+                      (isToday || hasEvents) && styles.dayCircleActive,
+                      isToday && styles.dayCircleToday,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.dayNumber,
+                        (isToday || hasEvents) && styles.dayNumberActive,
+                      ]}
+                    >
+                      {date.getDate()}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
 
         {/* Task Progress Card */}
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <View style={styles.iconCircle}>
-              <Ionicons name="checkmark-done" size={24} color="#fff" />
+        <View style={styles.progressCard}>
+          <View style={styles.progressHeader}>
+            <View style={styles.progressIconContainer}>
+              <Ionicons name="checkmark-done" size={28} color="#fff" />
             </View>
-            <Text style={styles.cardTitle}>Task Progress</Text>
+            <View style={styles.progressInfo}>
+              <Text style={styles.progressTitle}>Task Progress</Text>
+              <Text style={styles.progressSubtitle}>Keep up the momentum!</Text>
+              <Text style={styles.progressPercent}>
+                {Math.round(progressPercent)}%{' '}
+                <Text style={styles.progressPercentLabel}>Complete</Text>
+              </Text>
+            </View>
           </View>
 
-          {taskStats.total > 0 ? (
-            <>
-              <View style={styles.progressRow}>
-                <Text style={styles.progressLabel}>Completed Tasks</Text>
-                <Text style={styles.progressStats}>
-                  {taskStats.completed}/{taskStats.total}
+          <View style={styles.progressBarContainer}>
+            <Text style={styles.progressLabel}>Progress</Text>
+            <Text style={styles.progressCount}>
+              {taskStats.completed} / {taskStats.total} tasks
+            </Text>
+          </View>
+
+          <View style={styles.progressBar}>
+            <View
+              style={[
+                styles.progressBarFill,
+                { width: `${progressPercent}%` },
+              ]}
+            />
+          </View>
+        </View>
+
+        {/* Upcoming Events */}
+        <View style={styles.eventsCard}>
+          <View style={styles.eventsHeader}>
+            <View style={styles.eventsHeaderLeft}>
+              <View style={styles.eventsIconContainer}>
+                <Ionicons name="calendar" size={28} color="#fff" />
+              </View>
+              <View>
+                <Text style={styles.eventsTitle}>Upcoming Events</Text>
+                <Text style={styles.eventsSubtitle}>
+                  {filteredEvents.length} scheduled
                 </Text>
               </View>
-              <Progress.Bar
-                progress={taskStats.completed / taskStats.total}
-                width={null}
-                height={8}
-                color="#00C853"
-                unfilledColor="#E8F5E9"
-                borderWidth={0}
-                borderRadius={4}
-                style={styles.progressBar}
-              />
-              <Text style={styles.progressPercentage}>
-                {Math.round((taskStats.completed / taskStats.total) * 100)}%
-              </Text>
-            </>
-          ) : (
-            <Text style={styles.emptyText}>No tasks added yet</Text>
-          )}
-        </View>
-
-        {/* Upcoming Events Card */}
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <View style={styles.iconCircle}>
-              <Ionicons name="calendar" size={24} color="#fff" />
             </View>
-            <Text style={styles.cardTitle}>Upcoming Events</Text>
+            <TouchableOpacity
+              style={styles.addEventSmallButton}
+              onPress={() => router.push('/add-event')}
+            >
+              <Ionicons name="add" size={24} color="#fff" />
+            </TouchableOpacity>
           </View>
 
-          {events.length > 0 ? (
-            events.slice(0, 3).map((event) => (
-              <Pressable
-                key={event.id}
-                style={styles.eventItem}
-                onPress={() =>
-                  router.push({
-                    pathname: './edit-event/[id]',
-                    params: { id: event.id },
-                  })
-                }
-              >
-                <View style={styles.eventDot} />
-                <Text style={styles.eventText}>{event.title}</Text>
-              </Pressable>
-            ))
+          {filteredEvents.length === 0 ? (
+            <View style={styles.emptyEvents}>
+              <Text style={styles.emptyEventsText}>No upcoming events</Text>
+            </View>
           ) : (
-            <Text style={styles.emptyText}>No upcoming events</Text>
+            filteredEvents.map((event) => {
+              const dateInfo = formatEventDate(event.date);
+              return (
+                <TouchableOpacity
+                  key={event.id}
+                  style={styles.eventItem}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/edit-event/[id]',
+                      params: { id: event.id },
+                    })
+                  }
+                >
+                  <View style={styles.eventDot} />
+                  <View style={styles.eventContent}>
+                    <Text style={styles.eventTitle}>{event.title}</Text>
+                    <View style={styles.eventMeta}>
+                      <View style={styles.eventMetaItem}>
+                        <Ionicons name="calendar-outline" size={14} color="#666" />
+                        <Text style={styles.eventMetaText}>
+                          {dateInfo.month} {dateInfo.day}
+                        </Text>
+                      </View>
+                      <View style={styles.eventMetaItem}>
+                        <Ionicons name="time-outline" size={14} color="#666" />
+                        <Text style={styles.eventMetaText}>
+                          {formatEventTime(event.date)}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              );
+            })
           )}
         </View>
-
-        {/* Add Class Button */}
-        <TouchableOpacity
-          style={styles.addClassButton}
-          onPress={() => router.push('/add-class')}
-        >
-          <Ionicons name="school-outline" size={20} color="#00C853" />
-          <Text style={styles.addClassText}>Add UCSC Classes</Text>
-        </TouchableOpacity>
 
         <View style={{ height: 40 }} />
       </ScrollView>
-    </GestureHandlerRootView>
+    </View>
   );
 }
 
-/* -------------------------------------------------------
-   Styles
-------------------------------------------------------- */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#E8F5E9',
   },
   header: {
     paddingTop: 60,
-    paddingHorizontal: 20,
     paddingBottom: 20,
-    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    backgroundColor: '#E8F5E9',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#00C853',
-    marginBottom: 4,
+    color: '#333',
   },
-  headerSubtitle: {
-    fontSize: 14,
-    color: '#666',
+  scrollView: {
+    flex: 1,
+    paddingTop: 20,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     marginHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 16,
     paddingHorizontal: 16,
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    paddingVertical: 14,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
   searchIcon: {
-    marginRight: 8,
+    marginRight: 12,
   },
   searchInput: {
     flex: 1,
@@ -306,15 +377,30 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row',
-    marginHorizontal: 20,
-    marginBottom: 20,
+    paddingHorizontal: 20,
+    marginTop: 20,
     gap: 12,
   },
   addEventButton: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#00C853',
-    paddingVertical: 14,
-    borderRadius: 12,
+    paddingVertical: 18,
+    borderRadius: 16,
+    gap: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  addEventIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -325,127 +411,265 @@ const styles = StyleSheet.create({
   },
   addTaskButton: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: 14,
-    borderRadius: 12,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    backgroundColor: '#fff',
+    paddingVertical: 18,
+    borderRadius: 16,
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
   },
   addTaskText: {
     color: '#333',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   calendarCard: {
     backgroundColor: '#fff',
     marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  card: {
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-    marginBottom: 20,
-    borderRadius: 16,
+    marginTop: 20,
     padding: 20,
+    borderRadius: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
     elevation: 3,
   },
-  cardHeader: {
+  calendarHeader: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
   },
-  iconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#00C853',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  cardTitle: {
-    fontSize: 18,
+  calendarTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
-  progressRow: {
+  calendarNav: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  navButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: '#F5F5F5',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  weekView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  dayContainer: {
+    alignItems: 'center',
+    gap: 8,
+  },
+  dayName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#999',
+  },
+  dayCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayCircleActive: {
+    backgroundColor: '#C8E6C9',
+  },
+  dayCircleToday: {
+    backgroundColor: '#00C853',
+  },
+  dayNumber: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+  },
+  dayNumberActive: {
+    color: '#fff',
+  },
+  progressCard: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  progressHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    marginBottom: 20,
+  },
+  progressIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressInfo: {
+    flex: 1,
+  },
+  progressTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+  },
+  progressSubtitle: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
+  },
+  progressPercent: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#00C853',
+  },
+  progressPercentLabel: {
+    fontSize: 13,
+    fontWeight: 'normal',
+    color: '#666',
+  },
+  progressBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 8,
   },
   progressLabel: {
     fontSize: 14,
-    color: '#666',
+    fontWeight: '600',
+    color: '#333',
   },
-  progressStats: {
+  progressCount: {
     fontSize: 14,
     fontWeight: '600',
     color: '#00C853',
   },
   progressBar: {
-    marginBottom: 8,
+    height: 8,
+    backgroundColor: '#E8F5E9',
+    borderRadius: 4,
+    overflow: 'hidden',
   },
-  progressPercentage: {
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#00C853',
+    borderRadius: 4,
+  },
+  eventsCard: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  eventsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  eventsHeaderLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  eventsIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: '#2196F3',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  eventsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  eventsSubtitle: {
+    fontSize: 13,
+    color: '#666',
+    marginTop: 2,
+  },
+  addEventSmallButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  emptyEvents: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  emptyEventsText: {
     fontSize: 14,
-    color: '#00C853',
-    fontWeight: '600',
-    textAlign: 'right',
+    color: '#999',
   },
   eventItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 16,
+    gap: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#F5F5F5',
   },
   eventDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
     backgroundColor: '#FF9800',
-    marginRight: 12,
   },
-  eventText: {
-    fontSize: 16,
-    color: '#333',
+  eventContent: {
+    flex: 1,
   },
-  emptyText: {
-    fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  addClassButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-    marginBottom: 20,
-    paddingVertical: 14,
-    borderRadius: 12,
-    gap: 8,
-    borderWidth: 1,
-    borderColor: '#00C853',
-  },
-  addClassText: {
-    color: '#00C853',
+  eventTitle: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#333',
+    marginBottom: 6,
+  },
+  eventMeta: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  eventMetaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  eventMetaText: {
+    fontSize: 13,
+    color: '#666',
   },
 });

@@ -96,6 +96,16 @@ export default function HabitsScreen() {
     return { completed: completedThisWeek, target: habit.timesPerWeek };
   };
 
+  const isTodayCompleted = (habit: Habit) => {
+    const today = new Date().toISOString().split('T')[0];
+    return !!habit.completions[today];
+  };
+
+  const toggleTodayCompletion = (habitId: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    handleDayPress(habitId, today);
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -211,6 +221,29 @@ export default function HabitsScreen() {
                     ]}
                   />
                 </View>
+
+                {/* Log Today Button */}
+                <TouchableOpacity
+                  style={[
+                    styles.logTodayButton,
+                    isTodayCompleted(habit) && styles.logTodayButtonCompleted,
+                  ]}
+                  onPress={() => toggleTodayCompletion(habit.id)}
+                >
+                  <Ionicons
+                    name={isTodayCompleted(habit) ? 'checkmark-circle' : 'checkmark-circle-outline'}
+                    size={24}
+                    color={isTodayCompleted(habit) ? '#fff' : '#00C853'}
+                  />
+                  <Text
+                    style={[
+                      styles.logTodayText,
+                      isTodayCompleted(habit) && styles.logTodayTextCompleted,
+                    ]}
+                  >
+                    {isTodayCompleted(habit) ? 'Completed Today!' : 'Log Today'}
+                  </Text>
+                </TouchableOpacity>
               </View>
             );
           })
@@ -408,5 +441,29 @@ const styles = StyleSheet.create({
   },
   heatmapContainer: {
     marginTop: 8,
+  },
+  logTodayButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 8,
+    borderWidth: 2,
+    borderColor: '#00C853',
+  },
+  logTodayButtonCompleted: {
+    backgroundColor: '#00C853',
+    borderColor: '#00C853',
+  },
+  logTodayText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#00C853',
+  },
+  logTodayTextCompleted: {
+    color: '#fff',
   },
 });

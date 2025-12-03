@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle, G, Line, Rect, Text as SvgText } from 'react-native-svg';
 
@@ -26,8 +25,8 @@ export type TaskItem = EventItem & {
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
-  const [filter, setFilter] = useState<'incomplete' | 'completed' | 'stats'>('incomplete');
-  const [selectedWeek, setSelectedWeek] = useState(0); // 0 = current week, -1 = last week, etc.
+  const [filter, setFilter] = useState<'todo' | 'done' | 'stats'>('todo');
+  const [selectedWeek, setSelectedWeek] = useState(0);
 
   /* -------------------------------------------------------
      Load tasks
@@ -94,16 +93,19 @@ export default function Tasks() {
   ------------------------------------------------------- */
   const incompleteTasks = tasks.filter((t) => !t.completed);
   const completedTasks = tasks.filter((t) => t.completed);
+  const highPriorityCount = incompleteTasks.filter((t) => t.priority === 3).length;
 
   const displayedTasks =
-    filter === 'incomplete'
+    filter === 'todo'
       ? [...incompleteTasks].sort((a, b) => {
           if ((b.priority || 1) !== (a.priority || 1)) return (b.priority || 1) - (a.priority || 1);
           return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
         })
-      : [...completedTasks].sort((a, b) =>
-          new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
-        );
+      : filter === 'done'
+      ? [...completedTasks].sort((a, b) =>
+          new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+        )
+      : [];
 
   const getPriorityLabel = (priority?: number) => {
     if (!priority || priority === 1) return 'Low';
@@ -119,17 +121,34 @@ export default function Tasks() {
 
   const formatDueDate = (dateString: string) => {
     const date = new Date(dateString);
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const taskDate = new Date(dateString);
+    taskDate.setHours(0, 0, 0, 0);
+
+    if (taskDate < now) {
+      return 'Overdue';
+    }
+
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  /* -------------------------------------------------------
-     Stats Calculations
-  ------------------------------------------------------- */
+  const isOverdue = (dateString: string) => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const taskDate = new Date(dateString);
+    taskDate.setHours(0, 0, 0, 0);
+    return taskDate < now;
+  };
+
   const getCompletionRate = () => {
     if (tasks.length === 0) return 0;
     return Math.round((completedTasks.length / tasks.length) * 100);
   };
 
+  /* -------------------------------------------------------
+     Stats Functions
+  ------------------------------------------------------- */
   const getPriorityDistribution = () => {
     const distribution = { low: 0, medium: 0, high: 0 };
     tasks.forEach((task) => {
@@ -183,7 +202,6 @@ export default function Tasks() {
     const priorityDist = getPriorityDistribution();
     const total = priorityDist.low + priorityDist.medium + priorityDist.high;
 
-    // Weekly data for 4 weeks
     const weeks = [
       getWeeklyData(-3),
       getWeeklyData(-2),
@@ -197,116 +215,77 @@ export default function Tasks() {
         <View style={styles.statsCard}>
           <View style={styles.statsCardHeader}>
             <View style={styles.statsIconContainer}>
-              <Ionicons name="trophy" size={24} color="#fff" />
+              <Ionicons name="analytics" size={24} color="#fff" />
             </View>
-            <View style={styles.statsHeaderText}>
+            <View>
               <Text style={styles.statsCardTitle}>Performance Overview</Text>
-              <Text style={styles.statsCardSubtitle}>Your productivity insights</Text>
+              <Text style={styles.statsCardSubtitle}>Your task completion stats</Text>
             </View>
           </View>
 
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
+              <Text style={styles.statNumber}>{tasks.length}</Text>
               <Text style={styles.statLabel}>Total Tasks</Text>
-              <Text style={styles.statValue}>{tasks.length}</Text>
             </View>
             <View style={styles.statDivider} />
             <View style={styles.statItem}>
-              <Text style={styles.statLabel}>Completion Rate</Text>
-              <Text style={[styles.statValue, { color: '#00C853' }]}>
-                {completionRate}%
-              </Text>
+              <Text style={[styles.statNumber, { color: '#00C853' }]}>{completionRate}%</Text>
+              <Text style={styles.statLabel}>Completed</Text>
             </View>
           </View>
         </View>
 
         {/* Priority Distribution */}
         <View style={styles.statsCard}>
-          <View style={styles.statsCardHeader}>
-            <View style={[styles.statsIconContainer, { backgroundColor: '#FF6B35' }]}>
-              <Ionicons name="stats-chart" size={24} color="#fff" />
-            </View>
-            <View style={styles.statsHeaderText}>
-              <Text style={styles.statsCardTitle}>Priority Distribution</Text>
-              <Text style={styles.statsCardSubtitle}>Task priorities</Text>
-            </View>
+          <Text style={styles.statsCardTitle}>Priority Distribution</Text>
+          <Text style={styles.statsCardSubtitle}>Task breakdown by priority level</Text>
+
+          <View style={styles.chartContainer}>
+            <DonutChart low={priorityDist.low} medium={priorityDist.medium} high={priorityDist.high} />
           </View>
 
-          {total > 0 ? (
-            <>
-              <View style={styles.chartContainer}>
-                <DonutChart
-                  low={priorityDist.low}
-                  medium={priorityDist.medium}
-                  high={priorityDist.high}
-                />
-              </View>
-
-              <View style={styles.legendContainer}>
-                {priorityDist.high > 0 && (
-                  <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: '#F44336' }]} />
-                    <Text style={styles.legendText}>High ({priorityDist.high})</Text>
-                  </View>
-                )}
-                {priorityDist.medium > 0 && (
-                  <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: '#FF9800' }]} />
-                    <Text style={styles.legendText}>Medium ({priorityDist.medium})</Text>
-                  </View>
-                )}
-                {priorityDist.low > 0 && (
-                  <View style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
-                    <Text style={styles.legendText}>Low ({priorityDist.low})</Text>
-                  </View>
-                )}
-              </View>
-            </>
-          ) : (
-            <View style={styles.emptyChart}>
-              <Text style={styles.emptyChartText}>No tasks yet</Text>
+          <View style={styles.legendContainer}>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: '#F44336' }]} />
+              <Text style={styles.legendText}>High ({priorityDist.high})</Text>
             </View>
-          )}
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: '#FF9800' }]} />
+              <Text style={styles.legendText}>Medium ({priorityDist.medium})</Text>
+            </View>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
+              <Text style={styles.legendText}>Low ({priorityDist.low})</Text>
+            </View>
+          </View>
         </View>
 
         {/* Weekly Progress */}
         <View style={styles.statsCard}>
-          <View style={styles.statsCardHeader}>
-            <View style={[styles.statsIconContainer, { backgroundColor: '#2196F3' }]}>
-              <Ionicons name="bar-chart" size={24} color="#fff" />
-            </View>
-            <View style={styles.statsHeaderText}>
-              <Text style={styles.statsCardTitle}>Weekly Progress</Text>
-              <Text style={styles.statsCardSubtitle}>Last 4 weeks</Text>
-            </View>
-          </View>
+          <Text style={styles.statsCardTitle}>Weekly Progress</Text>
+          <Text style={styles.statsCardSubtitle}>Last 4 weeks completion rate</Text>
 
-          <View style={styles.barChartContainer}>
-            <BarChart weeks={weeks} />
-          </View>
-
-          <View style={styles.chartLegendRow}>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: '#00C853' }]} />
-              <Text style={styles.legendText}>Completed</Text>
-            </View>
-            <View style={styles.legendItem}>
-              <View style={[styles.legendDot, { backgroundColor: '#F44336' }]} />
-              <Text style={styles.legendText}>Incomplete</Text>
-            </View>
-          </View>
+          <BarChart weeks={weeks} />
         </View>
+
+        <View style={{ height: 100 }} />
       </View>
     );
   };
 
   /* -------------------------------------------------------
-     Donut Chart Component
+     SVG Charts
   ------------------------------------------------------- */
   const DonutChart = ({ low, medium, high }: { low: number; medium: number; high: number }) => {
     const total = low + medium + high;
-    if (total === 0) return null;
+    if (total === 0) {
+      return (
+        <View style={{ height: 200, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ color: '#999' }}>No tasks available</Text>
+        </View>
+      );
+    }
 
     const size = 200;
     const strokeWidth = 30;
@@ -321,10 +300,13 @@ export default function Tasks() {
     const mediumDash = circumference * mediumPercent;
     const lowDash = circumference * lowPercent;
 
+    const highOffset = 0;
+    const mediumOffset = -highDash;
+    const lowOffset = -(highDash + mediumDash);
+
     return (
       <Svg width={size} height={size}>
         <G rotation="-90" origin={`${size / 2}, ${size / 2}`}>
-          {/* High priority */}
           {high > 0 && (
             <Circle
               cx={size / 2}
@@ -334,10 +316,9 @@ export default function Tasks() {
               strokeWidth={strokeWidth}
               fill="none"
               strokeDasharray={`${highDash} ${circumference}`}
-              strokeDashoffset={0}
+              strokeDashoffset={highOffset}
             />
           )}
-          {/* Medium priority */}
           {medium > 0 && (
             <Circle
               cx={size / 2}
@@ -347,10 +328,9 @@ export default function Tasks() {
               strokeWidth={strokeWidth}
               fill="none"
               strokeDasharray={`${mediumDash} ${circumference}`}
-              strokeDashoffset={-highDash}
+              strokeDashoffset={mediumOffset}
             />
           )}
-          {/* Low priority */}
           {low > 0 && (
             <Circle
               cx={size / 2}
@@ -360,7 +340,7 @@ export default function Tasks() {
               strokeWidth={strokeWidth}
               fill="none"
               strokeDasharray={`${lowDash} ${circumference}`}
-              strokeDashoffset={-(highDash + mediumDash)}
+              strokeDashoffset={lowOffset}
             />
           )}
         </G>
@@ -368,65 +348,47 @@ export default function Tasks() {
     );
   };
 
-  /* -------------------------------------------------------
-     Bar Chart Component
-  ------------------------------------------------------- */
-  const BarChart = ({ weeks }: { weeks: Array<{ completed: number; incomplete: number; weekLabel: string }> }) => {
+  const BarChart = ({ weeks }: { weeks: any[] }) => {
+    const chartWidth = 340;
+    const chartHeight = 200;
+    const barWidth = 60;
+    const spacing = 20;
     const maxValue = Math.max(...weeks.map((w) => w.completed + w.incomplete), 1);
-    const chartHeight = 180;
-    const chartWidth = 280;
-    const barWidth = 30;
-    const gap = 15;
 
     return (
-      <View>
-        <Svg width={chartWidth} height={chartHeight + 30}>
-          {/* Y-axis labels */}
-          <SvgText x="0" y="15" fontSize="10" fill="#999">
-            {maxValue}
-          </SvgText>
-          <SvgText x="0" y={chartHeight / 2 + 10} fontSize="10" fill="#999">
-            {Math.round(maxValue / 2)}
-          </SvgText>
-          <SvgText x="0" y={chartHeight} fontSize="10" fill="#999">
-            0
-          </SvgText>
-
-          {/* Bars */}
+      <View style={{ marginTop: 20 }}>
+        <Svg width={chartWidth} height={chartHeight + 40}>
           {weeks.map((week, index) => {
-            const xStart = 30 + index * (barWidth * 2 + gap);
-            const completedHeight = (week.completed / maxValue) * (chartHeight - 20);
-            const incompleteHeight = (week.incomplete / maxValue) * (chartHeight - 20);
+            const x = index * (barWidth + spacing) + spacing;
+            const completedHeight = (week.completed / maxValue) * chartHeight;
+            const incompleteHeight = (week.incomplete / maxValue) * chartHeight;
 
             return (
               <G key={index}>
-                {/* Completed bar */}
                 <Rect
-                  x={xStart}
+                  x={x}
                   y={chartHeight - completedHeight}
                   width={barWidth}
                   height={completedHeight}
                   fill="#00C853"
                   rx={4}
                 />
-                {/* Incomplete bar */}
                 <Rect
-                  x={xStart + barWidth + 5}
-                  y={chartHeight - incompleteHeight}
+                  x={x}
+                  y={chartHeight - completedHeight - incompleteHeight}
                   width={barWidth}
                   height={incompleteHeight}
-                  fill="#F44336"
+                  fill="#E0E0E0"
                   rx={4}
                 />
-                {/* X-axis label */}
                 <SvgText
-                  x={xStart + barWidth}
+                  x={x + barWidth / 2}
                   y={chartHeight + 20}
-                  fontSize="10"
+                  fontSize="12"
                   fill="#666"
                   textAnchor="middle"
                 >
-                  Week {index + 1}
+                  {week.weekLabel}
                 </SvgText>
               </G>
             );
@@ -437,119 +399,157 @@ export default function Tasks() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
-        <ScrollView style={styles.container}>
-          {/* Header */}
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
-              <View style={styles.iconSquare}>
-                <Ionicons name="checkbox" size={28} color="#fff" />
+    <GestureHandlerRootView style={styles.container}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <Text style={styles.headerTitle}>
+              My Tasks <Ionicons name="sparkles" size={24} color="#00C853" />
+            </Text>
+            <Text style={styles.headerSubtitle}>Stay organized and productive</Text>
+          </View>
+
+          {/* Summary Cards */}
+          <View style={styles.summaryRow}>
+            <View style={[styles.summaryCard, { backgroundColor: '#FF6B35' }]}>
+              <View style={styles.summaryIcon}>
+                <Ionicons name="flag" size={24} color="rgba(255, 255, 255, 0.5)" />
               </View>
-              <Text style={styles.headerTitle}>My Tasks</Text>
+              <Text style={styles.summaryNumber}>{highPriorityCount}</Text>
+              <Text style={styles.summaryLabel}>High Priority</Text>
             </View>
-            <Text style={styles.headerSubtitle}>Organize your work</Text>
+
+            <View style={[styles.summaryCard, { backgroundColor: '#5B8BF4' }]}>
+              <View style={styles.summaryIcon}>
+                <Ionicons name="list" size={24} color="rgba(255, 255, 255, 0.5)" />
+              </View>
+              <Text style={styles.summaryNumber}>{incompleteTasks.length}</Text>
+              <Text style={styles.summaryLabel}>To Do</Text>
+            </View>
+
+            <View style={[styles.summaryCard, { backgroundColor: '#00C853' }]}>
+              <View style={styles.summaryIcon}>
+                <Ionicons name="trending-up" size={24} color="rgba(255, 255, 255, 0.5)" />
+              </View>
+              <Text style={styles.summaryNumber}>{getCompletionRate()}%</Text>
+              <Text style={styles.summaryLabel}>Complete</Text>
+            </View>
           </View>
+        </View>
 
-          {/* Filter Tabs */}
-          <View style={styles.tabsContainer}>
-            <TouchableOpacity
-              style={[
-                styles.tab,
-                filter === 'incomplete' && styles.tabActive,
-              ]}
-              onPress={() => setFilter('incomplete')}
-            >
-              <Text
-                style={[
-                  styles.tabText,
-                  filter === 'incomplete' && styles.tabTextActive,
-                ]}
-              >
-                Incomplete
-              </Text>
-            </TouchableOpacity>
+        {/* Tab Navigation */}
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, filter === 'todo' && styles.tabActive]}
+            onPress={() => setFilter('todo')}
+          >
+            <Ionicons
+              name="list"
+              size={20}
+              color={filter === 'todo' ? '#fff' : '#666'}
+              style={{ marginRight: 6 }}
+            />
+            <Text style={[styles.tabText, filter === 'todo' && styles.tabTextActive]}>
+              Todo
+            </Text>
+            {incompleteTasks.length > 0 && filter === 'todo' && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{incompleteTasks.length}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.tab,
-                filter === 'completed' && styles.tabActive,
-              ]}
-              onPress={() => setFilter('completed')}
-            >
-              <Text
-                style={[
-                  styles.tabText,
-                  filter === 'completed' && styles.tabTextActive,
-                ]}
-              >
-                Completed
-              </Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, filter === 'done' && styles.tabActive]}
+            onPress={() => setFilter('done')}
+          >
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={20}
+              color={filter === 'done' ? '#fff' : '#666'}
+              style={{ marginRight: 6 }}
+            />
+            <Text style={[styles.tabText, filter === 'done' && styles.tabTextActive]}>
+              Done
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.tab,
-                filter === 'stats' && styles.tabActive,
-              ]}
-              onPress={() => setFilter('stats')}
-            >
-              <Text
-                style={[
-                  styles.tabText,
-                  filter === 'stats' && styles.tabTextActive,
-                ]}
-              >
-                Stats
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[styles.tab, filter === 'stats' && styles.tabActive]}
+            onPress={() => setFilter('stats')}
+          >
+            <Ionicons
+              name="bar-chart-outline"
+              size={20}
+              color={filter === 'stats' ? '#fff' : '#666'}
+              style={{ marginRight: 6 }}
+            />
+            <Text style={[styles.tabText, filter === 'stats' && styles.tabTextActive]}>
+              Stats
+            </Text>
+          </TouchableOpacity>
+        </View>
 
+        {/* Content */}
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {filter === 'stats' ? (
-            // Stats View
             renderStatsView()
           ) : (
             <>
-              {/* Status Message */}
-              <View style={styles.statusCard}>
-                <Text style={styles.statusText}>
-                  {filter === 'incomplete' ? (
-                    <>
-                      You still have{' '}
-                      <Text style={styles.statusNumber}>{incompleteTasks.length}</Text>{' '}
-                      task{incompleteTasks.length === 1 ? '' : 's'} to do.
-                    </>
-                  ) : (
-                    <>
-                      You have completed{' '}
-                      <Text style={styles.statusNumber}>{completedTasks.length}</Text>{' '}
-                      task{completedTasks.length === 1 ? '' : 's'}.
-                    </>
-                  )}
-                </Text>
-              </View>
+              {/* Encouragement Card (only for todo view) */}
+              {filter === 'todo' && incompleteTasks.length > 0 && (
+                <View style={styles.encouragementCard}>
+                  <View style={styles.encouragementIcon}>
+                    <Ionicons name="list" size={28} color="#fff" />
+                  </View>
+                  <View style={styles.encouragementText}>
+                    <Text style={styles.encouragementTitle}>
+                      You have {incompleteTasks.length} task{incompleteTasks.length !== 1 ? 's' : ''} to complete
+                    </Text>
+                    <Text style={styles.encouragementSubtitle}>
+                      {highPriorityCount} high priority • Keep pushing forward! 💪
+                    </Text>
+                  </View>
+                </View>
+              )}
 
               {/* Task List */}
               {displayedTasks.length === 0 ? (
-                <View style={styles.emptyContainer}>
+                <View style={styles.emptyState}>
+                  <Ionicons
+                    name={filter === 'todo' ? 'checkmark-circle' : 'list'}
+                    size={64}
+                    color="#E0E0E0"
+                  />
                   <Text style={styles.emptyText}>
-                    {filter === 'incomplete'
-                      ? 'No incomplete tasks'
-                      : 'No completed tasks yet'}
+                    {filter === 'todo' ? 'No tasks to complete!' : 'No completed tasks'}
                   </Text>
                 </View>
               ) : (
                 displayedTasks.map((task) => (
-                  <View key={task.id} style={styles.taskCard}>
+                  <TouchableOpacity
+                    key={task.id}
+                    style={[
+                      styles.taskCard,
+                      task.priority === 3 && !task.completed && styles.taskCardHighPriority,
+                    ]}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/edit-event/[id]',
+                        params: { id: task.id },
+                      })
+                    }
+                  >
                     <TouchableOpacity
                       style={styles.checkbox}
                       onPress={() => handleToggleComplete(task.id)}
                     >
-                      <Ionicons
-                        name={task.completed ? 'checkbox' : 'square-outline'}
-                        size={24}
-                        color={task.completed ? '#00C853' : '#999'}
-                      />
+                      {task.completed ? (
+                        <Ionicons name="checkmark-circle" size={28} color="#00C853" />
+                      ) : (
+                        <View style={styles.checkboxEmpty} />
+                      )}
                     </TouchableOpacity>
 
                     <View style={styles.taskContent}>
@@ -558,46 +558,76 @@ export default function Tasks() {
                       </Text>
 
                       <View style={styles.taskMeta}>
-                        <View style={styles.priorityContainer}>
-                          <Ionicons name="flag" size={16} color={getPriorityColor(task.priority)} />
-                          <View style={[styles.priorityDot, { backgroundColor: getPriorityColor(task.priority) }]} />
-                          <Text style={[styles.priorityText, { color: getPriorityColor(task.priority) }]}>
+                        <View
+                          style={[
+                            styles.priorityBadge,
+                            { backgroundColor: `${getPriorityColor(task.priority)}15` },
+                          ]}
+                        >
+                          <View
+                            style={[
+                              styles.priorityDot,
+                              { backgroundColor: getPriorityColor(task.priority) },
+                            ]}
+                          />
+                          <Text
+                            style={[
+                              styles.priorityText,
+                              { color: getPriorityColor(task.priority) },
+                            ]}
+                          >
                             {getPriorityLabel(task.priority)}
                           </Text>
                         </View>
 
-                        <View style={styles.dateContainer}>
-                          <Ionicons name="calendar-outline" size={16} color="#666" />
-                          <Text style={styles.dateText}>{formatDueDate(task.dueDate)}</Text>
+                        <View
+                          style={[
+                            styles.dateBadge,
+                            isOverdue(task.dueDate) && !task.completed && styles.dateBadgeOverdue,
+                          ]}
+                        >
+                          <Ionicons
+                            name="time-outline"
+                            size={14}
+                            color={isOverdue(task.dueDate) && !task.completed ? '#F44336' : '#666'}
+                          />
+                          <Text
+                            style={[
+                              styles.dateText,
+                              isOverdue(task.dueDate) && !task.completed && styles.dateTextOverdue,
+                            ]}
+                          >
+                            {formatDueDate(task.dueDate)}
+                          </Text>
                         </View>
                       </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))
               )}
+
+              <View style={{ height: 100 }} />
             </>
           )}
-
-          <View style={{ height: 100 }} />
         </ScrollView>
 
         {/* Add Task Button */}
-        <View style={styles.addButtonContainer}>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => router.push('/add-task')}
-          >
-            <Text style={styles.addButtonText}>+ Add New Task</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+        {filter !== 'stats' && (
+          <View style={styles.addButtonContainer}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => router.push('/add-task')}
+            >
+              <Ionicons name="add" size={24} color="#fff" />
+              <Text style={styles.addButtonText}>Add New Task</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </GestureHandlerRootView>
   );
 }
 
-/* -------------------------------------------------------
-   Styles
-------------------------------------------------------- */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -605,99 +635,150 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 60,
     paddingBottom: 20,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
-  headerTop: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  iconSquare: {
-    width: 40,
-    height: 40,
-    backgroundColor: '#00C853',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
+  headerContent: {
+    marginBottom: 20,
   },
   headerTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#00C853',
+    marginBottom: 4,
   },
   headerSubtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginLeft: 52,
+    fontSize: 16,
+    color: '#999',
   },
-  tabsContainer: {
+  summaryRow: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingTop: 20,
     gap: 12,
   },
-  tab: {
+  summaryCard: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 24,
-    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 16,
+    minHeight: 120,
+  },
+  summaryIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    justifyContent: 'center',
+    marginBottom: 12,
   },
-  tabActive: {
-    backgroundColor: '#00C853',
-    borderColor: '#00C853',
+  summaryNumber: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 4,
   },
-  tabText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  tabTextActive: {
+  summaryLabel: {
+    fontSize: 14,
     color: '#fff',
     fontWeight: '600',
   },
-  statusCard: {
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
+  tabContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
     marginTop: 20,
-    padding: 16,
+    gap: 12,
+  },
+  tab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    backgroundColor: '#fff',
   },
-  statusText: {
+  tabActive: {
+    backgroundColor: '#00C853',
+  },
+  tabText: {
     fontSize: 16,
-    color: '#333',
+    fontWeight: '600',
+    color: '#666',
   },
-  statusNumber: {
-    color: '#00C853',
+  tabTextActive: {
+    color: '#fff',
+  },
+  badge: {
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+    marginLeft: 8,
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 12,
     fontWeight: 'bold',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  encouragementCard: {
+    flexDirection: 'row',
+    backgroundColor: '#E8F5E9',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  encouragementIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: '#00C853',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  encouragementText: {
+    flex: 1,
+  },
+  encouragementTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+  },
+  encouragementSubtitle: {
+    fontSize: 14,
+    color: '#666',
   },
   taskCard: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    marginHorizontal: 20,
-    marginTop: 16,
     padding: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderRadius: 16,
+    marginBottom: 12,
+    alignItems: 'flex-start',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  taskCardHighPriority: {
+    borderColor: '#FFE0E0',
   },
   checkbox: {
     marginRight: 12,
-    paddingTop: 2,
+    marginTop: 2,
+  },
+  checkboxEmpty: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
   },
   taskContent: {
     flex: 1,
@@ -714,33 +795,46 @@ const styles = StyleSheet.create({
   },
   taskMeta: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
+    gap: 8,
   },
-  priorityContainer: {
+  priorityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 12,
   },
   priorityDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
+    marginRight: 6,
   },
   priorityText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
   },
-  dateContainer: {
+  dateBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    backgroundColor: '#F5F5F5',
+    gap: 4,
+  },
+  dateBadgeOverdue: {
+    backgroundColor: '#FFE0E0',
   },
   dateText: {
     fontSize: 14,
     color: '#666',
+    fontWeight: '500',
   },
-  emptyContainer: {
+  dateTextOverdue: {
+    color: '#F44336',
+  },
+  emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 60,
@@ -748,6 +842,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     color: '#999',
+    marginTop: 16,
   },
   addButtonContainer: {
     position: 'absolute',
@@ -755,62 +850,51 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 100,
     backgroundColor: 'transparent',
   },
   addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#00C853',
     paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
+    borderRadius: 16,
+    gap: 8,
   },
   addButtonText: {
-    color: '#fff',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  // Stats styles
   statsCard: {
     backgroundColor: '#fff',
-    marginTop: 20,
     padding: 20,
     borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    marginBottom: 20,
   },
   statsCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    gap: 12,
   },
   statsIconContainer: {
     width: 48,
     height: 48,
     borderRadius: 12,
-    backgroundColor: '#9C27B0',
+    backgroundColor: '#00C853',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  statsHeaderText: {
-    flex: 1,
+    marginRight: 12,
   },
   statsCardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   statsCardSubtitle: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#666',
   },
   statsRow: {
@@ -821,15 +905,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  statLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-  },
-  statValue: {
+  statNumber: {
     fontSize: 32,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '#666',
   },
   statDivider: {
     width: 1,
@@ -838,45 +922,25 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 20,
   },
   legendContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    gap: 16,
-    marginTop: 16,
+    justifyContent: 'space-around',
+    marginTop: 20,
   },
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
   legendDot: {
     width: 12,
     height: 12,
     borderRadius: 6,
+    marginRight: 6,
   },
   legendText: {
     fontSize: 14,
     color: '#666',
-  },
-  emptyChart: {
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  emptyChartText: {
-    fontSize: 16,
-    color: '#999',
-  },
-  barChartContainer: {
-    alignItems: 'center',
-    marginVertical: 10,
-  },
-  chartLegendRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 24,
-    marginTop: 16,
   },
 });

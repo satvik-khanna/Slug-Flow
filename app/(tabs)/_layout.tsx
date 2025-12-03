@@ -65,6 +65,17 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Focus tab – timer icon */}
+      <Tabs.Screen
+        name="focus"         // <-- file: app/(tabs)/focus.tsx
+        options={{
+          title: 'Focus',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="timer" color={color} />
+          ),
+        }}
+      />
+
       {/* Calendar tab – calendar icon */}
       <Tabs.Screen
         name="calendar"      // <-- file: app/(tabs)/calendar.tsx
