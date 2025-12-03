@@ -322,6 +322,15 @@ export default function HomeScreen() {
           )}
         </View>
 
+        {/* Add Class Button */}
+        <TouchableOpacity
+          style={styles.addClassButton}
+          onPress={() => router.push('/add-class')}
+        >
+          <Ionicons name="school-outline" size={20} color="#00C853" />
+          <Text style={styles.addClassText}>Add UCSC Classes</Text>
+        </TouchableOpacity>
+
         <View style={{ height: 40 }} />
       </ScrollView>
     </View>
@@ -671,5 +680,23 @@ const styles = StyleSheet.create({
   eventMetaText: {
     fontSize: 13,
     color: '#666',
+  },
+  addClassButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    marginTop: 20,
+    paddingVertical: 14,
+    borderRadius: 12,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#00C853',
+  },
+  addClassText: {
+    color: '#00C853',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
