@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect } from 'expo-router';
 import React, { useState } from 'react';
@@ -9,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 import type { EventItem } from '@/components/SwipeableEventCard';
 
@@ -293,7 +293,7 @@ export default function HomeScreen() {
                   style={styles.eventItem}
                   onPress={() =>
                     router.push({
-                      pathname: '/edit-event/[id]',
+                      pathname: '/edit-event',
                       params: { id: event.id },
                     })
                   }

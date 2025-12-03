@@ -1,121 +1,170 @@
+// app/edit-event/[id].tsx
+
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Notifications from 'expo-notifications';
-import { Stack, router } from 'expo-router';
-import React, { useState } from 'react';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
-import type { EventItem } from '@/components/SwipeableEventCard';
+type EventItem = {
+  id: string;
+  title: string;
+  note?: string;
+  location?: string;
+  date: string;
+  endDate: string;
+  notificationId?: string;
+  completed?: boolean;
+  type: "event";
+};
 
-/* -------------------------------------------------------
-   Local PST ISO helper
--------------------------------------------------------- */
 function toLocalISOString(date: Date) {
   const tzOffset = date.getTimezoneOffset() * 60000;
   return new Date(date.getTime() - tzOffset).toISOString().slice(0, 19);
 }
 
-export default function AddEventScreen() {
+export default function EditEventScreen() {
+  const { id } = useLocalSearchParams();
+
+  const [loading, setLoading] = useState(true);
+
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(() => {
-    const d = new Date();
-    d.setHours(d.getHours() + 1);
-    return d;
-  });
+  const [endDate, setEndDate] = useState(new Date());
+  const [completed, setCompleted] = useState(false);
+  const [notificationId, setNotificationId] = useState<string | undefined>(undefined);
 
-  const handleAdd = async () => {
+  useEffect(() => {
+    const loadEvent = async () => {
+      const stored = await AsyncStorage.getItem("events");
+      const parsed: EventItem[] = stored ? JSON.parse(stored) : [];
+
+      const event = parsed.find(e => e.id === id);
+
+      if (!event) {
+        Alert.alert("Error", "Event not found.");
+        router.back();
+        return;
+      }
+
+      setTitle(event.title);
+      setNote(event.note || "");
+      setLocation(event.location || "");
+      setDate(new Date(event.date));
+      setEndDate(new Date(event.endDate));
+      setCompleted(!!event.completed);
+      setNotificationId(event.notificationId);
+
+      setLoading(false);
+    };
+
+    loadEvent();
+  }, [id]);
+
+  const handleSave = async () => {
     if (!title.trim()) {
       alert("Please enter a title.");
       return;
     }
-
-    const now = new Date();
-    if (date < now) {
-      alert('You cannot add a time that has already passed.');
-      return;
-    }
     if (endDate <= date) {
-      alert('The end time must be later than the start time.');
+      alert("End time must be after the start time.");
       return;
     }
 
-    const trigger = {
-      type: "date",
-      date: date.getTime(),
-    } as Notifications.DateTriggerInput;
+    const stored = await AsyncStorage.getItem("events");
+    const events: EventItem[] = stored ? JSON.parse(stored) : [];
 
-    let notificationId: string | undefined;
-    try {
-      notificationId = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: `${title}`,
-          body: `Your event starts at ${date.toLocaleTimeString()}`,
-          sound: true,
+    const updated = events.map(ev =>
+      ev.id === id
+        ? {
+            ...ev,
+            title,
+            note,
+            location,
+            date: toLocalISOString(date),
+            endDate: toLocalISOString(endDate),
+            completed,
+          }
+        : ev
+    );
+
+    await AsyncStorage.setItem("events", JSON.stringify(updated));
+    router.back();
+  };
+
+  const handleToggleComplete = async () => {
+    const stored = await AsyncStorage.getItem("events");
+    const events: EventItem[] = stored ? JSON.parse(stored) : [];
+
+    const updated = events.map(ev =>
+      ev.id === id ? { ...ev, completed: !completed } : ev
+    );
+
+    await AsyncStorage.setItem("events", JSON.stringify(updated));
+    setCompleted(!completed);
+  };
+
+  const handleDelete = async () => {
+    Alert.alert(
+      "Delete Event",
+      "Are you sure you want to delete this event?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            const stored = await AsyncStorage.getItem("events");
+            const events: EventItem[] = stored ? JSON.parse(stored) : [];
+
+            const target = events.find(e => e.id === id);
+            if (target?.notificationId) {
+              try {
+                await Notifications.cancelScheduledNotificationAsync(target.notificationId);
+              } catch {}
+            }
+
+            const filtered = events.filter(e => e.id !== id);
+            await AsyncStorage.setItem("events", JSON.stringify(filtered));
+
+            router.back();
+          },
         },
-        trigger,
-      });
-    } catch (e) {
-      console.warn("Unable to schedule notification:", e);
-    }
-
-    const newEvent: EventItem = {
-      id: Date.now().toString(),
-      title,
-      note,
-      location,
-      date: toLocalISOString(date),
-      endDate: toLocalISOString(endDate),
-      notificationId,
-      type: "event",
-      completed: false,
-    };
-
-    try {
-      const stored = await AsyncStorage.getItem("events");
-      const eventList: EventItem[] = stored ? JSON.parse(stored) : [];
-      eventList.push(newEvent);
-      await AsyncStorage.setItem("events", JSON.stringify(eventList));
-      router.back();
-    } catch (e) {
-      alert("Storage failed, please try again.");
-      console.error(e);
-    }
+      ]
+    );
   };
 
   const formatDateTime = (date: Date) => {
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
     });
   };
+
+  if (loading) return <Text style={{ padding: 20 }}>Loading…</Text>;
 
   return (
     <>
       <Stack.Screen
         options={{
-          title: "Add Event",
+          title: "Edit Event",
           headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
+          headerStyle: { backgroundColor: "#fff" },
           headerShadowVisible: false,
-          headerTitleStyle: {
-            fontSize: 18,
-            fontWeight: '600',
-          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => router.back()}
@@ -127,17 +176,18 @@ export default function AddEventScreen() {
         }}
       />
 
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+        
         {/* Header Card */}
         <View style={styles.headerCard}>
           <View style={styles.iconCircle}>
-            <Ionicons name="calendar" size={28} color="#fff" />
+            <Ionicons name="create-outline" size={28} color="#fff" />
           </View>
-          <Text style={styles.headerTitle}>Create New Event</Text>
-          <Text style={styles.headerSubtitle}>Fill in the details below</Text>
+          <Text style={styles.headerTitle}>Edit Event</Text>
+          <Text style={styles.headerSubtitle}>Update the event details</Text>
         </View>
 
-        {/* Event Details Card */}
+        {/* Event Details */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Event Details</Text>
 
@@ -158,10 +208,10 @@ export default function AddEventScreen() {
               style={[styles.input, styles.multilineInput]}
               value={note}
               onChangeText={setNote}
-              placeholder="Add notes (optional)"
+              placeholder="Notes (optional)"
               placeholderTextColor="#999"
               multiline
-              numberOfLines={4}
+              numberOfLines={3}
             />
           </View>
 
@@ -177,69 +227,96 @@ export default function AddEventScreen() {
           </View>
         </View>
 
-        {/* Date & Time Card */}
+        {/* Date & Time */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Date & Time</Text>
 
+          {/* Start */}
           <View style={styles.dateTimeSection}>
             <View style={styles.dateTimeLabel}>
               <Ionicons name="play-circle-outline" size={20} color="#00C853" />
               <Text style={styles.dateTimeLabelText}>Start</Text>
             </View>
+
             <View style={styles.dateTimePickerContainer}>
               <Ionicons name="calendar-outline" size={18} color="#666" />
               <Text style={styles.dateTimeText}>{formatDateTime(date)}</Text>
             </View>
+
             <DateTimePicker
               value={date}
               mode="datetime"
               display="default"
-              onChange={(_, selected) => {
-                if (selected) setDate(selected);
-              }}
-              style={styles.datePicker}
+              onChange={(_, selected) => selected && setDate(selected)}
             />
           </View>
 
           <View style={styles.divider} />
 
+          {/* End */}
           <View style={styles.dateTimeSection}>
             <View style={styles.dateTimeLabel}>
               <Ionicons name="stop-circle-outline" size={20} color="#F44336" />
               <Text style={styles.dateTimeLabelText}>End</Text>
             </View>
+
             <View style={styles.dateTimePickerContainer}>
               <Ionicons name="calendar-outline" size={18} color="#666" />
               <Text style={styles.dateTimeText}>{formatDateTime(endDate)}</Text>
             </View>
+
             <DateTimePicker
               value={endDate}
               mode="datetime"
               display="default"
-              onChange={(_, selected) => {
-                if (selected) setEndDate(selected);
-              }}
-              style={styles.datePicker}
+              onChange={(_, selected) => selected && setEndDate(selected)}
             />
           </View>
         </View>
 
-        <View style={{ height: 120 }} />
-      </ScrollView>
+        {/* ---- Buttons (inside ScrollView now!) ---- */}
+        <View style={{ marginHorizontal: 16, marginTop: 10, gap: 12 }}>
+          <TouchableOpacity
+            style={[
+              styles.bottomButton,
+              { backgroundColor: completed ? "#FFA726" : "#00C853" },
+            ]}
+            onPress={handleToggleComplete}
+          >
+            <Ionicons
+              name={completed ? "refresh" : "checkmark-circle"}
+              size={24}
+              color="#fff"
+            />
+            <Text style={styles.bottomButtonText}>
+              {completed ? "Mark Incomplete" : "Mark Complete"}
+            </Text>
+          </TouchableOpacity>
 
-      {/* Save Button */}
-      <View style={styles.saveButtonContainer}>
-        <TouchableOpacity style={styles.saveButton} onPress={handleAdd}>
-          <Ionicons name="checkmark-circle" size={24} color="#fff" />
-          <Text style={styles.saveButtonText}>Save Event</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={[styles.bottomButton, { backgroundColor: "#00C853" }]}
+            onPress={handleSave}
+          >
+            <Ionicons name="save-outline" size={24} color="#fff" />
+            <Text style={styles.bottomButtonText}>Save Changes</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.bottomButton, { backgroundColor: "#D32F2F" }]}
+            onPress={handleDelete}
+          >
+            <Ionicons name="trash-outline" size={24} color="#fff" />
+            <Text style={styles.bottomButtonText}>Delete Event</Text>
+          </TouchableOpacity>
+        </View>
+
+      </ScrollView>
     </>
   );
 }
 
 /* -------------------------------------------------------
-   Styles
+   Styles — identical to Add Event + button styling
 -------------------------------------------------------- */
 const styles = StyleSheet.create({
   container: {
@@ -308,26 +385,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: '#333',
-    padding: 0,
   },
   multilineInput: {
     minHeight: 80,
     textAlignVertical: 'top',
   },
-  dateTimeSection: {
-    paddingVertical: 8,
-  },
-  dateTimeLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    gap: 8,
-  },
-  dateTimeLabelText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
+  dateTimeSection: { paddingVertical: 8 },
+  dateTimeLabel: { flexDirection: 'row', alignItems: 'center', marginBottom: 12, gap: 8 },
+  dateTimeLabelText: { fontSize: 16, fontWeight: '600', color: '#333' },
   dateTimePickerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -339,44 +404,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },
-  dateTimeText: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
-  },
-  datePicker: {
-    alignSelf: 'flex-start',
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#E0E0E0',
-    marginVertical: 16,
-  },
-  saveButtonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 20,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-  },
-  saveButton: {
-    backgroundColor: '#00C853',
+  dateTimeText: { fontSize: 16, color: '#333', fontWeight: '500' },
+  divider: { height: 1, backgroundColor: '#E0E0E0', marginVertical: 16 },
+
+  /* Buttons */
+  bottomButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
     borderRadius: 12,
-    gap: 8,
+    gap: 10,
     shadowColor: '#000',
+    shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
   },
-  saveButtonText: {
+  bottomButtonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',

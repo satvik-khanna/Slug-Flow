@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
@@ -9,8 +10,7 @@ import {
   View,
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
-import Svg, { Circle, G, Line, Rect, Text as SvgText } from 'react-native-svg';
+import Svg, { Circle, G, Rect, Text as SvgText } from 'react-native-svg';
 
 import { EventItem } from '../../components/SwipeableEventCard';
 
@@ -536,7 +536,7 @@ export default function Tasks() {
                     ]}
                     onPress={() =>
                       router.push({
-                        pathname: '/edit-event/[id]',
+                        pathname: '/edit-task',
                         params: { id: task.id },
                       })
                     }

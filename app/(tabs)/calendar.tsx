@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import { router, useFocusEffect } from 'expo-router';
@@ -5,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
 
 import SwipeableEventCard from '@/components/SwipeableEventCard';
 import UCSCEventCard from '@/components/UCSCEventCard';
@@ -19,7 +19,6 @@ function normalizeDateLocal(dateInput: string | Date | undefined): string {
   const d = new Date(dateInput);
   if (isNaN(d.getTime())) return '';
 
-  // Convert local → local date string
   const yyyy = d.getFullYear();
   const mm = String(d.getMonth() + 1).padStart(2, '0');
   const dd = String(d.getDate()).padStart(2, '0');
@@ -84,6 +83,7 @@ export default function CalendarScreen() {
         ev.type === "task"
           ? normalizeDateLocal(ev.dueDate)
           : normalizeDateLocal(ev.date);
+
       return dateKey === selectedDate;
     });
 
@@ -205,9 +205,19 @@ export default function CalendarScreen() {
               {filteredEvents.map((ev) => (
                 <Pressable
                   key={ev.id}
-                  onPress={() =>
-                    router.push({ pathname: "/edit-event/[id]", params: { id: ev.id } })
-                  }
+                  onPress={() => {
+                    if (ev.type === "task") {
+                      router.push({
+                        pathname: '/edit-task',
+                        params: { id: ev.id },
+                      })
+                    } else {
+                      router.push({
+                        pathname: '/edit-event',
+                        params: { id: ev.id },
+                      })
+                    }
+                  }}
                 >
                   <SwipeableEventCard
                     event={ev}
@@ -275,9 +285,6 @@ function generateMarkedDates(
 ) {
   const marked: Record<string, any> = {};
 
-  /* ---------------------------
-     Add personal events/tasks
-  --------------------------- */
   for (const ev of events) {
     const dateKey =
       ev.type === "task"
@@ -301,9 +308,6 @@ function generateMarkedDates(
     }
   }
 
-  /* ---------------------------
-       Add UCSC events/classes
-  --------------------------- */
   for (const ev of ucscEvents) {
     const dateKey = normalizeDateLocal(ev.date);
     if (!dateKey) continue;
@@ -323,20 +327,13 @@ function generateMarkedDates(
     }
   }
 
-  /* ---------------------------
-       Selected date logic
-       ✔ Do NOT add dots
-       ✔ Do NOT add marked:true if empty
-  --------------------------- */
   if (marked[selectedDate]) {
-    // Day already has events — keep dots and just highlight it
     marked[selectedDate] = {
       ...marked[selectedDate],
       selected: true,
       selectedColor: "#00C853",
     };
   } else {
-    // No events — highlight only, NO dot
     marked[selectedDate] = {
       selected: true,
       selectedColor: "#00C853",
@@ -345,7 +342,6 @@ function generateMarkedDates(
 
   return marked;
 }
-
 
 /* -----------------------------------------------------------
    Styles
@@ -504,3 +500,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
