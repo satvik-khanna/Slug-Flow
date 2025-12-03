@@ -32,7 +32,7 @@ export default function AddTaskScreen() {
 
     const now = new Date();
     if (dueDate < now) {
-      alert("Due date cannot be in the past");
+      alert("Invalid! The due date can't be in the past");
       return;
     }
 
