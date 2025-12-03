@@ -498,4 +498,436 @@ URL:https://events.ucsc.edu/event/international-education-week-2025/
 CATEGORIES:Exhibits
 ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/IEW-2025.png
 END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251117T000000
+DTEND;TZID=America/Los_Angeles:20251212T235959
+DTSTAMP:20251202T200318
+CREATED:20251114T201416Z
+LAST-MODIFIED:20251114T201416Z
+UID:10005152-1763337600-1765583999@events.ucsc.edu
+SUMMARY:Second Harvest Food Bank Holiday Donation Drive
+DESCRIPTION:Take part in the campus-wide holiday drive by donating Slug Points\, Banana Bucks\, or Flexi Dollars to the Second Harvest Food Bank November 17 – December 11. 100% of your gift will provide food to Santa Cruz County residents. \nWAYS TO DONATE  \nStudents can donate up to 50 Slug Points\, Banana Bucks\, or Flexi Dollars in increments of 5. \nABOUT SECOND HARVEST  \nFor every $1 raised\, Second Harvest Food Bank provides 3 healthy meals thanks to their extensive relationships with farmers\, retailers\, food bank networks\, and dedicated volunteers and donors. Second Harvest sources over 10 million pounds of food each year and distributes it to 150 food pantries\, schools (including UCSC Slug Support\, Student Union Assembly\, Family Student Housing\, and campus Basic Needs food pantries)\, soup kitchens\, group homes\, youth centers\, and Second Harvest program sites. 1 in 3 residents are food insecure in Santa Cruz County. The food bank is actively reducing food insecurity by reaching 70\,000 people each month through it’s work and from contributions from volunteers and donors. Learn more about Second Harvest at thefoodbank.org \nDONATE at donatemeals.ucsc.edu Nov. 17–Dec 11!
+URL:https://events.ucsc.edu/event/second-harvest-food-bank-holiday-donation-drive/
+LOCATION:CA
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/Second-Harvest-Donation-Drive-2025-3-Events-Calendar.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251121T000000
+DTEND;TZID=America/Los_Angeles:20251220T235959
+DTSTAMP:20251202T200318
+CREATED:20251124T181601Z
+LAST-MODIFIED:20251124T181601Z
+UID:10005608-1763683200-1766275199@events.ucsc.edu
+SUMMARY:Operation Unplug! Pledge to Leave Campus Sustainability this Winter Break
+DESCRIPTION:UCSC Energy Management and the Sustainability Office are leading the first annual “Operation Unplug” campaign to conserve energy (and reduce greenhouse gas emissions) during winter break. Before leaving your residence hall\, apartment\, or office\, please unplug any fridges or minifridges\, computers and/or monitors\, power strips\, and all other energy intensive appliances or equipment! Take the pledge and/or upload a photo of what you unplugged to the campaign’s google form for raffle entries to win one of two $50 gift certificates. Recruit your friends and coworkers for an additional entry each and try to be the winning building (the building with the most participants is guaranteed one raffle winner)! Operation Unplug is open to all students\, staff\, and faculty. Be the slug that pulls the plug! \n \n  \n 
+URL:https://events.ucsc.edu/event/operation-unplug-pledge-to-leave-campus-sustainability-this-winter-break/2025-11-21/
+LOCATION:CA
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/Unplug.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251202T120000
+DTEND;TZID=America/Los_Angeles:20251202T210000
+DTSTAMP:20251202T200318
+CREATED:20251126T182639Z
+LAST-MODIFIED:20251126T182725Z
+UID:10005651-1764676800-1764709200@events.ucsc.edu
+SUMMARY:Women's Basketball Fundraiser at Woodstock's
+DESCRIPTION:Support UCSC Women’s Basketball! Join us at Woodstock’s Pizza on Dec. 2 from noon – 9 p.m. for a delicious way to give back!\n\n \nHow to participate: Just mention the Women’s Basketball fundraiser when ordering in person or use code UCSCWBALL for online orders.\n\n \nWhy it matters: 20% of all proceeds from your purchase will go directly to supporting the UCSC Women’s Basketball team—helping fund travel\, gear\, and program needs.\n\n \nBring your friends\, grab some pizza\, and help our Slugs shine this season!
+URL:https://events.ucsc.edu/event/womens-basketball-fundraiser-at-woodstocks/
+LOCATION:Woodstock’s Pizza\, 710 Front St\, Santa Cruz\, CA\, 95060
+CATEGORIES:Fundraisers
+ATTACH;FMTTYPE=image/webp:https://events.ucsc.edu/wp-content/uploads/2025/11/wbb_ucsc.webp
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T090000
+DTEND;TZID=America/Los_Angeles:20251203T110000
+DTSTAMP:20251202T200318
+CREATED:20251114T200518Z
+LAST-MODIFIED:20251114T200518Z
+UID:10005150-1764752400-1764759600@events.ucsc.edu
+SUMMARY:Free Coffee\, Tea\, & More with Merrill Provost Aims McGuinness
+DESCRIPTION:Grab a free cup of locally owned coffee and chat with Provost Aims at Coffee with the Provost! Most Wednesdays through the quarter from 9–11 a.m. \nMeet us for coffee\, tea\, breakfast snacks and good conversation outside the Merrill College Office\, across from the mailroom.
+URL:https://events.ucsc.edu/event/free-coffee-tea-more-with-merrill-provost-aims-mcguinness/
+LOCATION:CA
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=application/pdf:https://events.ucsc.edu/wp-content/uploads/2025/11/December-Coffee-w-Provost.pdf
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T110000
+DTEND;TZID=America/Los_Angeles:20251203T123000
+DTSTAMP:20251202T200318
+CREATED:20251103T224713Z
+LAST-MODIFIED:20251103T224713Z
+UID:10005028-1764759600-1764765000@events.ucsc.edu
+SUMMARY:When Less is More: Applications of Type-Based Underapproximate Reasoning
+DESCRIPTION:Presenter: Suresh Jagganathan\, Purdue University\n\n\nAbstract:\nUnlike program verifiers\, symbolic execution and property-based testing tools underapproximate program behavior: they aim to report only real bugs (no false positives)\, at the cost of potentially missing some (false negatives). Recent work has sought to place such tools on a more formal footing\, primarily through the development of incorrectness logics that capture a program’s ‘must’ rather than ‘may’ behavior. This talk explores how to transplant these ideas of underapproximation into an expressive refinement type system. Our development enables us to:\n\n(a) Typecheck the completeness of property-based testing (PBT) generators\, ensuring that a well-typed generator produces all values (i.e.\, fully covers) its output type;\n\n(b) Synthesize effectful generators by extending the type system to model underapproximations of sequences of effects rather than just values; and\n\n(c) Guide symbolic execution in effectful functional programs\, prioritizing execution paths capable of falsifying data structure safety properties.\n\nOur results demonstrate that viewing types through the lens of underapproximation offers a principled foundation for designing\, implementing\, and reasoning about program analyzers and test generators\, significantly improving their reliability and practical utility in the process.\n\n\nBio:\nSuresh Jagannathan is the Samuel D. Conte Professor of Computer Science at Purdue University. His interests span functional programming\, program verification\, distributed and concurrent systems\, and trustworthy machine learning. In recent years\, he has spent time as an Amazon Scholar\, a program manager at the Information Innovoation Office (I2O) at DARPA\, and a visiting researcher at the University of Cambridge. He serves an Associate Editor of ACM TOPLAS\, and has served as both General and PC Chair of POPL (ACM Symposium on Programming Languages).\n\n\nHosted by: Professor Mohsen Lesani\n\n\nLocation: E2-180\n*Refreshments such as coffee and pastries will be provided\n\n\n\nZoom: https://ucsc.zoom.us/j/93445911992?pwd=YkJ2TQtF79h0PcNXbEcpZLbpK0coiY.1&jst=3
+URL:https://events.ucsc.edu/event/when-less-is-more-applications-of-type-based-underapproximate-reasoning/
+LOCATION:Engineering 2\, Engineering 2 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations,Seminars
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/Screenshot-2025-11-03-at-2.45.08-PM.png
+GEO:37.0009723;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Engineering 2 Engineering 2 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Engineering 2 1156 High Street:geo:-122.0632371,37.0009723
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T115000
+DTEND;TZID=America/Los_Angeles:20251203T131000
+DTSTAMP:20251202T200318
+CREATED:20251108T002424Z
+LAST-MODIFIED:20251113T225535Z
+UID:10005121-1764762600-1764767400@events.ucsc.edu
+SUMMARY:Applied Microeconomics and Trade Seminar Series presents: Matt Weinberg
+DESCRIPTION:Applied Microeconomics and Trade Seminar\nDate: Wednesday\, December 3\, 2025\nTime: 11:50am – 1:10 p.m.\nLocation: E2-499\n\n \n\nSpeaker: Matt Weinberg \nTitle: Professor of Economics \nAffiliation: Oregon State University\nHost: Jon Robinson\n \nSeminar title: Oligopsony and Collective Bargaining: Evidence from K-12 Teachers \n\nABSTRACT:  Employers facing limited labor market competition may suppress wages below socially optimal levels. Unions can counteract this wage suppression through collective bargaining\, though the may also push wages above the socially optimal level. To assess these forces\, we estimate a structural model of labor supply\, labor demand\, and Nashin-Nash bargaining over wages between teacher unions and school districts in Pennsylvania’s K-12 public school system from 2013 to 2020. Using the estimated parameters\, we compare negotiated equilibrium wages and employment to the pure oligopsony scenario and the social planner scenario. On average\, pure oligopsony reduces wages 16 percent below the social optimum\, while collective bargaining raises wages by 9 percent above the optimum. This average masks substantial district-level heterogeneity driven by variation in bargaining power. Twenty-seven percent of schools have negotiated salaries below the social optimum due to cross-district externalities\, where high salaries at one school lead to hiring reductions\, which increase labor supply in competing districts. 
+URL:https://events.ucsc.edu/event/applied-microeconomics-and-trade-seminar-series-presents-matt-weinberg/
+LOCATION:Engineering 2\, Engineering 2 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Seminars
+GEO:37.0009723;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Engineering 2 Engineering 2 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Engineering 2 1156 High Street:geo:-122.0632371,37.0009723
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T120000
+DTEND;TZID=America/Los_Angeles:20251203T130000
+DTSTAMP:20251202T200318
+CREATED:20251118T230141Z
+LAST-MODIFIED:20251118T230321Z
+UID:10005204-1764763200-1764766800@events.ucsc.edu
+SUMMARY:Marketing Yourself In The Arts Industry
+DESCRIPTION:Join the Arts Division and Career Success for a fast-paced\, interactive online workshop on how to market yourself in the Arts—-well cover personal branding\, transferable skills\, networking\, gig work and more\, giving you clear action steps to stand out in Arts-related careers and beyond.\n—\nADMISSION\n– FREE ONLINE EVENT; Registration Required\n– Register here\n—\nThis program is open to all UC Santa Cruz affiliates consistent with state and federal law.
+URL:https://events.ucsc.edu/event/marketing-yourself-in-the-arts-industry/
+LOCATION:
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/09/9e73b5bf30ed803362fce6913c651f32384a766c.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T170000
+DTEND;TZID=America/Los_Angeles:20251203T200000
+DTSTAMP:20251202T200318
+CREATED:20251014T173433Z
+LAST-MODIFIED:20251107T235308Z
+UID:10004813-1764781200-1764792000@events.ucsc.edu
+SUMMARY:College Night: One Planet\, One Home
+DESCRIPTION:College Nine and John R. Lewis College\, in collaboration with UCSC Dining\, present “One Planet\, One Home” a conservation college night during International Education Week. Join us Wednesday\, December 3 from 5–8 p.m. at the College Nine/John R. Lewis Dining Hall for a night of activities\, fun\, community\, and a special themed menu. There will be a screening of the animated film Wall-E\, an exploration of conservation efforts around the globe\, and tablers offering up information. Standard dining hall entry pricing applies\, and all students\, faculty\, and staff are invited. \nPlease note: The dining hall will be closed from 2–5 p.m. for event preparation. \nLearn more about College Nights at dining.ucsc.edu/events. \n__________________________________________________________________________________________________ \nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.How to Use the Statement Across Communication Channels
+URL:https://events.ucsc.edu/event/college-night-one-planet/
+LOCATION:College Nine and John R. Lewis Dining Hall
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/10/College-Nights-5-Events-Calendar.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T170000
+DTEND;TZID=America/Los_Angeles:20251203T200000
+DTSTAMP:20251202T200318
+CREATED:20251014T180552Z
+LAST-MODIFIED:20251014T180552Z
+UID:10004814-1764781200-1764792000@events.ucsc.edu
+SUMMARY:College Night: Pop Music Around the World - KPop Demon Hunters
+DESCRIPTION:Oakes and Rachel Carson Colleges\, in collaboration with UCSC Dining\, present Pop Music Around the World – KPop Demon Hunters. Join us Wednesday\, December 3\, from 5–8 p.m. at the Rachel Carson/Oakes Dining Hall for a night of pop music\, fun\, community\, and a special themed menu. Standard dining hall entry pricing applies\, and all students\, faculty\, and staff are invited. \nPlease note: The dining hall will be closed from 2–5 p.m. for event preparation. \nLearn more about College Nights at dining.ucsc.edu/events. \n___________________________________________________________________________________________________________________ \nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.How to Use the Statement Across Communication Channels
+URL:https://events.ucsc.edu/event/college-night-pop-music-around-the-world-kpop-demon-hunters/
+LOCATION:Rachel Carson/Oakes Dining Hall
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/College-Nights-1-Events-Calendar-e1760394043332.jpeg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T173000
+DTEND;TZID=America/Los_Angeles:20251203T183000
+DTSTAMP:20251202T200318
+CREATED:20251201T230057Z
+LAST-MODIFIED:20251202T000517Z
+UID:10005713-1764783000-1764786600@events.ucsc.edu
+SUMMARY:Friends of Juristac UCSC Chapter Meeting
+DESCRIPTION:Join the UCSC chapter of Friends of Juristac at our next meeting on Wednesday\, December 3\, 5:30–6:30 p.m. at the College Nine/John R. Lewis Community Room. Stand with the Amah Mutsun Tribal Band in saying NO to sand and gravel mining at Juristac. \nAt this meeting we’ll be learning how to table to gather support for the cause and making art. \nLearn more at protectjuristac.org \nLocation: the College Nine/John R. Lewis Community Room (map) is located behind Social Sciences 2 in the College Nine/JRL apartments community. \nThis event is hosted by The CoC0 (College Nine & John R. Lewis College CoCurricular Programs Office). \nQuestions? Please email coco@ucsc.edu \n\nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications.How to Use the Statement Across Communication Channels
+URL:https://events.ucsc.edu/event/friends-of-juristac-ucsc-chapter-meeting/
+LOCATION:College 9 /John R. Lewis Community Room\, College Ten Road\, Santa Cruz\, 95064\, United States
+CATEGORIES:Meetings & Conferences,Workshop
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/12/protect-juristac-event.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251203T180000
+DTEND;TZID=America/Los_Angeles:20251203T190000
+DTSTAMP:20251202T200318
+CREATED:20251103T201229Z
+LAST-MODIFIED:20251103T201434Z
+UID:10005024-1764784800-1764788400@events.ucsc.edu
+SUMMARY:Learn about the Educational Therapy Certificate Program
+DESCRIPTION:Transform learning.\nJoin Educational Therapy certificate program chair Sharmila Roy for a thoughtful program overview and hear how the uniquely designed curriculum empowers educators and professionals to make a lasting impact– in the classroom and beyond. As one of the few AET-approved programs\, you’ll learn to assess learning challenges and apply effective\, research-based interventions. \nEmpower students and build your practice\nGain skills to support students with learning differences like dyslexia\, ADHD\, and autism using therapeutic and educational strategies. Whether you’re working in schools or starting a private practice\, this program helps you create individualized plans that foster meaningful progress. \nProgram organizer\nThis fall info session is sponsored by the Educational Therapy certificate program\, a program approved by the Association of Educational Therapists. \nClaim your seat- register today!
+URL:https://events.ucsc.edu/event/learn-about-the-educational-therapy-certificate-program/
+LOCATION:
+CATEGORIES:Lectures & Presentations,Meetings & Conferences,Training
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/SM-Cal-20.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T120000
+DTEND;TZID=America/Los_Angeles:20251204T133000
+DTSTAMP:20251202T200318
+CREATED:20251124T181437Z
+LAST-MODIFIED:20251124T181437Z
+UID:10005163-1764849600-1764855000@events.ucsc.edu
+SUMMARY:Pemulai ke Nanga Jela/Return to Nanga Jela
+DESCRIPTION:About the Talk: The history of hinterland communities is largely written in remote landscapes that today are often targeted for infrastructural development that forcibly relocates existing residents and transforms the land\, obliterating those histories\, and weakening communities. \nIn 1984/5 the Iban longhouse at Nanga Jela on Sarawak’s Engkari River in Malaysian Borneo\, along with twenty-one other communities and a land area of 8500 ha disappeared because of the building of the Batang Ai Hydroelectric Dam and the creation of a 33 sq mile reservoir. With the drowning of these houses\, lands\, forests\, and of multiple rivers and streams\, the history of one of the longest-occupied and most historically rich Iban territories in Sarawak was gone. Many of the 3000 people who were displaced moved to government-created resettlement areas. Some left for other parts of Sarawak\, and their descendants scattered around the world. All of those who were forced to leave their Batang Ai and Engkari homelands found their livelihoods completely transformed; none were free to pursue the rice agriculture and forest- and river-centered lives that they had known since their childhoods. \nThree decades after this event\, the ex-residents and descendants of Nanga Jela engaged in a process of reconstructing that submerged history and reconstituting an Engkari and Nanga Jela identity. Rescuing and sharing what images exist of the longhouse and its surrounding land- and waterscapes\, collecting oral histories\, geographical memories\, genealogies\, and a plethora of other local data\, and employing multiple social media tools\, the increasingly diverse\, geographically dispersed community is regaining its history\, knowledge of the lost land- and riverscapes\, and its identity. \nA team comprising Bobby Anak Nyegang and Itin Anak Langit\, both born in Nanga Jela\, and Christine Padoch\, an anthropologist who spent more than two years in the longhouse\, led the effort to assemble these and other materials into an image-rich bilingual (English and Iban) book that would be accessible to all in the Nanga Jela community\, as well as a community-based archive. In this presentation\, Padoch will discuss that complex process of writing the book\, recently published as Pemulai ke NangaJela/Return to Nanga Jela and creating an archive together with the longhouse community to provide present and future descendants of the great longhouse on the Engkari River a written history of a landscape and a livelihood that has disappeared. \nAbout the Speakers:  \nChristine Padoch is a Senior Curator Emerita in the Center for Plants\, People and Culture of the New York Botanical Garden. From 2011 to 2017 she was the Director of Research on Forests and Human Well-Being at the Center for International Forestry Research (CIFOR). An anthropologist by training\, she has spent about 50 years carrying out research on smallholder patterns of forest management\, agriculture\, and agroforestry in the humid tropics\, principally in Southeast Asia and Amazonia. Previous to her position at CIFOR\, Padoch was the Matthew Calbraith Perry Curator of Economic Botany at the NYBG. She is the author or editor of a dozen books and of approximately 100 scientific articles and book chapters. Christine Padoch has served as a scientific advisor to many international projects and has been a member of the boards of several international research institutions\, including the Center for International Forestry Research (CIFOR)\, the Amazon Institute for Environmental Research (IPAM)\, and the Earth Innovation Institute (EII). She holds a Ph.D. from Columbia University. \nNancy Lee Peluso is Professor of Environmental Social Science and Resource Policy in the College of Natural Resources and the Program Director of the Berkeley Workshop in Environmental Politics\, housed in the Institute of International Studies. She serves as a faculty member in the Society and Environment Division of the Department of Environmental Science\, Policy and Management\, where she teaches courses in Political Ecology. Her research since the 1980s has focused on Forest Politics and Agrarian Change in Southeast Asia\, primarily in Indonesia. She has done field research in various parts of Indonesia—West and Central Java\, East and West Kalimantan and in Sarawak\, Malaysia. Her work addresses questions of property rights and access to resources\, forest policy and politics\, histories of land use change\, and agrarian and environmental violence. She is the author or editor of three books: Rich Forests\, Poor People: Resource Control and Resistance in Java (UC Press\, 1992 – still available); Borneo in Transition: People\, Forests\, Conservation and Development (Oxford Press\, 1996 and 2003\, ed. with Christine Padoch); and Violent Environments (Cornell Press\, 2001\, ed. with Michael Watts.)\, and nearly fifty journal articles and book chapters. Professor Peluso speaks or reads four languages besides English. In 2003\, she was awarded a Harry Frank Guggenheim Fellowship and is finishing a book manuscript tentatively titled\, “Ways of Seeing Borneo: Landscape\, Territory\, and Violence”. She is currently working on a comparative study on the formation of “political forests” in Malaysia\, Indonesia\, and Thailand as well as a book examining the entanglements of violence and territoriality in landscape history in West Kalimantan.
+URL:https://events.ucsc.edu/event/pemulai-ke-nanga-jela-return-to-nanga-jela/
+LOCATION:Humanities 1 Building\, 420 Hagar Drive\, Santa Cruz\, CA\, 95064
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/Padoch-flyer-scaled.png
+ORGANIZER;CN="Center for Southeast Asian Social Interactions":MAILTO:seacoast@ucsc.edu
+GEO:36.9979834;-122.0555164
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Humanities 1 Building 420 Hagar Drive Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=420 Hagar Drive:geo:-122.0555164,36.9979834
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T120000
+DTEND;TZID=America/Los_Angeles:20251204T150000
+DTSTAMP:20251202T200318
+CREATED:20251202T221037Z
+LAST-MODIFIED:20251202T221037Z
+UID:10005721-1764849600-1764860400@events.ucsc.edu
+SUMMARY:Week 10 Wellness: Healing Support for Finals Stress
+DESCRIPTION:Join us for a moment of pause and restoration as you prepare for finals \nHosted by the Division of Student Affairs and Success in collaboration with On the Margins \n\nFree snacks and comfort food\nMake your own self care kit\nAstrological readings\nGroup Reiki\nMassage\n\n____________________________________________________________________________________________________________________ \nYou Belong Here: The programs and services described here are open to all\, consistent with state and federal law\, as well as the University of California’s nondiscrimination policies. Every initiative—whether a student service\, faculty program\, or community event—is designed to be accessible\, inclusive\, and respectful of all identities. \nTo learn more\, please visit UC Nondiscrimination Statement or Nondiscrimination Policy for UC Publications. \n  \n 
+URL:https://events.ucsc.edu/event/week-10-wellness-healing-support-for-finals-stress/
+LOCATION:Mary Holmes Fireside Lounge\, 11 Cowell Service Rd\, Santa Cruz\, CA\, 95064
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/12/Healing-Support-for-Finals-Stress.png
+GEO:36.996399;-122.0527221
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Mary Holmes Fireside Lounge 11 Cowell Service Rd Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=11 Cowell Service Rd:geo:-122.0527221,36.996399
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T130000
+DTEND;TZID=America/Los_Angeles:20251204T140000
+DTSTAMP:20251202T200318
+CREATED:20251119T191957Z
+LAST-MODIFIED:20251119T191957Z
+UID:10005182-1764853200-1764856800@events.ucsc.edu
+SUMMARY:GradWiC Womxn's Lunch
+DESCRIPTION:Join Graduate Womxn in Computing (GradWiC) for our final Womxn’s Luncheon of the quarter. We will be on the E2 Lanai patio weather allowing\, or E2-599 in the case of inclement weather.
+URL:https://events.ucsc.edu/event/gradwic-womxns-lunch/
+LOCATION:E2 Lanai
+CATEGORIES:Social Gathering
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T180000
+DTEND;TZID=America/Los_Angeles:20251204T190000
+DTSTAMP:20251202T200318
+CREATED:20251114T221627Z
+LAST-MODIFIED:20251114T221627Z
+UID:10005154-1764871200-1764874800@events.ucsc.edu
+SUMMARY:Future careers: What will work look like in 2030?
+DESCRIPTION:Join Dean PK Agarwal for this free online session. He’ll lead a forward-looking conversation on emerging job roles in tech\, sustainability\, health\, and creative industries. Learn how industry convergence and global trends are shaping new career paths and the skills you’ll need to stay relevant. \n\nDiscover which industries are driving job creation and how roles are evolving across tech\, sustainability\, health\, and the creative economy.\nUnderstand the impact of global trends—like AI\, climate change\, and demographic shifts—on the future of work.\nIdentify the skills and mindsets that will help you stay competitive and adaptable in a rapidly changing landscape.\n\nThis session is part of Pathways to Professional Success\, a new conversation series hosted by Dean P.K. Agarwal. \n\nClaim your seat!
+URL:https://events.ucsc.edu/event/future-careers-what-will-work-look-like-in-2030/
+LOCATION:Silicon Valley Campus\, 3175 Bowers Avenue\, Santa Clara\, CA\, 95054\, United States
+CATEGORIES:Lectures & Presentations,Meetings & Conferences,Training
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/SM-Cal-29.png
+GEO:37.3796975;-121.9765484
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Silicon Valley Campus 3175 Bowers Avenue Santa Clara CA 95054 United States;X-APPLE-RADIUS=500;X-TITLE=3175 Bowers Avenue:geo:-121.9765484,37.3796975
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T180000
+DTEND;TZID=America/Los_Angeles:20251204T190000
+DTSTAMP:20251202T200318
+CREATED:20251114T234100Z
+LAST-MODIFIED:20251114T234100Z
+UID:10005156-1764871200-1764874800@events.ucsc.edu
+SUMMARY:Embedded Systems Program Info Session
+DESCRIPTION:Build Your Career in Embedded Systems \nWhile hiring has slowed in some tech sectors\, the demand for skilled Embedded Systems professionals continues to grow across industries. \nAt this free winter info session\, you’ll learn about emerging roles in embedded technology and the essential skills that make your resume stand out. Discover how AI is being integrated into embedded systems—and how you can stay ahead of the curve with UCSC Silicon Valley Extension’s industry-aligned courses and expert instructors. \nFeatured Speaker:\nMichael Wang\, Chair of the UCSC Silicon Valley Extension Embedded Systems Certificate Program\, will share insights on the evolving job market\, key technical competencies\, and strategies to advance your career. \nThis session will also highlight two upcoming Winter courses ideal for building your foundation or deepening your expertise in Embedded Systems. \nThis winter info session is sponsored by the UCSC Silicon Valley Extension Embedded Systems certificate program. \n\nRegister today.
+URL:https://events.ucsc.edu/event/embedded-systems-program-info-session/
+LOCATION:Silicon Valley Campus\, 3175 Bowers Avenue\, Santa Clara\, CA\, 95054\, United States
+CATEGORIES:Lectures & Presentations,Meetings & Conferences,Training
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/SM-Cal-27-2.png
+GEO:37.3796975;-121.9765484
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Silicon Valley Campus 3175 Bowers Avenue Santa Clara CA 95054 United States;X-APPLE-RADIUS=500;X-TITLE=3175 Bowers Avenue:geo:-121.9765484,37.3796975
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T190000
+DTEND;TZID=America/Los_Angeles:20251204T220000
+DTSTAMP:20251202T200318
+CREATED:20251202T213738Z
+LAST-MODIFIED:20251202T213738Z
+UID:10005720-1764874800-1764885600@events.ucsc.edu
+SUMMARY:Movie Night: "And the Band Played On\," honoring AIDS Awareness Month
+DESCRIPTION:Need a break from studying for finals? Want some free pizza? Interested in learning about the history of HIV/AIDS here in the USA? Look no further! UCSC’s Global and Community Health Program\, Student Health Outreach & Promotion (SHOP) and the Cantu Queer Center are partnering to screen\, “And The Band Played On” by Roger Spottiswoode at the Cantu Queer Center on December 4th from 7pm-10pm.\n\nCome relax and enjoy a brief presentation on the history of HIV/AIDS in the United States as well as some local resources that you can use if you or somebody you know is HIV positive. We will also be talking about HIV/AIDS prevention strategies. Then\, we will screen “And The Band Played On” by Roger Spottiswoode to give a better look at what the public health sphere looked like during the 1980’s AIDS epidemic in America. Afterwards\, we will leave some room for comments\, questions\, or any feelings towards the film or about the topic in general.  We hope to see you there!
+URL:https://events.ucsc.edu/event/movie-night-and-the-band-played-on-honoring-aids-awareness-month/
+LOCATION:Cantu Queer Center\, Crown Lane\, Santa Cruz\, CA\, 95064
+CATEGORIES:Social Gathering
+GEO:37.0007748;-122.0551125
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Cantu Queer Center Crown Lane Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Crown Lane:geo:-122.0551125,37.0007748
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251204T193000
+DTEND;TZID=America/Los_Angeles:20251204T210000
+DTSTAMP:20251202T200318
+CREATED:20251023T002936Z
+LAST-MODIFIED:20251107T205240Z
+UID:10004996-1764876600-1764882000@events.ucsc.edu
+SUMMARY:Barnstorm Presents: Musical Theater Showcase
+DESCRIPTION:Step into the spotlight with Barnstorm’s musical theater showcase—an intimate\, cabaret-style evening featuring standout performances by our talented students. From beloved Broadway tunes to hidden gems\, this lively celebration of song and story is not to be missed.\n—\nADMISSION\n– General admission $5–$20 “Pay What You Like”\n– Free for UCSC undergrads (ticket required).\n– Tickets issued online HERE through Eventbrite only.\n– Follow the Dept. of Performance\, Play & Design on Eventbrite for notifications and updates.\n– Doors are scheduled to open 30 minutes prior to event start time.\n– Ticket holders not seated at least 5 minutes before the advertised start time may forfeit their ticket/seat and no refund will be issued.\n—\nPARKING\n– Parking by permit or ParkMobile\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law. \n 
+URL:https://events.ucsc.edu/event/barnstorm-presents-musical-theater-showcase/
+LOCATION:Theater Arts B100 Studio Theater\, 453 Kerr Rd\, Santa Cruz\, CA\, 95064\, United States
+CATEGORIES:Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/BarnstormMusical-e1761754912632.jpeg
+GEO:36.9948296;-122.062378
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Theater Arts B100 Studio Theater 453 Kerr Rd Santa Cruz CA 95064 United States;X-APPLE-RADIUS=500;X-TITLE=453 Kerr Rd:geo:-122.062378,36.9948296
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T080000
+DTEND;TZID=America/Los_Angeles:20251205T170000
+DTSTAMP:20251202T200318
+CREATED:20251027T175759Z
+LAST-MODIFIED:20251027T175759Z
+UID:10005007-1764921600-1764954000@events.ucsc.edu
+SUMMARY:Summer Courses Listed for 2026
+DESCRIPTION:Summer 2026 classes are now posted at summer.ucsc.edu. Explore courses and start planning your summer schedule over winter closure! Days and times will be in the schedule of classes on March 15. Email summer@ucsc.edu with questions.
+URL:https://events.ucsc.edu/event/summer-courses-listed-for-2026/
+LOCATION:CA
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Events-Calendar-Enrollment-Open.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T090000
+DTEND;TZID=America/Los_Angeles:20251205T110000
+DTSTAMP:20251202T200318
+CREATED:20251118T165217Z
+LAST-MODIFIED:20251118T165245Z
+UID:10005180-1764925200-1764932400@events.ucsc.edu
+SUMMARY:Littschwager\, N. (CSE) - A Proposal for Characterizing Replicated Systems and Emulators
+DESCRIPTION:   Simulation is a coinductive proof technique to assert the behavioral equivalence of computing systems that has seen fruitful application in distributed systems\, concurrent process calculi\, and programming languages\, since the 1970’s. We have also utilized simulation in our prior work\, where we formalized and proved a folklore claim that the state-based and operation-based approaches to Conflict-free Replicated Data Types (CRDTs) are ‘equivalent’ since they can ‘emulate each other’. More specifically\, a CRDT system consists of a collection of nodes called replicas. Clients interact with individual replicas by querying or updating their state\, and replicas interact by message passing over a network to eventually reach a convergent state. There are two main approaches to implementing a CRDT: operation-based\, and state-based. We showed that the main state-based and operation-based approaches to CRDTs do indeed ‘emulate each other’ since one can exhibit a pair of weak simulations between the original type of CRDT\, and its corresponding translation into the other type. We then leveraged the existence of these weak simulations to formally prove a ‘representation independence’ result\, in the sense that when access to the CRDTs is mediated by an imperative programming language\, the programmer cannot discern the underlying CRDT implementation by producing a program that terminates when run using one type of CRDT implementation\, but not when run with the other. \n Unfortunately\, our results are impractical for the purpose of being reapplied to asserting the equivalence of other replicated systems\, since the simulation relations (that one needs to exhibit in order to prove the necessary representation-independence) are non-modular\, requiring the user to reason about the potential executions of their entire replicated system. Additionally\, we observed that behavioral equivalence of state-based and operation-based CRDTs is a specific instance of the more general paradigm of ‘emulation’\, which is the process by which an ‘emulator’ translates the behavior of one system into the behavior of a different system. \n   We propose to generalize the techniques of our prior work to be applicable for any pair of replicated    systems\, and correct the ‘non-modularity’ issue by decomposing the overall proof structure into compositional simulation proofs about the local behavior of a replica\, and the behavior of the communication medium. Our second proposal comes from the observation that\, to our knowledge\, ‘emulation’ has not been given a formal and general mathematical semantic model that adequately captures the practical nuances faced by researchers and practitioners working on emulators. With that in mind\, we propose a notion of a faithful emulator\, inspired by the concept of a faithful functor 𝐹 ∶ C → D which lets us regard objects in C as ‘the same as’ the objects in D\, but with additional structure. \nHost: Nathan Littschwager\, Ph.D. Student\, Computer Science and Engineering  \nAdvisor: Lindsey Kuper  \n 
+URL:https://events.ucsc.edu/event/littschwager-n-cse-a-proposal-for-characterizing-replicated-systems-and-emulators/
+LOCATION:
+CATEGORIES:Ph.D. Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/11/ph.d.-presentation-graphic-option2.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T100000
+DTEND;TZID=America/Los_Angeles:20251205T123000
+DTSTAMP:20251202T200318
+CREATED:20251125T212206Z
+LAST-MODIFIED:20251125T212206Z
+UID:10005646-1764928800-1764937800@events.ucsc.edu
+SUMMARY:DeGrendele\, C. (AM) - Learning-Augmented and Structure-Preserving Methods for Conservation Law Solvers
+DESCRIPTION:In this work\, we develop numerical methods for conservation laws that explore statistical\, structure-preserving\, and machine-learning-based approaches\, each built on top of traditional numerical solvers. First\, we develop a general Gaussian-process-based “recipe’’ for constructing high-order linear operators such as interpolation\, reconstruction\, and derivative approximations. Building on this recipe\, we derive a kernel-agnostic convergence theory for GP-based operators that interprets them as generalized finite-difference schemes\, defines an effective order-of-accuracy proxy that captures non-ideal truncation-error structure\, and uses this metric to select stencil geometries and kernel hyperparameters analytically. We then introduce a new second-order kernel\, Discontinuous Arcsin (DAS)\, that is stationary and prevents oscillations. DAS is integrated into a shock-capturing framework called the Multidimensional Optimal Order Detection (MOOD) method and shows an increase in efficiency by admitting less first order cascades. Next\, we address the long-standing problem of spurious pressure oscillations in compressible multi-component and real-fluid simulations by introducing a fully conservative pressure-equilibrium-preserving scheme and a high-order fully conservative approximate variant that apply to arbitrary equations of state. Unlike existing approaches\, these methods avoid non-conservative updates or EOS-specific constructions\, and on smooth interface advection tests with ideal-gas\, stiffened-gas\, and van der Waals fluids they reduce spurious pressure oscillations by orders of magnitude relative to current schemes. We then propose a hybrid numerical–machine learning framework for mixed hyperbolic–parabolic systems in which only the diffusive contribution is learned while the hyperbolic fluxes are advanced with standard shock-capturing methods\, enabling timesteps at a hyperbolic CFL. Within this framework\, we compare several neural architectures and loss designs on viscous Burgers tests and on the one-dimensional Euler equations with heat conduction\, showing that U-shaped neural operators combined with multi-step and TVD-style regularization improve long-time stability and spectral behavior\, and we analyze the resulting coupled schemes via eigenvalue-based stability diagnostics. Finally\, we apply high-order\, shock-capturing finite-difference methods within NASA’s Launch Ascent and Vehicle Aerodynamics (LAVA) framework to quantify acoustic and pressure loads on the Artemis Mobile Launcher\, including multiphase simulations of water-suppression systems and comparisons to flight data that inform hardware design for future missions. Collectively\, this work offers a set of targeted advances in kernel-based numerical operators\, conservative schemes and learning-augmented solvers each aimed at improving accuracy\, stability\, or efficiency in complex multiphysics flow simulation. \nEvent Host: Chris DeGrendele\, Ph.D. Candidate\, Applied Mathematics \nAdvisor: Dongwook Lee  \nZoom- https://ucsc.zoom.us/j/96308438100?pwd=9El4idgPoaVnAd9m8M6As6uaSbcojp.1 \nPasscode-  123456
+URL:https://events.ucsc.edu/event/degrendele-c-am-learning-augmented-and-structure-preserving-methods-for-conservation-law-solvers/
+LOCATION:Engineering 2\, Engineering 2 1156 High Street\, Santa Cruz\, CA\, 95064
+CATEGORIES:Ph.D. Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/11/ph.d.-presentation-graphic-option-1-1.jpg
+GEO:37.0009723;-122.0632371
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Engineering 2 Engineering 2 1156 High Street Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Engineering 2 1156 High Street:geo:-122.0632371,37.0009723
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T120000
+DTEND;TZID=America/Los_Angeles:20251205T160000
+DTSTAMP:20251202T200318
+CREATED:20251013T055945Z
+LAST-MODIFIED:20251107T205344Z
+UID:10004804-1764936000-1764950400@events.ucsc.edu
+SUMMARY:Fall 2025 Open Studios
+DESCRIPTION:Art Department students exhibit their art work throughout studios and classrooms at the Elena Baskin Visual Arts Center at UC Santa Cruz. The Open Studios event features student art work in a variety of media\, including:\n– Drawing\n– Painting\n– Print media\n– Sculpture\n– Photography\n– Environmental art\n– Electronic art/new media\n—\nADMISSION\nFREE and open to the public.\n—\nPARKING\n– Parking by permit or ParkMobile.\n– Arts Lot #126 is the closest parking lot to the event.\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/fall-2025-open-studios/
+LOCATION:Elena Baskin Visual Arts Center\, Baskin Service Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Exhibits
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Fall-OS-1536x1152-1.jpg
+GEO:36.9946557;-122.0606254
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Elena Baskin Visual Arts Center Baskin Service Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=Baskin Service Road:geo:-122.0606254,36.9946557
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T170000
+DTEND;TZID=America/Los_Angeles:20251205T190000
+DTSTAMP:20251202T200318
+CREATED:20251201T222222Z
+LAST-MODIFIED:20251201T222222Z
+UID:10005714-1764954000-1764961200@events.ucsc.edu
+SUMMARY:First Friday Alumni Event at the IAS
+DESCRIPTION:Join fellow Banana Stugs past and present on First Friday at the IAS. This alumni-focused event will feature immersive art and science exhibition tours led by current students as well as refreshments\, crafts\, and other entertainment. \nTours will be offered at 5:30 and 6:30 pm of Weather and the Whale\, an art and science exhibition about climate change organized with Ari Friedlaender. \nFirst Friday is FREE and open to the public.
+URL:https://events.ucsc.edu/event/first-friday-alumni-event-at-the-ias/
+LOCATION:Institute of the Arts and Sciences\, 100 Panetta Ave\, Santa Cruz\, United States
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/12/Weather-and-the-Whale__061025_091-scaled.jpeg
+GEO:36.9557939;-122.0505546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Institute of the Arts and Sciences 100 Panetta Ave Santa Cruz United States;X-APPLE-RADIUS=500;X-TITLE=100 Panetta Ave:geo:-122.0505546,36.9557939
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T173000
+DTEND;TZID=America/Los_Angeles:20251205T203000
+DTSTAMP:20251202T200318
+CREATED:20251120T185847Z
+LAST-MODIFIED:20251120T193922Z
+UID:10005211-1764955800-1764966600@events.ucsc.edu
+SUMMARY:First Friday Slug Meetup at the Institute of Arts and Sciences
+DESCRIPTION:Spend First Friday with fellow Slugs at the Institute of Arts and Sciences (IAS) on December 5. \nEnjoy student-led tours of Weather and the Whale (at 5:30 & 6:30 p.m.)\, connect with University Archivist and Alumni Councilor Kelsey Knox (Porter ’12)\, and continue the evening at Venus Spirits Distillery with drinks and Alumni Association–provided appetizers. \nRSVP today!
+URL:https://events.ucsc.edu/event/first-friday-slug-meetup-at-the-institute-of-arts-and-sciences/
+LOCATION:Institute of the Arts and Sciences\, 100 Panetta Ave\, Santa Cruz\, United States
+CATEGORIES:Exhibits,Social Gathering
+GEO:36.9557939;-122.0505546
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Institute of the Arts and Sciences 100 Panetta Ave Santa Cruz United States;X-APPLE-RADIUS=500;X-TITLE=100 Panetta Ave:geo:-122.0505546,36.9557939
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251205T193000
+DTEND;TZID=America/Los_Angeles:20251205T213000
+DTSTAMP:20251202T200318
+CREATED:20251015T042509Z
+LAST-MODIFIED:20251107T205443Z
+UID:10004819-1764963000-1764970200@events.ucsc.edu
+SUMMARY:UCSC Concert Choir
+DESCRIPTION:Join the UC Santa Cruz Concert Choir for a fall concert. Directed by Nathaniel Berman\,\n— \nADMISSION\n– General admission.\n– Free for UCSC students (ticket required).\n– Tickets available here online through Eventbrite only.\n– Follow the Music Dept on Eventbrite for notices and updates.\n– Doors are scheduled to open 30 minutes prior to event start time.\n– Ticket holders not seated at least 5 minutes before the advertised start time may forfeit their ticket/seat and no refund will be issued. \n— \nPARKING\n– Parking by permit\, ParkMobile\, or $5 cash/credit via the on-site parking attendant\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/ucsc-choir/
+LOCATION:Music Center Recital Hall\, 400 McHenry Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Concerts,Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/choral-book-GettyImages-1447119629.jpg
+GEO:36.9924036;-122.0619475
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Music Center Recital Hall 400 McHenry Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=400 McHenry Road:geo:-122.0619475,36.9924036
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251206T090000
+DTEND;TZID=America/Los_Angeles:20251206T130000
+DTSTAMP:20251202T200318
+CREATED:20251016T183305Z
+LAST-MODIFIED:20251016T183305Z
+UID:10004892-1765011600-1765026000@events.ucsc.edu
+SUMMARY:Welcome to the City: Los Angeles (South L.A.)
+DESCRIPTION:Join us for Welcome to the City in Los Angeles (South L.A.)\, hosted in partnership with the Los Angeles Regional Food Bank. The project will be held Saturday\, December 6 from 9 a.m. – 1 p.m. at the Food Bank (1734 E 41st St\, Los Angeles\, CA 90058). Please register in advance to help us and our non-profit partner plan accordingly. \nProject Description: \nVolunteers will complete a variety of essential tasks\, most of which involve inspecting\, sorting\, and packing food for distribution. \nWelcome to the City is an annual series of regional events which help alumni connect with their local UCSC community. While the program is designed with recent grads in mind\, all are welcome to participate. \nPlease contact alumni@ucsc.edu with questions.
+URL:https://events.ucsc.edu/event/welcome-to-the-city-south-la/
+LOCATION:Los Angeles Regional Food Bank\, 1734 E. 41st Street\, Los Angeles\, CA\, 90058\, United States
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/Copy-of-WTTC-2025-email-banner-1005-x-634-px.jpg
+GEO:34.007599;-118.241749
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Los Angeles Regional Food Bank 1734 E. 41st Street Los Angeles CA 90058 United States;X-APPLE-RADIUS=500;X-TITLE=1734 E. 41st Street:geo:-118.241749,34.007599
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251206T180000
+DTEND;TZID=America/Los_Angeles:20251206T200000
+DTSTAMP:20251202T200318
+CREATED:20251126T195553Z
+LAST-MODIFIED:20251126T195944Z
+UID:10005652-1765044000-1765051200@events.ucsc.edu
+SUMMARY:Arts and Unwind
+DESCRIPTION:Need a break? Come hang out\, relax\, and make some art! We’ll have beading\, scrapbooking\, drawing\, painting—basically all the crafty vibes you need to unwind. Plus\, don’t miss the tie-dye station where you can make your own Slug Family T-shirt. All supplies are provided. \nCome chill\, get creative\, and take a breather with fellow Slugs!
+URL:https://events.ucsc.edu/event/arts-and-unwind/
+LOCATION:Porter/Kresge Dining Hall\, 411 Porter-Kresge Rd\, Santa Cruz\, CA\, 95064
+CATEGORIES:Social Gathering
+ATTACH;FMTTYPE=image/png:https://events.ucsc.edu/wp-content/uploads/2025/11/arts-and-unwind-2.png
+GEO:36.9942863;-122.0658527
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Porter/Kresge Dining Hall 411 Porter-Kresge Rd Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=411 Porter-Kresge Rd:geo:-122.0658527,36.9942863
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251206T193000
+DTEND;TZID=America/Los_Angeles:20251206T213000
+DTSTAMP:20251202T200318
+CREATED:20251015T042730Z
+LAST-MODIFIED:20251107T205540Z
+UID:10004820-1765049400-1765056600@events.ucsc.edu
+SUMMARY:UCSC Jazz Combos
+DESCRIPTION:Join the UC Santa Cruz Jazz Combos for a fall concert. Directed by Charles Hamilton.\n—\nADMISSION\n– General admission\n– Free for UCSC students (ticket required).\n– Tickets available here online through Eventbrite only.\n– Follow the Music Dept on Eventbrite for notices and updates.\n– Doors are scheduled to open 30 minutes prior to event start time.\n– Ticket holders not seated at least 5 minutes before the advertised start time may forfeit their ticket/seat and no refund will be issued.\n—\nPARKING\n– Parking by permit\, ParkMobile\, or $5 cash/credit via the on-site parking attendant\n– Arts Lot #126 is the closest parking lot to the event\n– Visitors with DMV placards or plates may park for free in DMV spaces\, Medical spaces\, or ParkMobile spaces without additional payment\, or in timed zones for longer than the posted time.\n– More information provided by UCSC Transportation & Parking Services (TAPS)\n—\nThis program is open to all members of the public consistent with state and federal law.
+URL:https://events.ucsc.edu/event/ucsc-jazz-combos/
+LOCATION:Music Center Recital Hall\, 400 McHenry Road\, Santa Cruz\, CA\, 95064
+CATEGORIES:Concerts,Performances
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/10/trumpet-players-GettyImages-817616438-scaled-e1760989701552.jpg
+GEO:36.9924036;-122.0619475
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS=Music Center Recital Hall 400 McHenry Road Santa Cruz CA 95064;X-APPLE-RADIUS=500;X-TITLE=400 McHenry Road:geo:-122.0619475,36.9924036
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20251207T130000
+DTEND;TZID=America/Los_Angeles:20251207T150000
+DTSTAMP:20251202T200318
+CREATED:20251119T214234Z
+LAST-MODIFIED:20251119T214412Z
+UID:10005208-1765112400-1765119600@events.ucsc.edu
+SUMMARY:John O. Jordan: "Dickens and Soundscape: The Old Curiosity Shop"
+DESCRIPTION:Please join the Dickens Project for the rescheduled Dickens Universe talk by John Jordan\, Dickens Project Co-Founder and Co-Director. Delve into the sounds of The Old Curiosity Shop on Sunday\, December 7\, from 1:00-2:30 PM (Pacific time). \nCritics have long recognized and commented on the striking visual quality of Dickens’s writing\, including the ways in which his novels seem to have anticipated and even influenced the development of certain film techniques. With the exception of studies that focus on speech and voice\, relatively little attention has been paid to Dickens’s representation of sound more generally. In this paper\, Professor Jordan takes a sound studies approach to Dickens’s writing\, focusing on The Old Curiosity Shop and examining the various uses to which sound is put in this exceptionally “noisy” book. \nJohn O. Jordan is a research professor of literature at the University of California\, Santa Cruz and the Co-Director of the Dickens Project. His primary research interests include Victorian literature and culture\, Charles Dickens and narrative theory. John is the author of Supposing Bleak House and co-editor\, with Robert Patten and Catherine Waters\, of the Oxford Handbook of Charles Dickens. \nRegister for the talk on Zoom.
+URL:https://events.ucsc.edu/event/john-o-jordan-dickens-and-soundscape-the-old-curiosity-shop/
+LOCATION:CA
+CATEGORIES:Lectures & Presentations
+ATTACH;FMTTYPE=image/jpeg:https://events.ucsc.edu/wp-content/uploads/2025/11/JOJ-OCS-Soundscape-copy-800x496-1.jpg
+END:VEVENT
 END:VCALENDAR
