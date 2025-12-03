@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Notifications from "expo-notifications";
@@ -11,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 
 export default function AddTaskScreen() {
   const [title, setTitle] = useState("");
@@ -101,9 +101,9 @@ export default function AddTaskScreen() {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{ paddingHorizontal: 12 }}
+              style={{ paddingHorizontal: 11, paddingVertical: 4  }}
             >
-              <Ionicons name="arrow-back" size={24} color="#00C853" />
+              <Ionicons name="arrow-back" size={24} color="#00C853" style={{ marginLeft: -4 }}/>
             </TouchableOpacity>
           ),
         }}

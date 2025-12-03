@@ -119,9 +119,9 @@ export default function AddEventScreen() {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{ paddingHorizontal: 12 }}
+              style={{ paddingHorizontal: 11, paddingVertical: 4}}
             >
-              <Ionicons name="arrow-back" size={24} color="#00C853" />
+              <Ionicons name="arrow-back" size={24} color="#00C853" style={{ marginLeft: -4 }}/>
             </TouchableOpacity>
           ),
         }}

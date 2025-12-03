@@ -6,9 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 import type { EventItem } from '@/components/SwipeableEventCard';
@@ -134,39 +133,7 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search events..."
-            placeholderTextColor="#999"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
-
-        {/* Action Buttons */}
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.addEventButton}
-            onPress={() => router.push('/add-event')}
-          >
-            <View style={styles.addEventIcon}>
-              <Ionicons name="add" size={24} color="#fff" />
-            </View>
-            <Text style={styles.addEventText}>Add Event</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.addTaskButton}
-            onPress={() => router.push('/add-task')}
-          >
-            <Ionicons name="checkbox-outline" size={24} color="#333" />
-            <Text style={styles.addTaskText}>Add Task</Text>
-          </TouchableOpacity>
-        </View>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView} contentContainerStyle={{ paddingBottom: 60 }}>
 
         {/* Calendar Widget */}
         <View style={styles.calendarCard}>
@@ -320,6 +287,27 @@ export default function HomeScreen() {
               );
             })
           )}
+        </View>
+
+        {/* Action Buttons */}
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            style={styles.addEventButton}
+            onPress={() => router.push('/add-event')}
+          >
+            <View style={styles.addEventIcon}>
+              <Ionicons name="add" size={24} color="#fff" />
+            </View>
+            <Text style={styles.addEventText}>Add Event</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.addTaskButton}
+            onPress={() => router.push('/add-task')}
+          >
+            <Ionicons name="checkbox-outline" size={24} color="#333" />
+            <Text style={styles.addTaskText}>Add Task</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Add Class Button */}

@@ -5,13 +5,13 @@ import * as Notifications from 'expo-notifications';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 type TaskItem = {
@@ -192,9 +192,9 @@ export default function EditTaskScreen() {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => router.back()}
-              style={{ paddingHorizontal: 12 }}
+              style={{ paddingHorizontal: 11, paddingVertical: 4 }}
             >
-              <Ionicons name="arrow-back" size={24} color="#00C853" />
+              <Ionicons name="arrow-back" size={24} color="#00C853" style={{ marginLeft: -4 }}/>
             </TouchableOpacity>
           ),
         }}
