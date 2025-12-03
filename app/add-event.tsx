@@ -42,11 +42,11 @@ export default function AddEventScreen() {
 
     const now = new Date();
     if (date < now) {
-      alert('You cannot add a time that has already passed.');
+      alert('That time has already passed! Please select a valid time.');
       return;
     }
     if (endDate <= date) {
-      alert('The end time must be later than the start time.');
+      alert('Please make sure the end time is later than the start time!');
       return;
     }
 
@@ -88,7 +88,7 @@ export default function AddEventScreen() {
       await AsyncStorage.setItem("events", JSON.stringify(eventList));
       router.back();
     } catch (e) {
-      alert("Storage failed, please try again.");
+      alert("Storage failed, please try again!");
       console.error(e);
     }
   };
