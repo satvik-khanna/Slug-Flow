@@ -51,7 +51,7 @@ export default function EditTaskScreen() {
 
         const task = list.find((t) => t.id === id);
         if (!task) {
-          Alert.alert('Not Found', 'This task may have been deleted.');
+          Alert.alert('Not Found!', 'This task may have been deleted.');
           router.back();
           return;
         }
@@ -84,7 +84,7 @@ export default function EditTaskScreen() {
     }
 
     if (dueDate < new Date()) {
-      alert('Due date cannot be in the past');
+      alert('That time has already passed! Please select a valid time.');
       return;
     }
 
