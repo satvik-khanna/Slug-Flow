@@ -1,87 +1,44 @@
-# CSE-115A-Smart-schedule-assistant-Banana-Time-
+# 🐌 SlugFlow
 
-# 📅 UCSC Schedule Assistant App
-
-A **React Native mobile app** designed for UCSC students to manage their daily schedules and reminders — all running locally without the need for an internet connection.
+A student productivity app built for UC Santa Cruz — manage your class schedule, track academic progress, create tasks, and stay focused. All data stored locally on your device.
 
 ---
 
-## 🌟 Overview
+### ✨ Features
 
-The **UCSC Schedule Assistant App** helps students:
-- Add, edit, and delete personal events  
-- View today’s tasks at a glance  
-- Browse all events by date using a calendar view  
-- Track weekly analytics (e.g., number of events created and completed)  
-
-All data is stored locally on your device using AsyncStorage.
+- 📅 Add, edit, and delete personal events and classes
+- ✅ Task management with completion tracking
+- 📊 Weekly analytics — events created and completed
+- ⏱ Focus timer to stay on track
+- 🗓 Calendar view to browse events by date
+- 📱 Works fully offline with local storage
 
 ---
 
-## 🧰 Tech Stack
+### 🛠 Tech Stack
+
+<img src="https://skillicons.dev/icons?i=react,ts,expo" />
+
 - **Framework:** React Native (Expo)
-- **Language:** JavaScript
-- **Local Storage:** AsyncStorage
-- **Platform:** Android & iOS
+- **Language:** TypeScript
+- **Storage:** AsyncStorage (offline, local)
+- **Platform:** iOS & Android
 
 ---
 
-## 🚀 Getting Started
+### 🚀 Getting Started
 
-### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
-```
-### 2️⃣ Install dependencies
-
-Make sure you have Node.js and Expo CLI installed.
-```
-npm install -g expo-cli
+git clone https://github.com/satvik-khanna/Slug-Flow.git
+cd Slug-Flow
 npm install
-```
-or (if you use Yarn)
-```yarn install```
-
-### 3️⃣ Run the app
-```
 npx expo start
 ```
-Then choose one of the following options:
 
-(I perfer use physical device,because I never use emulator but I write down right know)
-
-📱 Run on a physical device:
-
-  Install the Expo Go app from the App Store (iOS) or Google Play (Android).
-
-  Scan the QR code displayed in your terminal or browser.
-
-🖥️ Run on an emulator:
-
-  Press a for Android Emulator
-
-  Press i for iOS Simulator (Mac only)
+Scan the QR code with the Expo Go app on your phone, or press `w` to open in browser.
 
 ---
 
-## 📁 Project Structure
-```
-CSE-115A-Smart-schedule-assistant-Banana-Time-/
-┣ 📂 .expo/ # Expo environment and build cache
-┣ 📂 .vscode/ # VSCode workspace settings
-┣ 📂 app/ # Main application source code (screens, navigation, logic)
-┣ 📂 assets/ # Images, icons, fonts, etc.
-┣ 📂 components/ # Reusable UI components
-┣ 📂 constants/ # Constant values (e.g., colors, styles, strings)
-┣ 📂 hooks/ # Custom React hooks
-┣ 📂 Temp/ # Temporary or debug-related files
-┣ 📂 node_modules/ # Project dependencies (auto-generated)
-┣ 📜 app.json # Expo configuration file
-┣ 📜 expo-env.d.ts # Expo TypeScript environment declaration
-┣ 📜 package.json # Project metadata and dependencies
-┣ 📜 package-lock.json # Lock file for npm dependencies
-┣ 📜 tsconfig.json # TypeScript configuration
-┣ 📜 .gitignore # Files and folders ignored by Git
-┣ 📜 README.md # Project documentation (you’re reading it!)
-```
+### 👥 Built With
+
+A team of 4 UCSC students for CSE 115A — Software Engineering.
